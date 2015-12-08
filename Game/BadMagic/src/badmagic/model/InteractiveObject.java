@@ -2,6 +2,6 @@
 package badmagic.model;
 
 
-public abstract class InteractiveObject {
+public abstract class InteractiveObject extends GameObject {
     
 }

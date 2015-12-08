@@ -1,6 +1,6 @@
 package badmagic.model;
 
 
-public abstract class UnmovableObject {
+public abstract class UnmovableObject extends GameObject {
     
 }
