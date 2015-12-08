@@ -1,6 +1,6 @@
 package badmagic.model;
 
 
-public class Teleport {
+public class Teleport extends InteractiveObject {
     
 }

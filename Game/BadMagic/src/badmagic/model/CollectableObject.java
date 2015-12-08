@@ -1,6 +1,6 @@
 package badmagic.model;
 
 
-public abstract class CollectableObject {
+public abstract class CollectableObject extends GameObject {
     
 }
