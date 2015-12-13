@@ -29,7 +29,6 @@ public class BadMagic  {
         });
     }
     
-    
     private BadMagic() {
          
         _gameModel = new GameModel();
@@ -47,7 +46,6 @@ public class BadMagic  {
         _window.pack();
     }
     
-    
     public static int getWindowWidth() {
         
         return WIDTH;
@@ -64,6 +62,10 @@ public class BadMagic  {
         public void startCareerClicked(EventObject e) {
             
             log.info("Пойман сигнал из класса GameMenu о начале Новой игры");
+            _window.getContentPane().removeAll();
+            _window.getContentPane().add(_gamePanel);
+            _window.revalidate();
+            _window.repaint();
         }
 
         @Override
