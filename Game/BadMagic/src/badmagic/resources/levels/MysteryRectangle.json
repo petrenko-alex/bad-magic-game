@@ -1,0 +1,47 @@
+{
+	"level-name": "Mystery Rectangle",
+	"level-history": "Let's explore this mystery rectangle",
+	"field-size": [10, 11],
+
+	"field-objects": [{
+		"wooden-table": {
+			"positions": [
+				[3, 5]
+			]
+		}
+	}, {
+		"walls": {
+			"positions": [
+				[3, 3],
+				[4, 3],
+				[5, 3],
+				[6, 3],
+				[7, 3],
+				[7, 4],
+				[7, 5],
+				[7, 6],
+				[7, 7],
+				[6, 7],
+				[5, 7],
+				[4, 7],
+				[3, 7],
+				[3, 6],
+				[3, 4],
+				[7, 8],
+				[7, 9]
+			]
+		}
+	}, {
+		"elixir": {
+			"positions": [
+				[5, 5]
+			]
+		}
+	}, {
+		"player": {
+			"positions": [
+				[9, 9]
+			]
+		}
+	}]
+}
