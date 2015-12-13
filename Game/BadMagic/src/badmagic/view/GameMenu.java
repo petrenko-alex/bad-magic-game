@@ -1,9 +1,11 @@
 package badmagic.view;
 
 import badmagic.BadMagic;
+import badmagic.events.MenuListener;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -11,6 +13,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.EventObject;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -61,7 +65,39 @@ public class GameMenu extends JPanel   {
     }
     
     
-    ////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+    
+    private ArrayList _listenerList = new ArrayList();
+    
+    public void addMenuListener(MenuListener l) {
+        
+        _listenerList.add(l);
+    }
+    
+    public void removeMenuListener(MenuListener l) {
+     
+        _listenerList.remove(l);
+    }
+    
+    protected void  fireStartCareerClicked() {
+        
+        EventObject e = new EventObject(this);
+        for( Object listener : _listenerList ) {
+            
+            ((MenuListener)listener).startCareerClicked(e);
+        }
+    }
+    
+    protected void  fireContinueCareerClicked() {
+        
+        EventObject e = new EventObject(this);
+        for( Object listener : _listenerList ) {
+            
+            ((MenuListener)listener).continueCareerClicked(e);
+        }
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////
     private class ClickListener extends MouseAdapter {
         
         @Override
@@ -78,6 +114,7 @@ public class GameMenu extends JPanel   {
                     y <= (newGameBtn.y + newGameBtn.height) ){
                     
                     BadMagic.log.info("Нажата кнопка \"Новая игра\"");
+                    fireStartCareerClicked();
                 }
             }
             
@@ -89,6 +126,7 @@ public class GameMenu extends JPanel   {
                     y <= (continueGameBtn.y + continueGameBtn.height) ){
                     
                     BadMagic.log.info("Нажата кнопка \"Продолжить игру\"");
+                    fireContinueCareerClicked();
                 }
             }
             

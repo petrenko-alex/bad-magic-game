@@ -1,10 +1,12 @@
 package badmagic;
+import badmagic.events.MenuListener;
 import badmagic.model.GameModel;
 import badmagic.view.GameMenu;
 import badmagic.view.GamePanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.EventObject;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -33,6 +35,7 @@ public class BadMagic  {
         _gameModel = new GameModel();
         _gamePanel = new GamePanel(_gameModel);
         _gameMenu = new GameMenu();
+        _gameMenu.addMenuListener(new MenuObserver());
         
         _window = new JFrame(TITLE); 
         _window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,6 +57,23 @@ public class BadMagic  {
         
         return HEIGHT;
     }
+    
+    private class MenuObserver implements MenuListener {
+
+        @Override
+        public void startCareerClicked(EventObject e) {
+            
+            log.info("Пойман сигнал из класса GameMenu о начале Новой игры");
+        }
+
+        @Override
+        public void continueCareerClicked(EventObject e) {
+            
+            log.info("Пойман сигнал из класса GameMenu о Продолжении игры");
+        }
+    
+    
+}
     
     private static final String TITLE = "Bad Magic";
     private static final int WIDTH = 1280;
