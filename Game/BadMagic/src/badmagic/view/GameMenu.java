@@ -111,7 +111,7 @@ public class GameMenu extends JPanel {
 
         _listenerList.remove(l);
     }
-
+    
     protected void fireStartCareerClicked() {
 
         EventObject e = new EventObject(this);
