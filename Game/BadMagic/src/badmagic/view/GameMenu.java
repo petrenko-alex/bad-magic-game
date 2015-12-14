@@ -33,8 +33,8 @@ public class GameMenu extends JPanel {
 
         super();
         addMouseListener(new ClickListener());
-        setPreferredSize(new Dimension(BadMagic.getWindowWidth(),
-                BadMagic.getWindowHeight()));
+        setPreferredSize(new Dimension( BadMagic.getWindowWidth(),
+                                        BadMagic.getWindowHeight()));
         setFocusable(true);
         requestFocus();
     }
@@ -44,30 +44,33 @@ public class GameMenu extends JPanel {
 
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING,
+                              RenderingHints.VALUE_ANTIALIAS_ON);
 
         /* Вывод фонового изображения */
         Image menu_background = null;
         Font menu_font = null;
         
         
-        /*Без обработки не дает собрать, надо какую то херню отключить, я хз как -А.*/
         try {
-            /*Загрузка изображения*/
             
+            /*Загрузка изображения*/
             menu_background = ImageIO.read(this.getClass().getResource(MENU_BACKGROUND_PATH));
             /*Загрузка шрифта*/
             menu_font = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResource(MENU_FONT_PATH).openStream()).deriveFont(FONT_SIZE);
             /*Регистрация шрифта*/
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(menu_font);
+            
         } catch (IOException e) {
+            
             e.printStackTrace();
-            System.out.printf("Cannot load recources");            
+            BadMagic.log.info("Cannot load recources");
+            
         } catch (FontFormatException e) {
+            
             e.printStackTrace();
-            System.out.printf("Cannot register font"); 
+            BadMagic.log.info("Cannot register font"); 
         }
 
         //Установка изображения
