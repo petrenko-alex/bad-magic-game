@@ -66,6 +66,7 @@ public class BadMagic  {
             _window.getContentPane().add(_gamePanel);
             _window.revalidate();
             _window.repaint();
+            _gamePanel.requestFocus();
         }
 
         @Override
@@ -73,8 +74,6 @@ public class BadMagic  {
             
             log.info("Пойман сигнал из класса GameMenu о Продолжении игры");
         }
-    
-    
 }
     
     private static final String TITLE = "Bad Magic";
