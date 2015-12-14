@@ -3,9 +3,9 @@ package badmagic.model.gameobjects;
 import badmagic.model.GameField;
 
 
-public class Elexir extends CollectableObject {
+public class Elixir extends CollectableObject {
 
-    public Elexir(GameField field) {
+    public Elixir(GameField field) {
         super(field);
     }
     
