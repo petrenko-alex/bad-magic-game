@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashSet;
@@ -25,7 +26,7 @@ public class GamePanel extends JPanel {
         requestFocus();
 
         _model = model;
-        this.addKeyListener(new KeyHandler());
+        addKeyListener(new KeyHandler());
     }
 
     @Override
@@ -62,67 +63,75 @@ public class GamePanel extends JPanel {
 
     }
 
-    private class KeyHandler implements KeyListener {
+    private class KeyHandler extends KeyAdapter {
 
-        public void keyTyped(KeyEvent _ke) {
-               BadMagic.log.info("42");
-        }
-
+        @Override
         public void keyPressed(KeyEvent _ke) {
 
             int key = _ke.getKeyCode();
             if (_ke.isControlDown()) {
-                /**
-                 * Двигаем стол
-                 */
+                
+                /* Переместить объект */
                 switch (_ke.getKeyCode()) {
+                    
                     case (KeyEvent.VK_LEFT): {
+                        
                         BadMagic.log.info("Попытка сдвинуть стол влево");
                         break;
                     }
                     case (KeyEvent.VK_RIGHT): {
+                        
                         BadMagic.log.info("Попытка сдвинуть стол вправо");
                         break;
                     }
                     case (KeyEvent.VK_UP): {
+                        
                         BadMagic.log.info("Попытка сдвинуть стол вверх");
                         break;
                     }
                     case (KeyEvent.VK_DOWN): {
+                        
                         BadMagic.log.info("Попытка сдвинуть стол вниз");
                         break;
                     }
                     default: {
+                        
                         BadMagic.log.info("Неизвестное действие");
                         break;
                     }
                 }
             } else {
-                /**
-                 * Остальные действия
-                 */
+               
+                /* Переместить игрока */ 
                 switch (_ke.getKeyCode()) {
+                    
                     case (KeyEvent.VK_LEFT): {
+                        
                         BadMagic.log.info("Переместиться влево");
                         break;
                     }
                     case (KeyEvent.VK_RIGHT): {
+                        
                         BadMagic.log.info("Переместиться вправо");
                         break;
                     }
                     case (KeyEvent.VK_UP): {
+                        
                         BadMagic.log.info("Переместиться вверх");
                         break;
                     }
                     case (KeyEvent.VK_DOWN): {
+                        
                         BadMagic.log.info("Переместиться вниз");
                         break;
                     }
                     case (KeyEvent.VK_SPACE): {
+                        
                         BadMagic.log.info("Активировать объект");
                         break;
                     }
                     default: {
+                        
                         BadMagic.log.info("Неизвестное действие");
                         break;
                     }
@@ -131,9 +140,6 @@ public class GamePanel extends JPanel {
 
         }
 
-        public void keyReleased(KeyEvent _ke) {
-            BadMagic.log.info("24");
-        }
     }
     
     private GameModel _model;
