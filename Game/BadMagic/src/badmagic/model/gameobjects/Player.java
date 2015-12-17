@@ -15,7 +15,8 @@ public class Player extends GameObject {
 
     @Override
     public void paint(Graphics g, Point pos) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+        g.drawImage(_image, pos.x, pos.y, null);
     }
     
     @Override
@@ -25,5 +26,5 @@ public class Player extends GameObject {
         _image = toolkit.getImage(PIC);
     }
     
-    private static final String PIC = "/badmagic/resources/goat.png";
+    private static final String PIC = "src/badmagic/resources/goat.png";
 }
