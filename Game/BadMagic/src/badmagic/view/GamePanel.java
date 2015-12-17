@@ -2,6 +2,7 @@ package badmagic.view;
 
 import badmagic.model.GameModel;
 import badmagic.BadMagic;
+import badmagic.model.gameobjects.GameObject;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,6 +10,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -116,13 +118,25 @@ public class GamePanel extends JPanel {
     
     private void paintObjects(Graphics g) {
         
-        
+        for(GameObject obj : _model.getField().getObjects()) {
+            
+            Point objPos = obj.getPosition();
+            objPos = getPanelPosition(objPos);
+            obj.paint(g, objPos);
+        }
     }
     
     private void loadPic() {
         
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         _cellPic = toolkit.getImage(PIC);
+    }
+    
+    private Point getPanelPosition(Point logPos) {
+    
+        int x = _fieldStartX + (CELL_SIZE * (logPos.x - 1));
+        int y = _fieldStartY + (CELL_SIZE * (logPos.y - 1));
+        return new Point(x,y);
     }
 
     private class KeyHandler extends KeyAdapter {
