@@ -2,8 +2,8 @@ package badmagic.model.gameobjects;
 
 import badmagic.model.GameField;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Point;
-
 
 public abstract class GameObject {
     
@@ -32,8 +32,11 @@ public abstract class GameObject {
         return false;
     }
     
-    public abstract void draw(Graphics g,Point pos);
+    public abstract void paint(Graphics g,Point pos);
+    
+    protected abstract void loadPic();
     
     protected Point _position;
     protected GameField _field;
+    protected Image _image;
 }

@@ -13,7 +13,12 @@ public class Column extends UnmovableObject {
     }
 
     @Override
-    public void draw(Graphics g, Point pos) {
+    public void paint(Graphics g, Point pos) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    protected void loadPic() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
