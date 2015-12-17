@@ -8,12 +8,19 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
+import static sun.applet.AppletResourceLoader.getImage;
 
 public class GamePanel extends JPanel {
 
@@ -26,6 +33,7 @@ public class GamePanel extends JPanel {
         requestFocus();
 
         _model = model;
+        loadPic();
         addKeyListener(new KeyHandler());
     }
 
@@ -79,16 +87,27 @@ public class GamePanel extends JPanel {
         /* Обрамляющий прямоугольник */
         g.drawRect(_fieldStartX,_fieldStartY,width,height);
         
+        /* Текстуры */
+        for(int i = 1; i < (rows + 1);i++) {
+            
+            int y = _fieldStartY + CELL_SIZE * (i-1);
+            for(int j = 1; j < (columns + 1);j++) {
+                
+                int x = _fieldStartX + CELL_SIZE * (j - 1);
+                g.drawImage(_cellPic, x, y, null);
+            }
+        }
+        
         /* Сетка */
         /* Вертикальные линии */
-        for(int i = 1; i <= columns + 1; i++)
+        for(int i = 1; i <= (columns + 1); i++)
         {
             int x1 = _fieldStartX + CELL_SIZE * (i - 1);
             g.drawLine(x1, _fieldStartY, x1, (_fieldStartY + height));
         }
         
         /* Горизонтальные линии */ 
-        for(int i = 1; i <= rows + 1; i++)
+        for(int i = 1; i <= (rows + 1); i++)
         {
             int y1 = _fieldStartY + CELL_SIZE * (i - 1);
             g.drawLine(_fieldStartX, y1, (_fieldStartX + width), y1);
@@ -98,6 +117,12 @@ public class GamePanel extends JPanel {
     private void paintObjects(Graphics g) {
         
         
+    }
+    
+    private void loadPic() {
+        
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        _cellPic = toolkit.getImage(PIC);
     }
 
     private class KeyHandler extends KeyAdapter {
@@ -188,9 +213,11 @@ public class GamePanel extends JPanel {
     private static final int FONT_SIZE = 15;
     private static final String FONT_TYPE = "Comic Sans MS";
     private static final Color FONT_COLOR = new Color(205, 133, 63);
+    private static final String PIC = "src/badmagic/resources/brick.png";
     
     private static final int CELL_SIZE = 64;
     
     private int _fieldStartX;
     private int _fieldStartY;
+    private Image _cellPic;
 }
