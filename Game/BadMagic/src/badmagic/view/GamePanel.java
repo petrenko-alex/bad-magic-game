@@ -34,7 +34,8 @@ public class GamePanel extends JPanel {
 
         super.paintComponent(g);
         paintInfoPanel(g);
-        paintField(g);
+        paintGrid(g);
+        paintObjects(g);
     }
 
     private void paintInfoPanel(Graphics g) {
@@ -59,8 +60,44 @@ public class GamePanel extends JPanel {
         g.drawString("Выход", 70, 670);
     }
 
-    private void paintField(Graphics g) {
-
+    private void paintGrid(Graphics g) {
+        
+        /* Координаты и размеры */
+        int rows = _model.getField().getHeight();
+        int columns = _model.getField().getWidth();
+        int height = rows * CELL_SIZE;
+        int width = columns * CELL_SIZE;
+        
+        int areaWidth = BadMagic.getWindowWidth() - INFO_PANEL_WIDTH;
+        int areaHeight = BadMagic.getWindowHeight();
+        int xOffset = (areaWidth - width) / 2;
+        int yOffset = (areaHeight - height) / 2;
+        
+        _fieldStartX = INFO_PANEL_WIDTH + xOffset;
+        _fieldStartY = yOffset;
+        
+        /* Обрамляющий прямоугольник */
+        g.drawRect(_fieldStartX,_fieldStartY,width,height);
+        
+        /* Сетка */
+        /* Вертикальные линии */
+        for(int i = 1; i <= columns + 1; i++)
+        {
+            int x1 = _fieldStartX + CELL_SIZE * (i - 1);
+            g.drawLine(x1, _fieldStartY, x1, (_fieldStartY + height));
+        }
+        
+        /* Горизонтальные линии */ 
+        for(int i = 1; i <= rows + 1; i++)
+        {
+            int y1 = _fieldStartY + CELL_SIZE * (i - 1);
+            g.drawLine(_fieldStartX, y1, (_fieldStartX + width), y1);
+        }
+    }
+    
+    private void paintObjects(Graphics g) {
+        
+        
     }
 
     private class KeyHandler extends KeyAdapter {
@@ -151,4 +188,9 @@ public class GamePanel extends JPanel {
     private static final int FONT_SIZE = 15;
     private static final String FONT_TYPE = "Comic Sans MS";
     private static final Color FONT_COLOR = new Color(205, 133, 63);
+    
+    private static final int CELL_SIZE = 64;
+    
+    private int _fieldStartX;
+    private int _fieldStartY;
 }
