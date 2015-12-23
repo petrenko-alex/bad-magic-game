@@ -16,7 +16,44 @@ public class GameField {
     }
 
     /////////////////// Работа с клетками поля ////////////////////////////////
-    boolean isCellEmpty(Point pos) {
+    public Point getNextPos(Point currentPos, Direction direction) {
+
+        /* Проверка на невалидные аргументы */
+        if( currentPos == null || direction == null ) {
+
+            return null;
+        }
+
+        /* Находим следующую позицию */
+        Point nextPos = null;
+        int x = currentPos.x;
+        int y = currentPos.y;
+
+        if( direction.equals(Direction.north())
+            && (y - 1) >= 1 ) {
+
+            nextPos = new Point(x,y - 1);
+
+        } else if ( direction.equals(Direction.south())
+                    && (y+1) <= _height ) {
+
+            nextPos = new Point(x,y + 1);
+
+        } else if ( direction.equals(Direction.west())
+                    && (x-1) >= 1 ) {
+
+            nextPos = new Point(x - 1,y);
+
+        } else if(  direction.equals(Direction.east())
+                    && (x+1) <= _width ) {
+
+            nextPos = new Point(x + 1,y);
+        }
+
+        return nextPos;
+    }
+
+    public boolean isPosEmpty(Point pos) {
 
         /* Проверка переданных координат на принадлежность полю */
         if(   pos == null                   ||
@@ -40,35 +77,10 @@ public class GameField {
         return isEmpty;
     }
 
-    boolean isNextCellEmpty(Point currentPos, Direction direction) {
+    public boolean isNextPosEmpty(Point currentPos, Direction direction) {
 
-        /* Находим следующую клетку */
-        Point nextCell = null;
-        int x = currentPos.x;
-        int y = currentPos.y;
-
-        if( direction.equals(Direction.north())
-            && (y - 1) >= 1 ) {
-
-            nextCell = new Point(x,y - 1);
-
-        } else if ( direction.equals(Direction.south())
-                    && (y+1) <= _height ) {
-
-            nextCell = new Point(x,y + 1);
-
-        } else if ( direction.equals(Direction.west())
-                    && (x-1) >= 1 ) {
-
-            nextCell = new Point(x - 1,y);
-
-        } else if(  direction.equals(Direction.east())
-                    && (x+1) <= _width ) {
-
-            nextCell = new Point(x + 1,y);
-        }
-
-        return isCellEmpty(nextCell);
+        Point nextPos = getNextPos(currentPos,direction);
+        return isPosEmpty(nextPos);
     }
 
     /////////////////// Работа с размерами поля ///////////////////////////////
