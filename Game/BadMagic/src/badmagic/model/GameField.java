@@ -1,6 +1,7 @@
 package badmagic.model;
 
 import badmagic.model.gameobjects.GameObject;
+import badmagic.navigation.Direction;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,62 @@ public class GameField {
     public GameField(int width,int height) {
 
         setSize(width,height);
+    }
+
+    /////////////////// Работа с клетками поля ////////////////////////////////
+    boolean isCellEmpty(Point pos) {
+
+        /* Проверка переданных координат на принадлежность полю */
+        if(   pos == null                   ||
+            ((pos.x < 1 || pos.x > _width ) ||
+             (pos.y < 1 || pos.y > _height))    ) {
+
+            return false;
+        }
+
+        /* Поиск объектов с такой же позицией */
+        boolean isEmpty = true;
+        ArrayList<GameObject> fieldObjects = getObjects();
+
+        for(GameObject object : fieldObjects) {
+
+            if(object.getPosition().equals(pos) ) {
+
+                isEmpty = false;
+            }
+        }
+        return isEmpty;
+    }
+
+    boolean isNextCellEmpty(Point currentPos, Direction direction) {
+
+        /* Находим следующую клетку */
+        Point nextCell = null;
+        int x = currentPos.x;
+        int y = currentPos.y;
+
+        if( direction.equals(Direction.north())
+            && (y - 1) >= 1 ) {
+
+            nextCell = new Point(x,y - 1);
+
+        } else if ( direction.equals(Direction.south())
+                    && (y+1) <= _height ) {
+
+            nextCell = new Point(x,y + 1);
+
+        } else if ( direction.equals(Direction.west())
+                    && (x-1) >= 1 ) {
+
+            nextCell = new Point(x - 1,y);
+
+        } else if(  direction.equals(Direction.east())
+                    && (x+1) <= _width ) {
+
+            nextCell = new Point(x + 1,y);
+        }
+
+        return isCellEmpty(nextCell);
     }
 
     /////////////////// Работа с размерами поля ///////////////////////////////
