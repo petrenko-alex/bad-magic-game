@@ -60,7 +60,6 @@ public abstract class GameObject {
     }
 
     private ArrayList _listenerList = new ArrayList();
-
     ///////////////////////////////////////////////////////////////////////////
 
     protected Point _position;

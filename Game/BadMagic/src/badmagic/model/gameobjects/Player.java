@@ -31,7 +31,7 @@ public class Player extends GameObject {
     }
 
     @Override
-    public void paint(Graphics g, Point pos) {
+    public void paint(Graphics g,Point pos) {
 
         g.drawImage(_image, pos.x, pos.y, null);
     }
