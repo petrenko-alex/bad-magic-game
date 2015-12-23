@@ -5,6 +5,7 @@ import badmagic.model.GameField;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.EventObject;
 
@@ -64,5 +65,5 @@ public abstract class GameObject {
 
     protected Point _position;
     protected GameField _field;
-    protected Image _image;
+    protected BufferedImage _image;
 }
