@@ -17,26 +17,31 @@ public class Direction {
         _angle = angle;
     }
 
+    public int getAngle() {
+
+        return _angle;
+    }
+
     /* ------------------ Возможные направления --------------------- */
 
     public static Direction north() {
 
-        return new Direction(90);
+        return new Direction(0);
     }
 
     public static Direction south() {
 
-        return new Direction(270);
+        return new Direction(180);
     }
 
     public static Direction east() {
 
-        return new Direction(0);
+        return new Direction(90);
     }
 
     public static Direction west() {
 
-        return new Direction(180);
+        return new Direction(270);
     }
 
 
@@ -45,22 +50,22 @@ public class Direction {
     @Override
     public Direction clone(){
 
-        return new Direction(_angle);
+        return new Direction(getAngle());
     }
 
     public Direction clockwise() {
 
-        return new Direction(_angle - 90);
+        return new Direction(getAngle() - 90);
     }
 
     public Direction anticlockwise() {
 
-        return new Direction(_angle + 90);
+        return new Direction(getAngle() + 90);
     }
 
     public Direction opposite() {
 
-        return new Direction(_angle + 180);
+        return new Direction(getAngle() + 180);
     }
 
     public Direction rightword()  {
@@ -85,7 +90,7 @@ public class Direction {
         } else if(other instanceof Direction) {
 
             Direction otherDirect = (Direction)other;
-            return  _angle == otherDirect._angle;
+            return  getAngle() == otherDirect.getAngle();
 
         }
         return false;
@@ -94,7 +99,7 @@ public class Direction {
     @Override
     public int hashCode() {
 
-        return _angle;
+        return getAngle();
     }
 
     public boolean isOpposite(Direction other) {
