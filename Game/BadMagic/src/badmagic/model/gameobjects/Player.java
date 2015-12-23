@@ -1,10 +1,14 @@
 package badmagic.model.gameobjects;
 
+import badmagic.events.GameObjectListener;
+import badmagic.events.MenuListener;
 import badmagic.model.GameField;
 import badmagic.navigation.Direction;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.EventObject;
 
 
 public class Player extends GameObject {
@@ -16,10 +20,14 @@ public class Player extends GameObject {
 
     public void move(Direction moveDirection) {
 
+        _gazeDirection = moveDirection;
+
         if( _field.isNextPosEmpty(_position,moveDirection) ) {
 
             _position = _field.getNextPos(_position,moveDirection);
         }
+
+        fireObjectChanged();
     }
 
     @Override
@@ -35,6 +43,6 @@ public class Player extends GameObject {
         _image = toolkit.getImage(PIC);
     }
 
-    private Direction gazeDirection;
+    private Direction _gazeDirection;
     private static final String PIC = "src/badmagic/resources/goat.png";
 }
