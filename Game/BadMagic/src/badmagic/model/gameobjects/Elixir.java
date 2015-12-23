@@ -3,7 +3,8 @@ package badmagic.model.gameobjects;
 import badmagic.model.GameField;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.Toolkit;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 
 public class Elixir extends CollectableObject {
@@ -15,16 +16,22 @@ public class Elixir extends CollectableObject {
 
     @Override
     public void paint(Graphics g, Point pos) {
-        
+
         g.drawImage(_image, pos.x, pos.y, null);
     }
-    
+
     @Override
     protected void loadPic() {
-        
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        _image = toolkit.getImage(PIC);
+
+        try {
+
+            _image = ImageIO.read(getClass().getResource(PIC));
+
+        } catch ( IOException ex ) {
+
+            ex.printStackTrace();
+        }
     }
-    
-    private static final String PIC = "src/badmagic/resources/Elixir.png";
+
+    private static final String PIC = "/badmagic/resources/Elixir.png";
 }
