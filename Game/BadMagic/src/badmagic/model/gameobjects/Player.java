@@ -1,14 +1,13 @@
 package badmagic.model.gameobjects;
 
-import badmagic.events.GameObjectListener;
-import badmagic.events.MenuListener;
 import badmagic.model.GameField;
 import badmagic.navigation.Direction;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Toolkit;
-import java.util.ArrayList;
-import java.util.EventObject;
+import java.awt.geom.AffineTransform;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 
 public class Player extends GameObject {
@@ -33,16 +32,35 @@ public class Player extends GameObject {
     @Override
     public void paint(Graphics g,Point pos) {
 
-        g.drawImage(_image, pos.x, pos.y, null);
+        AffineTransform at = rotate(_gazeDirection,pos);
+        Graphics2D g2d = (Graphics2D)g;
+        g2d.drawImage(_image, at, null);
     }
 
     @Override
     protected void loadPic() {
 
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        _image = toolkit.getImage(PIC);
+        try {
+
+            _image = ImageIO.read(getClass().getResource(PIC));
+
+        } catch ( IOException ex ) {
+
+            ex.printStackTrace();
+        }
     }
 
-    private Direction _gazeDirection;
-    private static final String PIC = "src/badmagic/resources/goat.png";
+    private AffineTransform rotate(Direction direction,Point pos) {
+
+        int angle = direction.getAngle();
+
+        AffineTransform at = AffineTransform.getTranslateInstance(pos.x, pos.y);
+        at.rotate(Math.toRadians(angle),
+                  _image.getWidth() / 2,
+                  _image.getHeight() / 2);
+        return at;
+    }
+
+    private Direction _gazeDirection = Direction.north();
+    private static final String PIC = "/badmagic/resources/goat.png";
 }
