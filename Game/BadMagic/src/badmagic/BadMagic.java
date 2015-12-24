@@ -17,26 +17,26 @@ import javax.swing.SwingUtilities;
 public class BadMagic  {
 
     public static final Logger log = Logger.getLogger(BadMagic.class.getName());
-    
+
     public static void main(String[] args) {
-     
+
         SwingUtilities.invokeLater(new Runnable() {
-            
+
             @Override
             public void run() {
                 new BadMagic();
             }
         });
     }
-    
+
     private BadMagic() {
-         
+
         _gameModel = new GameModel();
         _gamePanel = new GamePanel(_gameModel);
         _gameMenu = new GameMenu();
         _gameMenu.addMenuListener(new MenuObserver());
-        
-        _window = new JFrame(TITLE); 
+
+        _window = new JFrame(TITLE);
         _window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         _window.setSize(WIDTH, HEIGHT);
         _window.setResizable(false);
@@ -45,23 +45,24 @@ public class BadMagic  {
         _window.setContentPane(_gameMenu);
         _window.pack();
     }
-    
+
     public static int getWindowWidth() {
-        
+
         return WIDTH;
     }
-    
+
     public static int getWindowHeight() {
-        
+
         return HEIGHT;
     }
-    
+
     private class MenuObserver implements MenuListener {
 
         @Override
         public void startCareerClicked(EventObject e) {
-            
+
             log.info("Пойман сигнал из класса GameMenu о начале Новой игры");
+            _gameMenu.stopListenToMouse();
             _window.getContentPane().removeAll();
             _window.getContentPane().add(_gamePanel);
             _window.revalidate();
@@ -71,11 +72,12 @@ public class BadMagic  {
 
         @Override
         public void continueCareerClicked(EventObject e) {
-            
+
             log.info("Пойман сигнал из класса GameMenu о Продолжении игры");
+            _gameMenu.stopListenToMouse();
         }
 }
-    
+
     private static final String TITLE = "Bad Magic";
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;

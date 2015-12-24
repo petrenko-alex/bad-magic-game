@@ -32,9 +32,10 @@ public class GameMenu extends JPanel {
     public GameMenu() {
 
         super();
-        addMouseListener(new ClickListener());
-        setPreferredSize(new Dimension( BadMagic.getWindowWidth(),
-                                        BadMagic.getWindowHeight()));
+        startListenToMouse();
+
+        setPreferredSize(new Dimension(BadMagic.getWindowWidth(),
+                                       BadMagic.getWindowHeight()));
         setFocusable(true);
         requestFocus();
     }
@@ -44,16 +45,15 @@ public class GameMenu extends JPanel {
 
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING,
-                              RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                             RenderingHints.VALUE_ANTIALIAS_ON);
 
         /* Вывод фонового изображения */
         Image menu_background = null;
         Font menu_font = null;
-        
-        
+
         try {
-            
+
             /*Загрузка изображения*/
             menu_background = ImageIO.read(this.getClass().getResource(MENU_BACKGROUND_PATH));
             /*Загрузка шрифта*/
@@ -61,42 +61,52 @@ public class GameMenu extends JPanel {
             /*Регистрация шрифта*/
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(menu_font);
-            
-        } catch (IOException e) {
-            
+
+        } catch ( IOException e ) {
+
             e.printStackTrace();
             BadMagic.log.info("Cannot load recources");
-            
-        } catch (FontFormatException e) {
-            
+
+        } catch ( FontFormatException e ) {
+
             e.printStackTrace();
-            BadMagic.log.info("Cannot register font"); 
+            BadMagic.log.info("Cannot register font");
         }
 
         //Установка изображения
         g.drawImage(menu_background.getScaledInstance(BadMagic.getWindowWidth(), BadMagic.getWindowHeight(), Image.SCALE_DEFAULT), 0, 0, this);
-        //Установка шрифта            
+        //Установка шрифта
         g.setFont(menu_font);
         g.setColor(FONT_COLOR);
         g.drawString(WELCOME_STRING, WELCOME_STRING_X, WELCOME_STRING_Y);
 
-        g.drawString("Новая игра", newGameBtn.x + 60,
-                newGameBtn.y + 50);
+        g.drawString("Новая игра", _newGameBtn.x + 60,
+                     _newGameBtn.y + 50);
 
-        g.drawString("Продолжить", continueGameBtn.x + 40,
-                continueGameBtn.y + 50);
+        g.drawString("Продолжить", _continueGameBtn.x + 40,
+                     _continueGameBtn.y + 50);
 
-        g.drawString("Выбор уровня", chooseLevelBtn.x + 20,
-                chooseLevelBtn.y + 50);
+        g.drawString("Выбор уровня", _chooseLevelBtn.x + 20,
+                     _chooseLevelBtn.y + 50);
 
-        g.drawString("Выход", quitGameBtn.x + 115,
-                quitGameBtn.y + 50);
+        g.drawString("Выход", _quitGameBtn.x + 115,
+                     _quitGameBtn.y + 50);
 
-        g2d.draw(newGameBtn);
-        g2d.draw(continueGameBtn);
-        g2d.draw(chooseLevelBtn);
-        g2d.draw(quitGameBtn);
+        g2d.draw(_newGameBtn);
+        g2d.draw(_continueGameBtn);
+        g2d.draw(_chooseLevelBtn);
+        g2d.draw(_quitGameBtn);
 
+    }
+
+    public void stopListenToMouse() {
+
+        removeMouseListener(_mouseListener);
+    }
+
+    public void startListenToMouse() {
+
+        addMouseListener(_mouseListener);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -111,11 +121,11 @@ public class GameMenu extends JPanel {
 
         _listenerList.remove(l);
     }
-    
+
     protected void fireStartCareerClicked() {
 
         EventObject e = new EventObject(this);
-        for (Object listener : _listenerList) {
+        for ( Object listener : _listenerList ) {
 
             ((MenuListener) listener).startCareerClicked(e);
         }
@@ -124,7 +134,7 @@ public class GameMenu extends JPanel {
     protected void fireContinueCareerClicked() {
 
         EventObject e = new EventObject(this);
-        for (Object listener : _listenerList) {
+        for ( Object listener : _listenerList ) {
 
             ((MenuListener) listener).continueCareerClicked(e);
         }
@@ -140,11 +150,11 @@ public class GameMenu extends JPanel {
             int y = e.getY();
 
             /* Новая игра */
-            if (x >= newGameBtn.x
-                    && x <= (newGameBtn.x + newGameBtn.width)) {
+            if ( x >= _newGameBtn.x
+                 && x <= (_newGameBtn.x + _newGameBtn.width) ) {
 
-                if (y >= newGameBtn.y
-                        && y <= (newGameBtn.y + newGameBtn.height)) {
+                if ( y >= _newGameBtn.y
+                     && y <= (_newGameBtn.y + _newGameBtn.height) ) {
 
                     BadMagic.log.info("Нажата кнопка \"Новая игра\"");
                     fireStartCareerClicked();
@@ -152,11 +162,11 @@ public class GameMenu extends JPanel {
             }
 
             /* Продолжить игру */
-            if (x >= continueGameBtn.x
-                    && x <= (continueGameBtn.x + continueGameBtn.width)) {
+            if ( x >= _continueGameBtn.x
+                 && x <= (_continueGameBtn.x + _continueGameBtn.width) ) {
 
-                if (y >= continueGameBtn.y
-                        && y <= (continueGameBtn.y + continueGameBtn.height)) {
+                if ( y >= _continueGameBtn.y
+                     && y <= (_continueGameBtn.y + _continueGameBtn.height) ) {
 
                     BadMagic.log.info("Нажата кнопка \"Продолжить игру\"");
                     fireContinueCareerClicked();
@@ -164,22 +174,22 @@ public class GameMenu extends JPanel {
             }
 
             /* Выбрать уровень */
-            if (x >= chooseLevelBtn.x
-                    && x <= (chooseLevelBtn.x + chooseLevelBtn.width)) {
+            if ( x >= _chooseLevelBtn.x
+                 && x <= (_chooseLevelBtn.x + _chooseLevelBtn.width) ) {
 
-                if (y >= chooseLevelBtn.y
-                        && y <= (chooseLevelBtn.y + chooseLevelBtn.height)) {
+                if ( y >= _chooseLevelBtn.y
+                     && y <= (_chooseLevelBtn.y + _chooseLevelBtn.height) ) {
 
                     BadMagic.log.info("Нажата кнопка \"Выбрать уровень\"");
                 }
             }
 
             /* Выйти из игры */
-            if (x >= quitGameBtn.x
-                    && x <= (quitGameBtn.x + quitGameBtn.width)) {
+            if ( x >= _quitGameBtn.x
+                 && x <= (_quitGameBtn.x + _quitGameBtn.width) ) {
 
-                if (y >= quitGameBtn.y
-                        && y <= (quitGameBtn.y + quitGameBtn.height)) {
+                if ( y >= _quitGameBtn.y
+                     && y <= (_quitGameBtn.y + _quitGameBtn.height) ) {
 
                     BadMagic.log.info("Нажата кнопка \"Выход\"");
                     System.exit(0);
@@ -190,7 +200,7 @@ public class GameMenu extends JPanel {
 
     private static final String MENU_BACKGROUND_PATH = "/badmagic/resources/menu.png";
     private static final String MENU_FONT_PATH = "/badmagic/resources/menu.ttf";
-    
+
     private static final float FONT_SIZE = 50;
     private static final String FONT_TYPE = "Comic Sans MS";
     private static final Color FONT_COLOR = new Color(205, 133, 63);
@@ -204,19 +214,21 @@ public class GameMenu extends JPanel {
     private static final int BUTTON_WIDTH = 400;
     private static final int BUTTON_HEIGHT = 60;
 
-    private Rectangle newGameBtn
-            = new Rectangle(BadMagic.getWindowWidth() / 6 - 150,
-                    300, BUTTON_WIDTH, BUTTON_HEIGHT);
+    private ClickListener _mouseListener = new ClickListener();
 
-    private Rectangle continueGameBtn
-            = new Rectangle(BadMagic.getWindowWidth() / 6 - 150,
-                    400, BUTTON_WIDTH, BUTTON_HEIGHT);
+    private Rectangle _newGameBtn
+                      = new Rectangle(BadMagic.getWindowWidth() / 6 - 150,
+                                      300, BUTTON_WIDTH, BUTTON_HEIGHT);
 
-    private Rectangle chooseLevelBtn
-            = new Rectangle(BadMagic.getWindowWidth() / 6 - 150,
-                    500, BUTTON_WIDTH, BUTTON_HEIGHT);
+    private Rectangle _continueGameBtn
+                      = new Rectangle(BadMagic.getWindowWidth() / 6 - 150,
+                                      400, BUTTON_WIDTH, BUTTON_HEIGHT);
 
-    private Rectangle quitGameBtn
-            = new Rectangle(BadMagic.getWindowWidth() / 6 - 150,
-                    600, BUTTON_WIDTH, BUTTON_HEIGHT);
+    private Rectangle _chooseLevelBtn
+                      = new Rectangle(BadMagic.getWindowWidth() / 6 - 150,
+                                      500, BUTTON_WIDTH, BUTTON_HEIGHT);
+
+    private Rectangle _quitGameBtn
+                      = new Rectangle(BadMagic.getWindowWidth() / 6 - 150,
+                                      600, BUTTON_WIDTH, BUTTON_HEIGHT);
 }
