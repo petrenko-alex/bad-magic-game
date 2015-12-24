@@ -51,12 +51,12 @@ public abstract class GameObject {
         _listenerList.remove(l);
     }
 
-    protected void fireObjectChanged() {
+    protected void fireObjectMoved() {
 
         EventObject event = new EventObject(this);
         for (Object listener : _listenerList) {
 
-            ((GameObjectListener) listener).objectChanged(event);
+            ((GameObjectListener) listener).objectMoved(event);
         }
     }
 

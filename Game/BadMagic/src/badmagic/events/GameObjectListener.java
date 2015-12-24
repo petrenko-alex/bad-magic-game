@@ -5,5 +5,5 @@ import java.util.EventObject;
 
 public interface GameObjectListener extends EventListener {
 
-    void objectChanged(EventObject e);
+    void objectMoved(EventObject e);
 }

@@ -17,6 +17,16 @@ public class Player extends GameObject {
         loadPic();
     }
 
+    public int getMoves() {
+
+        return _moves;
+    }
+
+    public void setMoves(int moves) {
+
+        _moves = moves;
+    }
+
     public void move(Direction moveDirection) {
 
         _gazeDirection = moveDirection;
@@ -24,9 +34,9 @@ public class Player extends GameObject {
         if( _field.isNextPosEmpty(_position,moveDirection) ) {
 
             _position = _field.getNextPos(_position,moveDirection);
+            _moves--;
+            fireObjectMoved();
         }
-
-        fireObjectChanged();
     }
 
     @Override
@@ -61,6 +71,7 @@ public class Player extends GameObject {
         return at;
     }
 
+    private int _moves;
     private Direction _gazeDirection = Direction.north();
     private static final String PIC = "/badmagic/resources/goat.png";
 }

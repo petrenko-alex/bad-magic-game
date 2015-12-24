@@ -3,6 +3,7 @@ package badmagic.view;
 import badmagic.model.GameModel;
 import badmagic.BadMagic;
 import badmagic.events.GameObjectListener;
+import badmagic.events.ModelListener;
 import badmagic.model.gameobjects.GameObject;
 import badmagic.navigation.Direction;
 import java.awt.BasicStroke;
@@ -38,6 +39,7 @@ public class GamePanel extends JPanel {
         requestFocus();
 
         _model = model;
+        _model.addModelListener(new ModelObserver());
         loadPic();
         addKeyListener(new KeyHandler());
     }
@@ -145,10 +147,26 @@ public class GamePanel extends JPanel {
     private class ObjectsObserver implements GameObjectListener {
 
         @Override
-        public void objectChanged(EventObject e) {
+        public void objectMoved(EventObject e) {
 
             ((GameObject)e.getSource()).paint(getGraphics(), null);
         }
+    }
+
+    private class ModelObserver implements ModelListener {
+
+        @Override
+        public void levelCompleted(EventObject e) {
+
+            BadMagic.log.info("Элексир достигнут. Уровень пройден.");
+        }
+
+        @Override
+        public void levelFailed(EventObject e) {
+
+            BadMagic.log.info("Закончились ходы. Уровень провален.");
+        }
+
     }
 
     private class KeyHandler extends KeyAdapter {
