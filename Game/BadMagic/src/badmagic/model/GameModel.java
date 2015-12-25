@@ -75,7 +75,6 @@ public class GameModel {
 
             } else if( _player.getMoves() == 0 ){
 
-
                 fireLevelFailed();
             }
         }
