@@ -182,27 +182,26 @@ public class GamePanel extends JPanel {
 
                     case (KeyEvent.VK_LEFT): {
 
-                        BadMagic.log.info("Попытка сдвинуть стол влево");
+                        _model.getPlayer().moveObject(Direction.west());
                         break;
                     }
                     case (KeyEvent.VK_RIGHT): {
 
-                        BadMagic.log.info("Попытка сдвинуть стол вправо");
+                        _model.getPlayer().moveObject(Direction.east());
                         break;
                     }
                     case (KeyEvent.VK_UP): {
 
-                        BadMagic.log.info("Попытка сдвинуть стол вверх");
+                        _model.getPlayer().moveObject(Direction.north());
                         break;
                     }
                     case (KeyEvent.VK_DOWN): {
 
-                        BadMagic.log.info("Попытка сдвинуть стол вниз");
+                        _model.getPlayer().moveObject(Direction.south());
                         break;
                     }
                     default: {
 
-                        BadMagic.log.info("Неизвестное действие");
                         break;
                     }
                 }
@@ -238,7 +237,6 @@ public class GamePanel extends JPanel {
                     }
                     default: {
 
-                        BadMagic.log.info("Неизвестное действие");
                         break;
                     }
                 }
