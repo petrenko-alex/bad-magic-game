@@ -1,7 +1,7 @@
 {
-	"LevelName": "Mystery Rectangle",
+	"LevelName": "Загадочный квадрат",
 	"LevelHistory": "Let's explore this mystery rectangle",
-	"PlayerMoves": 22,
+	"PlayerMoves": 30,
 	"FieldSize": [10, 11],
 
 	"FieldObjects": [{
@@ -33,11 +33,7 @@
 				[4, 7],
 				[3, 7],
 				[3, 6],
-				[3, 4],
-				[7, 8],
-				[7, 9],
-				[7, 10],
-				[7, 11]				
+				[3, 4]				
 			]
 		}
 	},  {
