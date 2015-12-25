@@ -36,7 +36,7 @@ public class GamePanel extends JPanel {
         _model = model;
         _model.addModelListener(new ModelObserver());
         loadPic();
-        addKeyListener(new KeyHandler());
+        addKeyListener(_keyHandler);
         addMouseListener(new ClickListener());
     }
 
@@ -139,7 +139,7 @@ public class GamePanel extends JPanel {
         g2d.draw(levelFinishedBox);
 
         /* Кнопка следующего действия */
-        _nextActionBtn = new Rectangle(boxX + 60,boxY + 200,215,40);
+        _nextActionBtn = new Rectangle(boxX + 60,boxY + 200,220,40);
         g2d.draw(_nextActionBtn);
 
         /* Кнопка перехода в главное меню */
@@ -155,7 +155,7 @@ public class GamePanel extends JPanel {
                        _model.getLevelName() + "!", boxX + 60, boxY + 60);
 
 
-            g.drawString("Следующий уровень", boxX + 65, boxY + 225);
+            g.drawString("Следующий уровень", boxX + 70, boxY + 225);
 
 
         } else if ( _model.getLevelStatus() == GameModel.LevelStatus.FAILED ) {
@@ -163,9 +163,9 @@ public class GamePanel extends JPanel {
             /* Если уровень провален */
             g.drawString("Увы :(", boxX + 260, boxY + 30);
             g.drawString("Вам не удалось пройти уровень " +
-                       _model.getLevelName() + "!", boxX + 60, boxY + 60);
+                       _model.getLevelName() + "!", boxX + 40, boxY + 60);
 
-            g.drawString("Попробовать снова", boxX + 65, boxY + 225);
+            g.drawString("Попробовать снова", boxX + 75, boxY + 225);
         }
     }
 
@@ -207,12 +207,14 @@ public class GamePanel extends JPanel {
         public void levelCompleted(EventObject e) {
 
             BadMagic.log.info("Элексир достигнут. Уровень пройден.");
+            removeKeyListener(_keyHandler);
         }
 
         @Override
         public void levelFailed(EventObject e) {
 
             BadMagic.log.info("Закончились ходы. Уровень провален.");
+            removeKeyListener(_keyHandler);
         }
 
     }
@@ -313,32 +315,45 @@ public class GamePanel extends JPanel {
 
                 }
             }
+
+            /* Блок результатов */
+            if( _model.getLevelStatus() != GameModel.LevelStatus.PLAYING ) {
+
+
+            }
     }
      }
 
+    //////////////////////////// Данные ///////////////////////////////////////
+
+    private Image _cellPic;
     private GameModel _model;
     private int _fieldStartX;
     private int _fieldStartY;
-    private Image _cellPic;
+    private static Rectangle _mainMenuBtn;
+    private static Rectangle _nextActionBtn;
+    private KeyHandler _keyHandler = new KeyHandler();
 
+    //////////////////////////// Константы ////////////////////////////////////
+    private static final int CELL_SIZE = 64;
+    private static final String PIC = "src/badmagic/resources/brick.png";
 
-    private static final int BUTTON_WIDTH = 70;
-    private static final int BUTTON_HEIGHT = 30;
     private static final Color BACKGROUND_COLOR = new Color(47, 79, 79);
     private static final Color OBJECTS_BORDER_COLOR = new Color(205, 133, 63);
-    private static final int OBJECTS_BORDER_WIDTH = 2;
-    private static final int INFO_PANEL_WIDTH = 200;
+
     private static final int FONT_SIZE = 15;
     private static final String FONT_TYPE = "Comic Sans MS";
     private static final Color FONT_COLOR = new Color(205, 133, 63);
-    private static final String PIC = "src/badmagic/resources/brick.png";
+
+    private static final int BUTTON_WIDTH = 70;
+    private static final int BUTTON_HEIGHT = 30;
+    private static final int INFO_PANEL_WIDTH = 200;
     private static final int RESULT_BOX_WIDTH = 600;
     private static final int RESULT_BOX_HEIGHT = 300;
-    private static final int CELL_SIZE = 64;
+    private static final int OBJECTS_BORDER_WIDTH = 2;
 
     private static final Rectangle _quitGameBtn
                       = new Rectangle(60,650, BUTTON_WIDTH, BUTTON_HEIGHT);
 
-    private static Rectangle _nextActionBtn;
-    private static Rectangle _mainMenuBtn;
+
 }

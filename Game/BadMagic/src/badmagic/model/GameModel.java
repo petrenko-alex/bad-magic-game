@@ -1,14 +1,20 @@
 package badmagic.model;
 
+import badmagic.BadMagic;
 import badmagic.events.GameObjectListener;
 import badmagic.events.ModelListener;
 import badmagic.model.Level;
 import badmagic.model.gameobjects.GameObject;
 import badmagic.model.gameobjects.Player;
 import java.awt.Point;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.logging.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 public class GameModel {
 
@@ -19,14 +25,33 @@ public class GameModel {
 
     public void loadLevels() {
 
-        String levelFile = "src/badmagic/resources/levels/MysteryRectangle.json";
+        Level level = null;
+        ArrayList<String> levelNames = null;
 
-        Level level = new Level(levelFile);
-        _levels.add(level);
+        /* Попытка загрузить имена файлов с уровнями */
+        try {
 
-        _field = level.getField();
-        _currentLevel = level;
+            levelNames = loadLevelNames();
 
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+            return;
+        }
+
+        /* Загружаем данные уровней */
+        for( Object i : levelNames ) {
+
+            level = new Level(i.toString());
+            _levels.add(level);
+
+        }
+
+        /* Текущий уровень - первый */
+        _currentLevel = _levels.get(0);
+        _field = _currentLevel.getField();
+
+        /* Устанавливаем игрока */
         try {
 
             _player = (Player)_field.getObjects(
@@ -39,7 +64,6 @@ public class GameModel {
 
             ex.printStackTrace();
         }
-
     }
 
     public GameField getField() {
@@ -99,6 +123,27 @@ public class GameModel {
         }
     }
 
+    private ArrayList<String> loadLevelNames() throws Exception {
+
+        ArrayList<String> levels = new ArrayList();
+        JSONParser parser = new JSONParser();
+
+        Object object = parser.parse(new FileReader(PATH_TO_LEVELS_INFO_FILE));
+        JSONArray array = (JSONArray) object;
+
+        if( array.isEmpty() ) {
+
+            throw new Exception("Не заданы файлы уровней.");
+        }
+
+        for( Object i : array ) {
+
+            levels.add(i.toString());
+        }
+
+        return levels;
+    }
+
     private class ObjectsObserver implements GameObjectListener {
 
         @Override
@@ -109,6 +154,7 @@ public class GameModel {
     }
 
     //////////////////////// События объектов /////////////////////////////////
+    
     public void addObjectListener(GameObjectListener l) {
 
         _objectsListenerList.add(l);
@@ -130,6 +176,7 @@ public class GameModel {
     private ArrayList _objectsListenerList = new ArrayList();
 
     ////////////////////////// События игры ///////////////////////////////////
+
     public void addModelListener(ModelListener l) {
 
         _modelListenerList.add(l);
