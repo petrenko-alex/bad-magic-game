@@ -6,6 +6,7 @@ import badmagic.navigation.Direction;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 
@@ -228,5 +229,5 @@ public class GameField {
     //////////////////////////////// Данные ///////////////////////////////////
     private int _width;
     private int _height;
-    private Map<Class, ArrayList<GameObject>> _gameObjects = new HashMap<>();
+    private Map<Class, ArrayList<GameObject>> _gameObjects = new LinkedHashMap<>();
 }
