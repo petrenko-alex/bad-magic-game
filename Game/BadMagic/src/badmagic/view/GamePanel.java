@@ -14,19 +14,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.EventObject;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JPanel;
-import static sun.applet.AppletResourceLoader.getImage;
 
 public class GamePanel extends JPanel {
 
@@ -42,6 +37,7 @@ public class GamePanel extends JPanel {
         _model.addModelListener(new ModelObserver());
         loadPic();
         addKeyListener(new KeyHandler());
+        addMouseListener(new ClickListener());
     }
 
     @Override
@@ -49,8 +45,15 @@ public class GamePanel extends JPanel {
 
         super.paintComponent(g);
         paintInfoPanel(g);
-        paintGrid(g);
-        paintObjects(g);
+        if(_model.getLevelStatus() == GameModel.LevelStatus.PLAYING) {
+
+            paintGrid(g);
+            paintObjects(g);
+
+        } else {
+
+            paintResultBox(g);
+        }
     }
 
     private void paintInfoPanel(Graphics g) {
@@ -68,10 +71,11 @@ public class GamePanel extends JPanel {
         Font font = new Font(FONT_TYPE, Font.BOLD, FONT_SIZE);
         g.setFont(font);
         g.setColor(FONT_COLOR);
-        g.drawString("Уровень:", 5, 30);
-        g.drawString("Осталось ходов:", 5, 60);
+        g.drawString("Уровень" , 70, 30);
+        g.drawString(_model.getLevelName(), 30, 55);
+        g.drawString("Осталось ходов: " + _model.getMoves(), 25, 100);
 
-        g.drawRect(60, 650, 70, 30);
+        g2d.draw(_quitGameBtn);
         g.drawString("Выход", 70, 670);
     }
 
@@ -118,6 +122,50 @@ public class GamePanel extends JPanel {
         {
             int y1 = _fieldStartY + CELL_SIZE * (i - 1);
             g.drawLine(_fieldStartX, y1, (_fieldStartX + width), y1);
+        }
+    }
+
+    private void paintResultBox(Graphics g) {
+
+        Graphics2D g2d = (Graphics2D)g;
+        Font font = new Font(FONT_TYPE, Font.BOLD, 20);
+        g.setFont(font);
+        int boxY = (BadMagic.getWindowHeight() - RESULT_BOX_HEIGHT) / 2;
+        int boxX = ((BadMagic.getWindowWidth() - RESULT_BOX_WIDTH) / 2) +
+                   (INFO_PANEL_WIDTH / 2);
+
+        Rectangle levelFinishedBox = new Rectangle(
+                                boxX,boxY, RESULT_BOX_WIDTH, RESULT_BOX_HEIGHT);
+        g2d.draw(levelFinishedBox);
+
+        /* Кнопка следующего действия */
+        _nextActionBtn = new Rectangle(boxX + 60,boxY + 200,215,40);
+        g2d.draw(_nextActionBtn);
+
+        /* Кнопка перехода в главное меню */
+        _mainMenuBtn = new Rectangle(boxX + 310,boxY + 200,215,40);
+        g2d.draw(_mainMenuBtn);
+        g.drawString("Главное меню", boxX + 345, boxY + 225);
+
+        if( _model.getLevelStatus() == GameModel.LevelStatus.COMPLETED ) {
+
+            /* Если уровень успешно пройден */
+            g.drawString("Поздравляем!", boxX + 240, boxY + 30);
+            g.drawString("Вы успешно прошли уровень " +
+                       _model.getLevelName() + "!", boxX + 60, boxY + 60);
+
+
+            g.drawString("Следующий уровень", boxX + 65, boxY + 225);
+
+
+        } else if ( _model.getLevelStatus() == GameModel.LevelStatus.FAILED ) {
+
+            /* Если уровень провален */
+            g.drawString("Увы :(", boxX + 260, boxY + 30);
+            g.drawString("Вам не удалось пройти уровень " +
+                       _model.getLevelName() + "!", boxX + 60, boxY + 60);
+
+            g.drawString("Попробовать снова", boxX + 65, boxY + 225);
         }
     }
 
@@ -246,8 +294,36 @@ public class GamePanel extends JPanel {
 
     }
 
-    private GameModel _model;
+    private class ClickListener extends MouseAdapter {
 
+        @Override
+        public void mouseClicked(MouseEvent e) {
+
+            int x = e.getX();
+            int y = e.getY();
+
+            /* Выйти из игры */
+            if ( x >= _quitGameBtn.x
+                 && x <= (_quitGameBtn.x + _quitGameBtn.width) ) {
+
+                if ( y >= _quitGameBtn.y
+                     && y <= (_quitGameBtn.y + _quitGameBtn.height) ) {
+
+                    System.exit(0);
+
+                }
+            }
+    }
+     }
+
+    private GameModel _model;
+    private int _fieldStartX;
+    private int _fieldStartY;
+    private Image _cellPic;
+
+
+    private static final int BUTTON_WIDTH = 70;
+    private static final int BUTTON_HEIGHT = 30;
     private static final Color BACKGROUND_COLOR = new Color(47, 79, 79);
     private static final Color OBJECTS_BORDER_COLOR = new Color(205, 133, 63);
     private static final int OBJECTS_BORDER_WIDTH = 2;
@@ -256,10 +332,13 @@ public class GamePanel extends JPanel {
     private static final String FONT_TYPE = "Comic Sans MS";
     private static final Color FONT_COLOR = new Color(205, 133, 63);
     private static final String PIC = "src/badmagic/resources/brick.png";
-
+    private static final int RESULT_BOX_WIDTH = 600;
+    private static final int RESULT_BOX_HEIGHT = 300;
     private static final int CELL_SIZE = 64;
 
-    private int _fieldStartX;
-    private int _fieldStartY;
-    private Image _cellPic;
+    private static final Rectangle _quitGameBtn
+                      = new Rectangle(60,650, BUTTON_WIDTH, BUTTON_HEIGHT);
+
+    private static Rectangle _nextActionBtn;
+    private static Rectangle _mainMenuBtn;
 }
