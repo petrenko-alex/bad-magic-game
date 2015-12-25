@@ -25,6 +25,7 @@ public class GameModel {
         _levels.add(level);
 
         _field = level.getField();
+        _currentLevel = level;
 
         try {
 
@@ -32,6 +33,7 @@ public class GameModel {
                     Class.forName("badmagic.model.gameobjects.Player")).get(0);
             _player.setMoves(level.getMoves());
             _player.addObjectListener(new ObjectsObserver());
+            _levelStatus = LevelStatus.PLAYING;
 
         } catch ( ClassNotFoundException ex ) {
 
@@ -48,6 +50,21 @@ public class GameModel {
     public Player getPlayer() {
 
         return _player;
+    }
+
+    public LevelStatus getLevelStatus() {
+
+        return _levelStatus;
+    }
+
+    public String getLevelName() {
+
+        return _currentLevel.getName();
+    }
+
+    public int getMoves() {
+
+        return _player.getMoves();
     }
 
     private void checkIfLevelIsFinished() {
@@ -72,10 +89,12 @@ public class GameModel {
             if( playerPos.equals(elixirPos) ) {
 
                 fireLevelCompleted();
+                _levelStatus = LevelStatus.COMPLETED;
 
             } else if( _player.getMoves() == 0 ){
 
                 fireLevelFailed();
+                _levelStatus = LevelStatus.FAILED;
             }
         }
     }
@@ -109,6 +128,7 @@ public class GameModel {
     }
 
     private ArrayList _objectsListenerList = new ArrayList();
+
     ////////////////////////// События игры ///////////////////////////////////
     public void addModelListener(ModelListener l) {
 
@@ -139,12 +159,21 @@ public class GameModel {
     }
 
     private ArrayList _modelListenerList = new ArrayList();
-    ///////////////////////////////////////////////////////////////////////////
 
+    //////////////////////////// Данные ///////////////////////////////////////
+
+    private LevelStatus _levelStatus;
     private GameField _field;
     private Player    _player;
     private ArrayList<Level> _levels = new ArrayList();
+    private Level _currentLevel;
     private static final String PATH_TO_LEVELS_INFO_FILE =
                           "src/badmagic/resources/levels/levelsinfo.json";
 
+    public enum LevelStatus {
+
+    COMPLETED,
+    FAILED,
+    PLAYING
+}
 }
