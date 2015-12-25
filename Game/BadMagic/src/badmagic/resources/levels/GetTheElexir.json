@@ -1,0 +1,40 @@
+{
+	"LevelName": "Разгреби завал",
+	"LevelHistory": "Let's find the magic elixir",
+	"PlayerMoves": 30,
+	"FieldSize": [7, 4],
+
+	"FieldObjects": [{
+		"Elixir": {
+			"Positions": [
+				[5, 1]
+			]
+		}
+	},{
+		"WoodenTable": {
+			"Positions": [
+				[1, 1],
+				[2, 1],
+				[4, 1],
+				[6, 1],
+				[7, 1],
+				[1, 2],
+				[2, 2],
+				[3, 2],
+				[4, 2],
+				[5, 2],
+				[6, 2],
+				[7, 2],
+				[3, 3],
+				[5, 3],
+				[4, 4]
+			]
+		}
+	}, {
+		"Player": {
+			"Positions": [
+				[1, 4]
+			]
+		}
+	}]
+}

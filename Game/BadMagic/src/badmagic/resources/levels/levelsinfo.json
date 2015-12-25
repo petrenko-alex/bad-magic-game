@@ -1,4 +1,4 @@
-{
-    "Сount": 1,
-    "LevelFiles" : ["MysteryRectangle.json"]
-}
+[
+	"src/badmagic/resources/levels/GetTheElexir.json",
+	"src/badmagic/resources/levels/MysteryRectangle.json"
+]
