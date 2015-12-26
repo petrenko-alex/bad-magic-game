@@ -4,6 +4,7 @@ import badmagic.model.GameModel;
 import badmagic.BadMagic;
 import badmagic.events.GameObjectListener;
 import badmagic.events.ModelListener;
+import badmagic.events.PanelListener;
 import badmagic.model.gameobjects.GameObject;
 import badmagic.navigation.Direction;
 import java.awt.BasicStroke;
@@ -20,6 +21,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.EventObject;
 import javax.swing.JPanel;
 
@@ -36,8 +38,19 @@ public class GamePanel extends JPanel {
         _model = model;
         _model.addModelListener(new ModelObserver());
         loadPic();
+        //startListenToPeriphery();
+    }
+
+    public void stopListenToPeriphery() {
+
+        removeKeyListener(_keyHandler);
+        removeMouseListener(_clickListener);
+    }
+
+    public void startListenToPeriphery() {
+
         addKeyListener(_keyHandler);
-        addMouseListener(new ClickListener());
+        addMouseListener(_clickListener);
     }
 
     @Override
@@ -305,11 +318,11 @@ public class GamePanel extends JPanel {
             int y = e.getY();
 
             /* Выйти из игры */
-            if ( x >= _quitGameBtn.x
-                 && x <= (_quitGameBtn.x + _quitGameBtn.width) ) {
+            if ( x >= _quitGameBtn.x &&
+                 x <= (_quitGameBtn.x + _quitGameBtn.width) ) {
 
-                if ( y >= _quitGameBtn.y
-                     && y <= (_quitGameBtn.y + _quitGameBtn.height) ) {
+                if ( y >= _quitGameBtn.y &&
+                     y <= (_quitGameBtn.y + _quitGameBtn.height) ) {
 
                     System.exit(0);
 
@@ -319,10 +332,40 @@ public class GamePanel extends JPanel {
             /* Блок результатов */
             if( _model.getLevelStatus() != GameModel.LevelStatus.PLAYING ) {
 
+                if ( x >= _mainMenuBtn.x &&
+                     x <=(_mainMenuBtn.x + _mainMenuBtn.width) ) {
 
+                    if( y >= _mainMenuBtn.y &&
+                        y <= (_mainMenuBtn.y + _mainMenuBtn.height) ) {
+
+                        fireMainMenuClicked();
+                    }
+                }
             }
     }
      }
+
+    //////////////////////////// Сигналы //////////////////////////////////////
+    private ArrayList _listenerList = new ArrayList();
+
+    public void addPanelListener(PanelListener l) {
+
+        _listenerList.add(l);
+    }
+
+    public void removePanelListener(PanelListener l) {
+
+        _listenerList.remove(l);
+    }
+
+    protected void fireMainMenuClicked() {
+
+        EventObject e = new EventObject(this);
+        for( Object listener : _listenerList ) {
+
+            ((PanelListener)listener).mainMenuClicked(e);
+        }
+    }
 
     //////////////////////////// Данные ///////////////////////////////////////
 
@@ -333,6 +376,7 @@ public class GamePanel extends JPanel {
     private static Rectangle _mainMenuBtn;
     private static Rectangle _nextActionBtn;
     private KeyHandler _keyHandler = new KeyHandler();
+    private ClickListener _clickListener = new ClickListener();
 
     //////////////////////////// Константы ////////////////////////////////////
     private static final int CELL_SIZE = 64;

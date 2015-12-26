@@ -32,7 +32,6 @@ public class GameMenu extends JPanel {
     public GameMenu() {
 
         super();
-        startListenToMouse();
 
         setPreferredSize(new Dimension(BadMagic.getWindowWidth(),
                                        BadMagic.getWindowHeight()));
@@ -99,12 +98,12 @@ public class GameMenu extends JPanel {
 
     }
 
-    public void stopListenToMouse() {
+    public void stopListenToPeriphery() {
 
         removeMouseListener(_mouseListener);
     }
 
-    public void startListenToMouse() {
+    public void startListenToPeriphery() {
 
         addMouseListener(_mouseListener);
     }

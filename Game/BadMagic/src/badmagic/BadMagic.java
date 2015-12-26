@@ -1,5 +1,6 @@
 package badmagic;
 import badmagic.events.MenuListener;
+import badmagic.events.PanelListener;
 import badmagic.model.GameModel;
 import badmagic.view.GameMenu;
 import badmagic.view.GamePanel;
@@ -34,7 +35,9 @@ public class BadMagic  {
         _gameModel = new GameModel();
         _gamePanel = new GamePanel(_gameModel);
         _gameMenu = new GameMenu();
+        _gameMenu.startListenToPeriphery();
         _gameMenu.addMenuListener(new MenuObserver());
+        _gamePanel.addPanelListener(new PanelObserver());
 
         _window = new JFrame(TITLE);
         _window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,7 +65,8 @@ public class BadMagic  {
         public void startCareerClicked(EventObject e) {
 
             log.info("Пойман сигнал из класса GameMenu о начале Новой игры");
-            _gameMenu.stopListenToMouse();
+            _gameMenu.stopListenToPeriphery();
+            _gamePanel.startListenToPeriphery();
             _window.getContentPane().removeAll();
             _window.getContentPane().add(_gamePanel);
             _window.revalidate();
@@ -74,9 +78,26 @@ public class BadMagic  {
         public void continueCareerClicked(EventObject e) {
 
             log.info("Пойман сигнал из класса GameMenu о Продолжении игры");
-            _gameMenu.stopListenToMouse();
+            _gameMenu.stopListenToPeriphery();
         }
-}
+    }
+
+    private class PanelObserver implements PanelListener {
+
+        @Override
+        public void mainMenuClicked(EventObject e) {
+
+            _gamePanel.stopListenToPeriphery();
+            _gameMenu.startListenToPeriphery();
+            _window.getContentPane().removeAll();
+            _window.setContentPane(_gameMenu);
+            _window.revalidate();
+            _window.repaint();
+            _gameMenu.requestFocus();
+        }
+
+
+    }
 
     private static final String TITLE = "Bad Magic";
     private static final int WIDTH = 1280;
