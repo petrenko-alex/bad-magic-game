@@ -59,6 +59,15 @@ public class BadMagic  {
         return HEIGHT;
     }
 
+    private void changePanelTo(JPanel panel) {
+
+        _window.getContentPane().removeAll();
+        _window.getContentPane().add(panel);
+        _window.revalidate();
+        _window.repaint();
+        panel.requestFocus();
+    }
+
     private class MenuObserver implements MenuListener {
 
         @Override
@@ -66,12 +75,9 @@ public class BadMagic  {
 
             log.info("Пойман сигнал из класса GameMenu о начале Новой игры");
             _gameMenu.stopListenToPeriphery();
+            changePanelTo(_gamePanel);
             _gamePanel.startListenToPeriphery();
-            _window.getContentPane().removeAll();
-            _window.getContentPane().add(_gamePanel);
-            _window.revalidate();
-            _window.repaint();
-            _gamePanel.requestFocus();
+            _gamePanel.startNewCareer();
         }
 
         @Override
@@ -79,6 +85,9 @@ public class BadMagic  {
 
             log.info("Пойман сигнал из класса GameMenu о Продолжении игры");
             _gameMenu.stopListenToPeriphery();
+            changePanelTo(_gamePanel);
+            _gamePanel.startListenToPeriphery();
+            _gamePanel.continueCareer();
         }
     }
 
@@ -95,8 +104,6 @@ public class BadMagic  {
             _window.repaint();
             _gameMenu.requestFocus();
         }
-
-
     }
 
     private static final String TITLE = "Bad Magic";

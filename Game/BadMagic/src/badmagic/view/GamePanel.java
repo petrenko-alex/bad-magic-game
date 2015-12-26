@@ -31,14 +31,28 @@ public class GamePanel extends JPanel {
 
         super();
         setPreferredSize(new Dimension(BadMagic.getWindowWidth(),
-                BadMagic.getWindowHeight()));
+                                       BadMagic.getWindowHeight()));
         setFocusable(true);
         requestFocus();
 
         _model = model;
         _model.addModelListener(new ModelObserver());
         loadPic();
-        //startListenToPeriphery();
+    }
+
+    public void startNewCareer() {
+
+        _model.startNewCareer();
+    }
+
+    public void continueCareer() {
+
+        _model.continueCareer();
+    }
+
+    public void oneLevelMode() {
+
+
     }
 
     public void stopListenToPeriphery() {
@@ -205,6 +219,8 @@ public class GamePanel extends JPanel {
         return new Point(x,y);
     }
 
+    //////////////////////////// Слушатели ////////////////////////////////////
+
     private class ObjectsObserver implements GameObjectListener {
 
         @Override
@@ -346,6 +362,7 @@ public class GamePanel extends JPanel {
      }
 
     //////////////////////////// Сигналы //////////////////////////////////////
+
     private ArrayList _listenerList = new ArrayList();
 
     public void addPanelListener(PanelListener l) {
@@ -379,6 +396,7 @@ public class GamePanel extends JPanel {
     private ClickListener _clickListener = new ClickListener();
 
     //////////////////////////// Константы ////////////////////////////////////
+    
     private static final int CELL_SIZE = 64;
     private static final String PIC = "src/badmagic/resources/brick.png";
 

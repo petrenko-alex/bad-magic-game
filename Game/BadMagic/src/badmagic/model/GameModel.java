@@ -23,47 +23,27 @@ public class GameModel {
         loadLevels();
     }
 
-    public void loadLevels() {
-
-        Level level = null;
-        ArrayList<String> levelNames = null;
-
-        /* Попытка загрузить имена файлов с уровнями */
-        try {
-
-            levelNames = loadLevelNames();
-
-        } catch (Exception ex) {
-
-            ex.printStackTrace();
-            return;
-        }
-
-        /* Загружаем данные уровней */
-        for( Object i : levelNames ) {
-
-            level = new Level(i.toString());
-            _levels.add(level);
-
-        }
+    public void startNewCareer() {
 
         /* Текущий уровень - первый */
-        _currentLevel = _levels.get(0);
-        _field = _currentLevel.getField();
+        setCurrentLevel(0);
 
-        /* Устанавливаем игрока */
-        try {
+        /* Инициализируем игрока */
+        initializePlayer();
 
-            _player = (Player)_field.getObjects(
-                    Class.forName("badmagic.model.gameobjects.Player")).get(0);
-            _player.setMoves(level.getMoves());
-            _player.addObjectListener(new ObjectsObserver());
-            _levelStatus = LevelStatus.PLAYING;
+        /* Статус уровня */
+        _levelStatus = LevelStatus.PLAYING;
+    }
 
-        } catch ( ClassNotFoundException ex ) {
+    public void continueCareer() {
 
-            ex.printStackTrace();
-        }
+        /* Статус уровня */
+        _levelStatus = LevelStatus.PLAYING;
+    }
+
+    public void oneLevelMode() {
+
+
     }
 
     public GameField getField() {
@@ -89,6 +69,58 @@ public class GameModel {
     public int getMoves() {
 
         return _player.getMoves();
+    }
+
+    private void loadLevels() {
+
+        Level level = null;
+        ArrayList<String> levelNames = null;
+
+        /* Попытка загрузить имена файлов с уровнями */
+        try {
+
+            levelNames = loadLevelNames();
+
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+            return;
+        }
+
+        /* Загружаем данные уровней */
+        for( Object i : levelNames ) {
+
+            level = new Level(i.toString());
+            _levels.add(level);
+
+        }
+    }
+
+    private void setCurrentLevel(int levelNumber) {
+
+        if(levelNumber < 0 || levelNumber > (_levels.size() - 1) ) {
+
+            return;
+        }
+
+        _currentLevel = _levels.get(levelNumber);
+        _field = _currentLevel.getField();
+    }
+
+    private void initializePlayer() {
+
+        /* Устанавливаем игрока */
+        try {
+
+            _player = (Player)_field.getObjects(
+                    Class.forName("badmagic.model.gameobjects.Player")).get(0);
+            _player.setMoves(_currentLevel.getMoves());
+            _player.addObjectListener(new ObjectsObserver());
+
+        } catch ( ClassNotFoundException ex ) {
+
+            ex.printStackTrace();
+        }
     }
 
     private void checkIfLevelIsFinished() {
@@ -154,7 +186,7 @@ public class GameModel {
     }
 
     //////////////////////// События объектов /////////////////////////////////
-    
+
     public void addObjectListener(GameObjectListener l) {
 
         _objectsListenerList.add(l);
