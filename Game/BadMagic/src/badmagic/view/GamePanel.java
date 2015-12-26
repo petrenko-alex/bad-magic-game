@@ -21,8 +21,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventObject;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
@@ -208,8 +211,14 @@ public class GamePanel extends JPanel {
 
     private void loadPic() {
 
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        _cellPic = toolkit.getImage(PIC);
+        try {
+
+            _cellPic = ImageIO.read(getClass().getResource(PIC));
+
+        } catch ( IOException ex ) {
+
+            ex.printStackTrace();
+        }
     }
 
     private Point getPanelPosition(Point logPos) {
@@ -386,7 +395,7 @@ public class GamePanel extends JPanel {
 
     //////////////////////////// Данные ///////////////////////////////////////
 
-    private Image _cellPic;
+    private BufferedImage _cellPic;
     private GameModel _model;
     private int _fieldStartX;
     private int _fieldStartY;
@@ -396,9 +405,9 @@ public class GamePanel extends JPanel {
     private ClickListener _clickListener = new ClickListener();
 
     //////////////////////////// Константы ////////////////////////////////////
-    
+
     private static final int CELL_SIZE = 64;
-    private static final String PIC = "src/badmagic/resources/brick.png";
+    private static final String PIC = "/badmagic/resources/brick.png";
 
     private static final Color BACKGROUND_COLOR = new Color(47, 79, 79);
     private static final Color OBJECTS_BORDER_COLOR = new Color(205, 133, 63);
