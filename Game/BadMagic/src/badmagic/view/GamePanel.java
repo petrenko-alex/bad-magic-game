@@ -357,13 +357,33 @@ public class GamePanel extends JPanel {
             /* Блок результатов */
             if( _model.getLevelStatus() != GameModel.LevelStatus.PLAYING ) {
 
+                /* Главное меню */
                 if ( x >= _mainMenuBtn.x &&
-                     x <=(_mainMenuBtn.x + _mainMenuBtn.width) ) {
+                     x <= (_mainMenuBtn.x + _mainMenuBtn.width) ) {
 
                     if( y >= _mainMenuBtn.y &&
                         y <= (_mainMenuBtn.y + _mainMenuBtn.height) ) {
 
                         fireMainMenuClicked();
+                    }
+                }
+
+                if( x >= _nextActionBtn.x &&
+                    x <= (_nextActionBtn.x + _nextActionBtn.width) ) {
+
+                    if( y >= _nextActionBtn.y &&
+                        y <= (_nextActionBtn.y + _nextActionBtn.height)) {
+
+                        if( _model.getLevelStatus() == GameModel.LevelStatus.COMPLETED ) {
+
+                            _model.nextLevel();
+                            startListenToPeriphery();
+
+                        } else if( _model.getLevelStatus() == GameModel.LevelStatus.FAILED) {
+
+                            _model.tryAgain();
+                            startListenToPeriphery();
+                        }
                     }
                 }
             }

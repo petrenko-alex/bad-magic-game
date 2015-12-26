@@ -46,6 +46,30 @@ public class GameModel {
 
     }
 
+    public void nextLevel() {
+
+        /* Текущий уровень - следующий */
+        setCurrentLevel( ++_currentLevel );
+
+        /* Инициализируем игрока */
+        initializePlayer();
+
+        /* Статус уровня */
+        _levelStatus = LevelStatus.PLAYING;
+    }
+
+    public void tryAgain() {
+
+        /* Текущий уровень - этот же */
+        setCurrentLevel( _currentLevel );
+
+        /* Инициализируем игрока */
+        initializePlayer();
+
+        /* Статус уровня */
+        _levelStatus = LevelStatus.PLAYING;
+    }
+
     public GameField getField() {
 
         return _field;
@@ -63,7 +87,7 @@ public class GameModel {
 
     public String getLevelName() {
 
-        return _currentLevel.getName();
+        return _levels.get(_currentLevel).getName();
     }
 
     public int getMoves() {
@@ -103,8 +127,8 @@ public class GameModel {
             return;
         }
 
-        _currentLevel = _levels.get(levelNumber);
-        _field = _currentLevel.getField();
+        _currentLevel = levelNumber;
+        _field = _levels.get(_currentLevel).getField();
     }
 
     private void initializePlayer() {
@@ -114,7 +138,7 @@ public class GameModel {
 
             _player = (Player)_field.getObjects(
                     Class.forName("badmagic.model.gameobjects.Player")).get(0);
-            _player.setMoves(_currentLevel.getMoves());
+            _player.setMoves(_levels.get(_currentLevel).getMoves());
             _player.addObjectListener(new ObjectsObserver());
 
         } catch ( ClassNotFoundException ex ) {
@@ -245,7 +269,7 @@ public class GameModel {
     private GameField _field;
     private Player    _player;
     private ArrayList<Level> _levels = new ArrayList();
-    private Level _currentLevel;
+    private int _currentLevel;
     private static final String PATH_TO_LEVELS_INFO_FILE =
                           "src/badmagic/resources/levels/levelsinfo.json";
 

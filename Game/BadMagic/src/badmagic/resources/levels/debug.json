@@ -1,0 +1,26 @@
+{
+	"LevelName": "Загадочный квадрат",
+	"LevelHistory": "Let's explore this mystery rectangle",
+	"PlayerMoves": 5,
+	"FieldSize": [5, 5],
+
+	"FieldObjects": [{
+		"Elixir": {
+			"Positions": [
+				[2, 3]
+			]
+		}
+	},{
+		"WoodenTable": {
+			"Positions": [
+				[2, 4]
+			]
+		}
+	}, {
+		"Player": {
+			"Positions": [
+				[1, 1]
+			]
+		}
+	}]
+}
