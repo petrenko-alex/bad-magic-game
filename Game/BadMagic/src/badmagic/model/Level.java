@@ -84,6 +84,16 @@ public class Level {
         return _name;
     }
 
+    public boolean isCompleted() {
+
+        return _isCompleted;
+    }
+
+    public void setIsCompleted(boolean isCompleted) {
+        
+        _isCompleted = isCompleted;
+    }
+
     public String getHistory() {
 
         return _history;
@@ -207,4 +217,5 @@ public class Level {
     private String _name = "default level name";
     private String _history = "default level history";
     private String _levelPath;
+    private boolean _isCompleted = false;
 }
