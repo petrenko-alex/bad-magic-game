@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
@@ -23,6 +24,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -248,14 +250,19 @@ public class GamePanel extends JPanel {
             _mainMenuBtn = new Rectangle(boxX + xPos, boxY + 200,
                     RES_BOX_BUTTON_WIDTH,
                     RES_BOX_BUTTON_HEIGHT);
-            g.drawString("Главное меню", boxX + xPos + 35, boxY + 225);
+
+            paintCenteredString(g, _mainMenuBtn, "Главное меню",
+                                _mainMenuBtn.y, _mainMenuBtn.x);
 
         } else {
 
             _mainMenuBtn = new Rectangle(boxX + 310, boxY + 200,
                     RES_BOX_BUTTON_WIDTH,
                     RES_BOX_BUTTON_HEIGHT);
-            g.drawString("Главное меню", boxX + 345, boxY + 225);
+
+            paintCenteredString(g, _mainMenuBtn, "Главное меню",
+                                _mainMenuBtn.y, _mainMenuBtn.x);
+
         }
         g2d.draw(_mainMenuBtn);
 
@@ -263,31 +270,38 @@ public class GamePanel extends JPanel {
         if (_model.getLevelStatus() == GameModel.LevelStatus.COMPLETED) {
 
             /* Если уровень успешно пройден */
-            g.drawString("Поздравляем!", boxX + 240, boxY + 30);
-            g.drawString("Вы успешно прошли уровень "
-                    + _model.getLevelName() + "!", boxX + 60, boxY + 60);
+            paintCenteredString( g, levelFinishedBox, "Поздравляем!",
+                                 boxY - 120, boxX);
+
+            paintCenteredString( g, levelFinishedBox, "Вы успешно прошли уровень "
+                    + _model.getLevelName() + "!", boxY - 90, boxX);
+
 
             if (_model.getGameMode() == GameModel.GameMode.CAREER
                     && !_model.isLastLevel()) {
 
                 g2d.draw(_nextActionBtn);
-                g.drawString("Следующий уровень", boxX + 70, boxY + 225);
+                paintCenteredString( g, _nextActionBtn, "Следующий уровень",
+                                     _nextActionBtn.y, _nextActionBtn.x);
 
             } else if (_model.getGameMode() == GameModel.GameMode.ONE_LEVEL) {
 
                 g2d.draw(_nextActionBtn);
-                g.drawString("Попробовать снова", boxX + 75, boxY + 225);
+                paintCenteredString( g, _nextActionBtn, "Попробовать снова",
+                                     _nextActionBtn.y, _nextActionBtn.x);
             }
 
         } else if (_model.getLevelStatus() == GameModel.LevelStatus.FAILED) {
 
             /* Если уровень провален */
-            g.drawString("Увы :(", boxX + 260, boxY + 30);
-            g.drawString("Вам не удалось пройти уровень "
-                    + _model.getLevelName() + "!", boxX + 40, boxY + 60);
+            paintCenteredString(g, levelFinishedBox, "Увы:(", boxY - 120, boxX);
+            paintCenteredString(g, levelFinishedBox, "Вам не удалось пройти уровень "
+                                + _model.getLevelName() + "!", boxY - 90, boxX);
+
 
             g2d.draw(_nextActionBtn);
-            g.drawString("Попробовать снова", boxX + 75, boxY + 225);
+            paintCenteredString(g, _nextActionBtn, "Попробовать снова",
+                                _nextActionBtn.y, _nextActionBtn.x);
         }
     }
 
@@ -304,6 +318,35 @@ public class GamePanel extends JPanel {
             objPos = getPanelPosition(objPos);
             obj.paint(g, objPos);
         }
+    }
+
+    /**
+     * Метод отрисоки строки посередине прямоугольной области.
+     *
+     * @param g среда отрисоки.
+     * @param area область,посередине которой отрисовывается строка.
+     * @param string строка.
+     * @param yStart смещение области в панели по y.
+     * @param xStart смещение области в панели по x.
+     */
+    private void paintCenteredString(Graphics g,Rectangle area,String string,
+                                     int yStart,int xStart) {
+
+        /* Настройки шрифта */
+        FontMetrics fm   = g.getFontMetrics(g.getFont());
+        Rectangle2D rect = fm.getStringBounds(string, g);
+
+        /* Размеры */
+        int textHeight = (int)(rect.getHeight());
+        int textWidth  = (int)(rect.getWidth());
+        int panelHeight= (int)(area.getHeight());
+        int panelWidth = (int)(area.getWidth());
+
+        /* Координаты начала */
+        int x = (panelWidth  - textWidth)  / 2;
+        int y = (panelHeight - textHeight) / 2  + fm.getAscent();
+
+        g.drawString(string, x + xStart, y + yStart);
     }
 
     /**
