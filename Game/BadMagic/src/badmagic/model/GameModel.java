@@ -60,6 +60,10 @@ public class GameModel {
 
     public void tryAgain() {
 
+        /* Загрузить уровень снова */
+        Level sameLevel = new Level(_levelNames.get(_currentLevel));
+        _levels.set(_currentLevel,sameLevel);
+        
         /* Текущий уровень - этот же */
         setCurrentLevel( _currentLevel );
 
@@ -98,12 +102,11 @@ public class GameModel {
     private void loadLevels() {
 
         Level level = null;
-        ArrayList<String> levelNames = null;
 
         /* Попытка загрузить имена файлов с уровнями */
         try {
 
-            levelNames = loadLevelNames();
+            _levelNames = loadLevelNames();
 
         } catch (Exception ex) {
 
@@ -112,7 +115,7 @@ public class GameModel {
         }
 
         /* Загружаем данные уровней */
-        for( Object i : levelNames ) {
+        for( Object i : _levelNames ) {
 
             level = new Level(i.toString());
             _levels.add(level);
@@ -269,6 +272,7 @@ public class GameModel {
     private GameField _field;
     private Player    _player;
     private ArrayList<Level> _levels = new ArrayList();
+    private ArrayList<String> _levelNames = new ArrayList();
     private int _currentLevel;
     private static final String PATH_TO_LEVELS_INFO_FILE =
                           "src/badmagic/resources/levels/levelsinfo.json";
