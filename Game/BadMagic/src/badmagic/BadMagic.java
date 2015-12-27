@@ -1,4 +1,5 @@
 package badmagic;
+
 import badmagic.events.MenuEvent;
 import badmagic.events.MenuListener;
 import badmagic.events.PanelListener;
@@ -17,11 +18,24 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-
+/**
+ * Главный класс программы.
+ *
+ * Содержит метод main. Управляет переходом между меню и панелью
+ * и запуском игры.
+ *
+ * @author Alexander Petrenko, Alexander Lyashenko
+ */
 public class BadMagic  {
 
+    /** Статический логер программы */
     public static final Logger log = Logger.getLogger(BadMagic.class.getName());
 
+    /**
+     * Main-метод, запускающий игру.
+     *
+     * @param args аргументы командной строки.
+     */
     public static void main(String[] args) {
 
         SwingUtilities.invokeLater(new Runnable() {
@@ -33,6 +47,12 @@ public class BadMagic  {
         });
     }
 
+    /**
+     * Конструктор класса.
+     *
+     * Инициализирует поля. Устанавливает текущую панель.
+     * Настраивает размеры и свойства окна.
+     */
     private BadMagic() {
 
         try {
@@ -62,16 +82,31 @@ public class BadMagic  {
         _window.pack();
     }
 
+    /**
+     * Статический метод получения ширины окна.
+     *
+     * @return int - ширина окна.
+     */
     public static int getWindowWidth() {
 
         return WIDTH;
     }
 
+    /**
+     * Статический метод получения высоты окна.
+     *
+     * @return int - высота окна.
+     */
     public static int getWindowHeight() {
 
         return HEIGHT;
     }
 
+    /**
+     * Метод отображения сообщения об ошибке
+     *
+     * @param msg сообщение.
+     */
     private void showErrorMessage(String msg) {
 
         JOptionPane.showMessageDialog(  _window,
@@ -80,6 +115,13 @@ public class BadMagic  {
                                         JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * Метод переключения панели главного окна.
+     *
+     * Переключает пануль с текущей на panel.
+     *
+     * @param panel панель, которая будет отображаться в окне.
+     */
     private void changePanelTo(JPanel panel) {
 
         _window.getContentPane().removeAll();
@@ -89,8 +131,15 @@ public class BadMagic  {
         panel.requestFocus();
     }
 
+    /**
+     * Внутренний класс - слушатель меню.
+     */
     private class MenuObserver implements MenuListener {
 
+        /**
+         * Метод, обрабатывающий сигнал о начале новой игры.
+         * @param e событие.
+         */
         @Override
         public void startCareerClicked(MenuEvent e) {
 
@@ -109,6 +158,10 @@ public class BadMagic  {
             }
         }
 
+        /**
+         * Метод, обрабатывающий сигнал о продолжении игры.
+         * @param e событие.
+         */
         @Override
         public void continueCareerClicked(MenuEvent e) {
 
@@ -127,6 +180,10 @@ public class BadMagic  {
             }
         }
 
+        /**
+         * Метод, обрбатывающий сигнал о выборе конкретного уровня.
+         * @param e
+         */
         @Override
         public void levelChoosen(MenuEvent e) {
 
@@ -146,8 +203,15 @@ public class BadMagic  {
         }
     }
 
+    /**
+     * Внутренний класс - слушатель панели.
+     */
     private class PanelObserver implements PanelListener {
 
+        /**
+         * Метод, обрабатывающий сигнал о нажатии кнопки "Главное меню"
+         * @param e
+         */
         @Override
         public void mainMenuClicked(EventObject e) {
 
@@ -161,11 +225,28 @@ public class BadMagic  {
         }
     }
 
+    //////////////////////////// Константы ////////////////////////////////////
+
+    /** Заголовок окна */
     private static final String TITLE = "Bad Magic";
+
+    /** Ширина окна */
     private static final int WIDTH = 1280;
+
+    /** Высота окна */
     private static final int HEIGHT = 720;
+
+    //////////////////////////// Данные ///////////////////////////////////////
+
+    /** Главное окна */
     private JFrame _window;
+
+    /** Игровая модель */
     private GameModel _gameModel;
+
+    /** Игровая панель */
     private GamePanel _gamePanel;
+
+    /** Игровое меню */
     private GameMenu _gameMenu;
 }

@@ -11,29 +11,69 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
-
+/**
+ * Класс представляет игрока.
+ *
+ * Наследник класса GameObject. Реализует абстрактные методы.
+ * Имеет образ - изображение, направление взгляда и количество ходов.
+ *
+ * @author Alexander Petrenko, Alexander Lyashenko
+ */
 public class Player extends GameObject {
 
+    /**
+     * Конструктор класса.
+     *
+     * Инициализирует поля. Загружает изображение объекта.
+     *
+     * @param field ссылка на игровое поле.
+     */
     public Player(GameField field) {
         super(field);
         loadPic();
     }
 
+    /**
+     * Метод получения количества ходов игрока.
+     *
+     * @return int - количество ходов
+     */
     public int getMoves() {
 
         return _moves;
     }
 
+    /**
+     * Метод установки количества ходов игрока.
+     *
+     * @param moves количество ходов.
+     */
     public void setMoves(int moves) {
 
         _moves = moves;
     }
 
+    /**
+     * Метод перехода игрока на соседнюю клетку в направлении.
+     *
+     * Обертка над одноименным методом. Флаг изменения направления
+     * взгляда установлен в true.
+     *
+     * @param moveDirection направление перемещения.
+     */
     public void move(Direction moveDirection) {
 
         move(moveDirection,true);
     }
 
+    /**
+     * Метод перемещения объекта на соседнюю клетку.
+     *
+     * Перемещает игрока и объект на который он смотрит
+     * на соседние клетки в направлении, если они свободны.
+     *
+     * @param moveDirection направление перемещения.
+     */
     public void moveObject(Direction moveDirection) {
 
         GameObject nextObject = null;
@@ -87,6 +127,12 @@ public class Player extends GameObject {
         }
     }
 
+    /**
+     * Метод отрисовки объекта.
+     *
+     * @param g среда отрисовки.
+     * @param pos позиция отрисоки.
+     */
     @Override
     public void paint(Graphics g,Point pos) {
 
@@ -95,6 +141,9 @@ public class Player extends GameObject {
         g2d.drawImage(_image, at, null);
     }
 
+    /**
+     * Метод загрузки изображения объекта.
+     */
     @Override
     protected void loadPic() {
 
@@ -108,6 +157,13 @@ public class Player extends GameObject {
         }
     }
 
+    /**
+     * Метод поворота изображения игрока.
+     *
+     * @param direction направление поворота.
+     * @param pos позиция объекта.
+     * @return AffineTransform - объект трансформации.
+     */
     private AffineTransform rotate(Direction direction,Point pos) {
 
         int angle = direction.getAngle();
@@ -119,6 +175,16 @@ public class Player extends GameObject {
         return at;
     }
 
+    /**
+     * Метод перехода игрока на соседнюю клетку в направлении.
+     *
+     * Перемещает игрока на соседнюю клетку в заданном направлении,
+     * если она свободна, изменяет направление взгляда, уменьшает
+     * количество ходов, испускает сигнал о перемещении.
+     *
+     * @param moveDirection направление перемещения.
+     * @param needToChangeDirection флаг - менять ли направление взгляда.
+     */
     private void move(Direction moveDirection,boolean needToChangeDirection) {
 
         if( needToChangeDirection ) {
@@ -142,7 +208,14 @@ public class Player extends GameObject {
         }
     }
 
+    ///////////////////////////// Данные //////////////////////////////////////
+    
+    /** Количество ходов игрока */
     private int _moves;
+
+    /** Направление взгляда игрока */
     private Direction _gazeDirection = Direction.north();
+
+    /** Путь к файлу с изображением */
     private static final String PIC = "/badmagic/resources/goat.png";
 }

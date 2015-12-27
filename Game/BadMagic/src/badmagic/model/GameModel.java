@@ -20,19 +20,52 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 
+/**
+ * Класс представляет модель игры.
+ *
+ * Отвечает за логику игры: загрузку уровней,
+ * режимы игры, переход между уровнями, определение завершенности уровня.
+ * сохранение и загрузка информации о прохождении
+ *
+ * @author Alexander Petrenko, Alexander Lyashenko
+ */
 public class GameModel {
 
+    /**
+     * Конструктор класса.
+     *
+     * Загружает уровни игры.
+     *
+     * @throws Exception при возникновении ошибок загрузки уровней.
+     */
     public GameModel() throws Exception {
 
         loadLevels();
     }
 
+    /**
+     * Метод начала новой игры в режиме карьеры.
+     *
+     * Загружает первый уровень и дальше игра продолжается
+     * пока есть уровни.
+     *
+     * @throws Exception при возникновении ошибок загрузки уровней.
+     */
     public void startNewCareer() throws Exception {
 
         startLevel(0);
         _gameMode = GameMode.CAREER;
     }
 
+    /**
+     * Метод продожения игры в режиме карьеры
+     *
+     * Загружает из номер последнего пройденного уровня,
+     * загружает этот уровень и дальше игра продолжается
+     * пока есть уровни.
+     *
+     * @throws Exception при возникновении ошибок загрузки уровней.
+     */
     public void continueCareer() throws Exception {
 
         /* Попытка загрузить данные о прохождении */
@@ -49,6 +82,15 @@ public class GameModel {
         _gameMode = GameMode.CAREER;
     }
 
+    /**
+     * Метод начала игры в режиме одного уровня.
+     *
+     * Загружает выбранный уровень и дальше игра продолжается
+     * пока есть уровни.
+     *
+     * @param levelNumber номер уровня
+     * @throws Exception при возникновении ошибок загрузки уровней.
+     */
     public void oneLevelMode(int levelNumber) throws Exception {
 
         startLevel(levelNumber);
@@ -56,6 +98,9 @@ public class GameModel {
 
     }
 
+    /**
+     * Метод перехода к следующему уровню игры.
+     */
     public void nextLevel() {
 
         /* Текущий уровень - следующий */
@@ -69,6 +114,9 @@ public class GameModel {
         _levelStatus = LevelStatus.PLAYING;
     }
 
+    /**
+     * Метод повторного прохождения уровня.
+     */
     public void tryAgain() {
 
         /* Загрузить уровень снова */
@@ -82,7 +130,7 @@ public class GameModel {
             ex.printStackTrace();
             return;
         }
-        
+
         _levels.set(_currentLevel,sameLevel);
 
         /* Текущий уровень - этот же */
@@ -95,31 +143,61 @@ public class GameModel {
         _levelStatus = LevelStatus.PLAYING;
     }
 
+    /**
+     * Метод получения текущего игрового поля.
+     *
+     * @return GameField - текущее игровое поле.
+     */
     public GameField getField() {
 
         return _field;
     }
 
+    /**
+     * Метод получения текущего игрока.
+     *
+     * @return Player - текущий игрок
+     */
     public Player getPlayer() {
 
         return _player;
     }
 
+    /**
+     * Метод получения статуса текущего уровня.
+     *
+     * @return LevelStatus - статус уровня.
+     */
     public LevelStatus getLevelStatus() {
 
         return _levelStatus;
     }
 
+    /**
+     * Метод получения текущего игрового режима.
+     *
+     * @return GameMode - текущий игровой режим
+     */
     public GameMode getGameMode() {
 
         return _gameMode;
     }
 
+    /**
+     * Метод получения имени текущего уровня.
+     *
+     * @return String - имя текущего уровня.
+     */
     public String getLevelName() {
 
         return _levels.get(_currentLevel).getName();
     }
 
+    /**
+     * Статический метод получения имен уровней игры.
+     *
+     * @return ArrayList - список имен уровней игры.
+     */
     static public ArrayList<String> getLevelNames() {
 
         ArrayList<String> levelNames = new ArrayList<>();
@@ -132,16 +210,31 @@ public class GameModel {
         return levelNames;
     }
 
+    /**
+     * Метод получения количества ходов текущего уровня.
+     *
+     * @return int - количество ходов.
+     */
     public int getMoves() {
 
         return _player.getMoves();
     }
 
+    /**
+     * Метод,получения информации о том, является ли текущий уровень последним.
+     *
+     * @return boolean - флаг - последний ли уровень
+     */
     public boolean isLastLevel() {
 
         return (_levels.size() - 1) == _currentLevel;
     }
 
+    /**
+     * Метод загрузки уровней игры.
+     *
+     * @throws Exception при возникновении ошибок загрузки.
+     */
     private void loadLevels() throws Exception {
 
         Level level = null;
@@ -159,6 +252,12 @@ public class GameModel {
         }
     }
 
+    /**
+     * Метод начала уровня номер levelNumber.
+     *
+     * @param levelNumber номер уровня.
+     * @throws Exception при возникновении ошибок загрузки уровня.
+     */
     private void startLevel(int levelNumber) throws Exception {
 
         reset();
@@ -174,6 +273,11 @@ public class GameModel {
         _levelStatus = LevelStatus.PLAYING;
     }
 
+    /**
+     * Метод установки уровня номер leveNumber как текущего.
+     *
+     * @param levelNumber номер уровня.
+     */
     private void setCurrentLevel(int levelNumber) {
 
         if(levelNumber < 0 || levelNumber > (_levels.size() - 1) ) {
@@ -185,6 +289,9 @@ public class GameModel {
         _field = _levels.get(_currentLevel).getField();
     }
 
+    /**
+     * Метод инициализации текущего игрока.
+     */
     private void initializePlayer() {
 
         /* Устанавливаем игрока */
@@ -201,6 +308,14 @@ public class GameModel {
         }
     }
 
+    /**
+     * Метод проверки, завершен ли уровень.
+     *
+     * Проверяет, достиг ли игрок игрового объекта Elixir.
+     * Если да - посылает сигнал об успешном прохождении уровня.
+     * Если нет - проверяет оставшееся количество ходов и
+     * если оно 0 - посылает сигнал о неуспешном прохождении уровня.
+     */
     private void checkIfLevelIsFinished() {
 
         GameObject elixir = null;
@@ -233,6 +348,9 @@ public class GameModel {
         }
     }
 
+    /**
+     * Метод сохранения информации о последнем пройденном уровне в файл.
+     */
     public static void saveGameProgress() {
 
         JSONObject obj = new JSONObject();
@@ -249,6 +367,11 @@ public class GameModel {
         }
     }
 
+    /**
+     * Метод загрузки информации о последнем пройденном уровне из файла.
+     *
+     * @throws Exception при возникновении ошибок загрузки.
+     */
     public void loadGameProgress() throws Exception {
 
         JSONParser parser = new JSONParser();
@@ -275,6 +398,9 @@ public class GameModel {
         }
     }
 
+    /**
+     * Метод сброса модели.Очищает поля класса.
+     */
     private void reset() {
 
         if( _field != null ) {
@@ -288,6 +414,15 @@ public class GameModel {
         _levelNames.clear();
     }
 
+    /**
+     * Статический метод загрузки информации об уровнях игры.
+     *
+     * Загружает пути к файлам уровней из специального файла
+     * с информацией об уровнях игры.
+     *
+     * @return ArrayList - список путей к файлам уровней.
+     * @throws Exception при возникновении ошибок загрузки.
+     */
     private ArrayList<String> loadLevelNames() throws Exception {
 
         ArrayList<String> levels = new ArrayList();
@@ -309,8 +444,21 @@ public class GameModel {
         return levels;
     }
 
+    /**
+     * Внутренний класс - слушатель игровых объектов.
+     *
+     * Вызывает метод проверки, завершен ли уровень
+     * при получении сигнала о том, что игровой объект перемещен.
+     */
     private class ObjectsObserver implements GameObjectListener {
 
+        /**
+         * Метод, обрабатывающий получение сигнала о перемещении объекта.
+         *
+         * Проверяет, завершен ли уровень.
+         *
+         * @param e событие.
+         */
         @Override
         public void objectMoved(EventObject e) {
 
@@ -320,16 +468,29 @@ public class GameModel {
 
     //////////////////////// События объектов /////////////////////////////////
 
+    /**
+     * Метод добавления слушателя игровых объектов.
+     * @param l слушатель.
+     */
     public void addObjectListener(GameObjectListener l) {
 
         _objectsListenerList.add(l);
     }
 
+    /**
+     * Метод удаления слушаетля игровых объектов.
+     * @param l слушатель.
+     */
     public void removeObjectListener(GameObjectListener l) {
 
         _objectsListenerList.remove(l);
     }
 
+    /**
+     * Метод испускания сигнала о перемещении игровых объектов.
+     *
+     * @param e событие.
+     */
     protected void fireObjectMoved(EventObject e) {
 
         for (Object listener : _objectsListenerList) {
@@ -338,20 +499,32 @@ public class GameModel {
         }
     }
 
+    /** Список слушателей игровых объектов */
     private ArrayList _objectsListenerList = new ArrayList();
 
-    ////////////////////////// События игры ///////////////////////////////////
+    ////////////////////////// События модели /////////////////////////////////
 
+    /**
+     * Метод добавления слушателя модели.
+     * @param l слушатель.
+     */
     public void addModelListener(ModelListener l) {
 
         _modelListenerList.add(l);
     }
 
+    /**
+     * Метод удаления слушаетля модели.
+     * @param l слушатель.
+     */
     public void removeModelListener(ModelListener l) {
 
         _modelListenerList.remove(l);
     }
 
+    /**
+     * Метод испускания сигнала об успешном прохождении уровня.
+     */
     protected void fireLevelCompleted() {
 
         EventObject event = new EventObject(this);
@@ -361,6 +534,9 @@ public class GameModel {
         }
     }
 
+    /**
+     * Метод испускания сигнала о неуспешном прохождении уровня.
+     */
     protected void fireLevelFailed() {
 
         EventObject event = new EventObject(this);
@@ -370,24 +546,47 @@ public class GameModel {
         }
     }
 
+    /** Список слушателей модели */
     private ArrayList _modelListenerList = new ArrayList();
 
     //////////////////////////// Данные ///////////////////////////////////////
 
+    /** Игровое поле */
     private GameField _field;
+
+    /** Номер текущего уровня */
     private int _currentLevel;
-    private Player    _player;
+
+    /** Игрок */
+    private Player _player;
+
+    /** Текущий игровой режим */
     private GameMode _gameMode;
+
+    /** Статус текущего уровня */
     private LevelStatus _levelStatus;
+
+    /** Номер последнего пройденного уровня */
     private static int _lastCompletedLevel = 0;
+
+    /** Список уровней игры */
     private static ArrayList<Level> _levels = new ArrayList();
+
+    /** Список имен уровней игры */
     private ArrayList<String> _levelNames = new ArrayList();
+
+    /** Слушатель игровых объектов */
     private ObjectsObserver _objectsObserver = new ObjectsObserver();
+
+    /** Путь к файлу с информацией об уровнях */
     private static final String PATH_TO_LEVELS_INFO_FILE =
                           "src/badmagic/resources/levels/levelsinfo.json";
+
+    /** Путь к файлу с информацией о прогрессе игры */
     private static final String PATH_TO_GAME_PROGRESS_FILE =
                           "src/badmagic/resources/gameprogress.json";
 
+    /** Статус уровня */
     public enum LevelStatus {
 
     COMPLETED,
@@ -395,6 +594,7 @@ public class GameModel {
     PLAYING
     }
 
+    /** Игровой режим */
     public enum GameMode {
 
     CAREER,

@@ -31,8 +31,21 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ * Класс представляет игровое меню.
+ *
+ * Позводяет начать новую игру в режиме карьеры,
+ * продолжить текущую игру, пройти конкретный уровень.
+ *
+ * @author Alexander Petrenko, Alexander Lyashenko
+ */
 public class GameMenu extends JPanel {
 
+    /**
+     * Конструктор класса.
+     *
+     * Настраивает размеры и вид панели.
+     */
     public GameMenu() {
 
         super();
@@ -43,6 +56,11 @@ public class GameMenu extends JPanel {
         requestFocus();
     }
 
+    /**
+     * Метод отрисовки компонентов панели.
+     *
+     * @param g среда отрисовки.
+     */
     @Override
     public void paintComponent(Graphics g) {
 
@@ -93,6 +111,9 @@ public class GameMenu extends JPanel {
         }
     }
 
+    /**
+     * Метод отключения слушателей мыши.
+     */
     public void stopListenToPeriphery() {
 
         if( _menuMode == MenuMode.MAIN_MENU ) {
@@ -105,6 +126,9 @@ public class GameMenu extends JPanel {
         }
     }
 
+    /**
+     * Метод подключения слушателей мыши.
+     */
     public void startListenToPeriphery() {
 
         if( _menuMode == MenuMode.MAIN_MENU ) {
@@ -117,6 +141,11 @@ public class GameMenu extends JPanel {
         }
     }
 
+    /**
+     * Метод отрисовки главного меню.
+     *
+     * @param g среда отрисовки.
+     */
     private void paintMainMenu(Graphics g) {
 
         Graphics2D g2d = (Graphics2D)g;
@@ -140,6 +169,11 @@ public class GameMenu extends JPanel {
         g2d.draw(_quitGameBtn);
     }
 
+    /**
+     * Метод отрисовки меню выбора уровня.
+     *
+     * @param g среда отрисовки.
+     */
     private void paintLevelMenu(Graphics g) {
 
         Graphics2D g2d = (Graphics2D)g;
@@ -179,6 +213,15 @@ public class GameMenu extends JPanel {
                             _backToMainMenuBtn.y,_backToMainMenuBtn.x);
     }
 
+    /**
+     * Метод отрисоки строки посередине прямоугольной области.
+     *
+     * @param g среда отрисоки.
+     * @param area область,посередине которой отрисовывается строка.
+     * @param string строка.
+     * @param yStart смещение области в панели по y.
+     * @param xStart смещение области в панели по x.
+     */
     private void paintCenteredString(Graphics g,Rectangle area,String string,
                                      int yStart,int xStart) {
 
@@ -199,6 +242,13 @@ public class GameMenu extends JPanel {
         g.drawString(string, x + xStart, y + yStart);
     }
 
+    /**
+     * Метод получения номера уровня по координатам клика мыши.
+     *
+     * @param x координата X клика мыши.
+     * @param y координата Y клика мыши.
+     * @return int - номер уровня.
+     */
     private int getLevelNumberByClickCoordinates(int x,int y) {
 
         int size = _levelBtns.size();
@@ -219,18 +269,27 @@ public class GameMenu extends JPanel {
 
     //////////////////////////// Сигналы //////////////////////////////////////
 
-    private ArrayList _listenerList = new ArrayList();
-
+    /**
+     * Метод добавления слушателя меню.
+     * @param l слушатель.
+     */
     public void addMenuListener(MenuListener l) {
 
         _listenerList.add(l);
     }
 
+    /**
+     * Метод удаления слушателя меню.
+     * @param l слушатель.
+     */
     public void removeMenuListener(MenuListener l) {
 
         _listenerList.remove(l);
     }
 
+    /**
+     * Метод испускания сигнала о начале новой игры.
+     */
     protected void fireStartCareerClicked() {
 
         MenuEvent e = new MenuEvent(this);
@@ -241,6 +300,9 @@ public class GameMenu extends JPanel {
         }
     }
 
+    /**
+     * Метод испускания сигнала о продолжении игры.
+     */
     protected void fireContinueCareerClicked() {
 
         MenuEvent e = new MenuEvent(this);
@@ -250,6 +312,10 @@ public class GameMenu extends JPanel {
         }
     }
 
+    /**
+     * Метод испускания сигнала о прохождении конкретного уровня.
+     * @param levelNumber номер уровня.
+     */
     protected void fireLevelChoosen(int levelNumber) {
 
         MenuEvent e = new MenuEvent(this);
@@ -260,10 +326,20 @@ public class GameMenu extends JPanel {
         }
     }
 
+    /** Список слушателей меню */
+    private ArrayList _listenerList = new ArrayList();
+
     //////////////////////////// Слушатели ////////////////////////////////////
 
+    /**
+     * Внутренний класс - слушатель мыши для главного меню.
+     */
     private class MainMenuClickListener extends MouseAdapter {
 
+        /**
+         * Метод, обрабатывающий клики мыши.
+         * @param e событие.
+         */
         @Override
         public void mouseClicked(MouseEvent e) {
 
@@ -323,8 +399,15 @@ public class GameMenu extends JPanel {
         }
     }
 
+    /**
+     * Внутренний класс - слушатель мыши для меню выбора уровн.
+     */
     private class LevelMenuClickListener extends MouseAdapter {
 
+        /**
+         * Метод, обрабатывающий клики мыши.
+         * @param e событие.
+         */
         @Override
         public void mouseClicked(MouseEvent e) {
 
@@ -361,39 +444,67 @@ public class GameMenu extends JPanel {
 
     //////////////////////////// Константы ////////////////////////////////////
 
+    /** Путь к фону меню */
     private static final String MENU_BACKGROUND_PATH = "/badmagic/resources/menu.png";
+
+    /** Путь к шрифту */
     private static final String MENU_FONT_PATH = "/badmagic/resources/menu.ttf";
 
+    /** Размер шрифта */
     private static final float FONT_SIZE = 50;
+
+    /** Тип шрифта */
     private static final String FONT_TYPE = "Comic Sans MS";
+
+    /** Цвет шрифта */
     private static final Color FONT_COLOR = new Color(205, 133, 63);
 
+    /** Координата X приветствующей строки */
     private static final int WELCOME_STRING_X = 350;
+
+    /** Координата Y приветствующей строки */
     private static final int WELCOME_STRING_Y = 100;
+
+    /** Приветствующая строка */
     private static final String WELCOME_STRING = "Welcome To Bad Magic";
+
+    /** Строка меню выбора уровня */
     private static final String LEVEL_STRING = "Выберите уровень";
 
+    /** Цвет фона */
     private static final Color BACKGROUND_COLOR = new Color(47, 79, 79);
 
+    /** Ширина кнопок уровней */
     private static final int LVL_BUTTON_WIDTH = 300;
+
+    /** Высота кнопок уровней */
     private static final int LVL_BUTTON_HEIGHT = 30;
+
+    /** Разделитель между кнопками уровней */
     private static final int LVL_BUTTON_SPLITTER = 10;
+
+    /** Ширина кнопок меню */
     private static final int BUTTON_WIDTH = 400;
+
+    /** Высота кнопок меню */
     private static final int BUTTON_HEIGHT = 60;
 
-
+    /** "Кнопка" Новая игра */
     private Rectangle _newGameBtn
                       = new Rectangle(BadMagic.getWindowWidth() / 6 - 150,
                                       300, BUTTON_WIDTH, BUTTON_HEIGHT);
 
+    /** "Кнопка" Продолжить */
     private Rectangle _continueGameBtn
                       = new Rectangle(BadMagic.getWindowWidth() / 6 - 150,
                                       400, BUTTON_WIDTH, BUTTON_HEIGHT);
 
+    /** "Кнопка" Выбрать уровень */
     private Rectangle _chooseLevelBtn
                       = new Rectangle(BadMagic.getWindowWidth() / 6 - 150,
                                       500, BUTTON_WIDTH, BUTTON_HEIGHT);
 
+    /** "Кнопка" Выход*/
     private Rectangle _quitGameBtn
                       = new Rectangle(BadMagic.getWindowWidth() / 6 - 150,
                                       600, BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -401,17 +512,27 @@ public class GameMenu extends JPanel {
 
     //////////////////////////// Данные ///////////////////////////////////////
 
+    /** Режим меню */
     private enum MenuMode {
 
         MAIN_MENU,
         LEVEL_MENU
     }
+
+    /** "Кнопка" Назад */
     private Rectangle _backToMainMenuBtn;
+
+    /** Текущий режим меню */
     private MenuMode _menuMode = MenuMode.MAIN_MENU;
+
+    /** Список "кнопок" уровней */
     ArrayList<Rectangle> _levelBtns = new ArrayList<>();
+
+    /** Слушатель мыши для главного меню */
     private MainMenuClickListener _mainMenuMouseListener
                                                 = new MainMenuClickListener();
+
+    /** Слушатель мыши для меню выбора уровня */
     private LevelMenuClickListener _levelMenuMouseListener
                                                 = new LevelMenuClickListener();
-
 }

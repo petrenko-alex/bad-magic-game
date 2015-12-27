@@ -9,15 +9,38 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-
+/**
+ * Класс представляет игровую поле.
+ *
+ * Построен на основе полиморфного контейнера игровых объектов
+ * с добавлением логики поля.
+ *
+ * @author Alexander Petrenko, Alexander Lyashenko
+ */
 public class GameField {
 
+    /**
+     * Конструктор игрового поля с параметрами.
+     *
+     * Устанавливает размер поля.
+     *
+     * @param width ширина поля.
+     * @param height высота поля.
+     */
     public GameField(int width,int height) {
 
         setSize(width,height);
     }
 
     /////////////////// Работа с клетками поля ////////////////////////////////
+
+    /**
+     * Метод получения следующей позиции в указанном направлнеии.
+     *
+     * @param currentPos текущая позиция.
+     * @param direction направление.
+     * @return Point - следующая позиция.
+     */
     public Point getNextPos(Point currentPos, Direction direction) {
 
         /* Проверка на невалидные аргументы */
@@ -55,6 +78,12 @@ public class GameField {
         return nextPos;
     }
 
+    /**
+     * Метод проверки позиции на незанятость.
+     *
+     * @param pos позиция, которая проверяется.
+     * @return boolean - флаг - занята ли позиция.
+     */
     public boolean isPosEmpty(Point pos) {
 
         /* Проверка переданных координат на принадлежность полю */
@@ -80,6 +109,13 @@ public class GameField {
         return isEmpty;
     }
 
+    /**
+     * Метод проверки следующей позиции в направлении на незанятость.
+     *
+     * @param currentPos текущая позиция.
+     * @param direction направление.
+     * @return boolean - флаг - занята ли следующая позиция.
+     */
     public boolean isNextPosEmpty(Point currentPos, Direction direction) {
 
         Point nextPos = getNextPos(currentPos,direction);
@@ -87,29 +123,64 @@ public class GameField {
     }
 
     /////////////////// Работа с размерами поля ///////////////////////////////
+
+    /**
+     * Метод установления размера поля
+     *
+     * @param width ширина
+     * @param height высота
+     */
     public void setSize(int width,int height) {
 
         setWidth(width);
         setHeight(height);
     }
 
+    /**
+     * Метод получения ширины поля
+     *
+     * @return int - ширина поля.
+     */
     public int getWidth() {
         return _width;
     }
 
+    /**
+     * Метод установки ширины поля.
+     *
+     * @param width ширина.
+     */
     public void setWidth(int width) {
         _width = width;
     }
 
+    /**
+     * Метод получения высоты поля
+     *
+     * @return int - высота поля.
+     */
     public int getHeight() {
         return _height;
     }
 
+    /**
+     * Метод установки высоты поля.
+     *
+     * @param height высота.
+     */
     public void setHeight(int height) {
         _height = height;
     }
 
     /////////////////// Работа с объектами поля ///////////////////////////////
+
+    /**
+     * Метод добавления объекта на поле.
+     *
+     * @param pos позиция объекта.
+     * @param obj объект добавления.
+     * @return boolean - флаг - успешност добавления.
+     */
     public boolean addObject(Point pos, GameObject obj) {
 
        Class objClass = obj.getClass();
@@ -131,6 +202,12 @@ public class GameField {
         return false;
     }
 
+    /**
+     * Метод удаления объекта с поля.
+     *
+     * @param obj объект поля.
+     * @return boolean - флаг - успешность удаления.
+     */
     public boolean removeObject(GameObject obj) {
 
         boolean isSuccessful = false;
@@ -148,6 +225,11 @@ public class GameField {
         return isSuccessful;
     }
 
+    /**
+     * Метод получения объектов поля.
+     *
+     * @return ArrayList - все объекты поля.
+     */
     public ArrayList<GameObject> getObjects() {
 
         ArrayList<GameObject> objList = new ArrayList<>();
@@ -161,6 +243,12 @@ public class GameField {
         return objList;
     }
 
+    /**
+     * Метод получения объетов поля с заданной позицией.
+     *
+     * @param pos позиция объектов.
+     * @return ArrayList - все объекты поля с заданной позицией.
+     */
     public ArrayList<GameObject> getObjects(Point pos) {
 
         ArrayList<GameObject> objList = new ArrayList<>();
@@ -179,6 +267,12 @@ public class GameField {
         return objList;
     }
 
+    /**
+     * Метод получения объектов поля заданного типа.
+     *
+     * @param objType тип объекта получения.
+     * @return ArrayList - все объекты поля заданного типа.
+     */
     public ArrayList<GameObject> getObjects(Class objType) {
 
         ArrayList<GameObject> objList = new ArrayList<>();
@@ -190,6 +284,13 @@ public class GameField {
         return objList;
     }
 
+    /**
+     * Метод получения объектов заданного типа и позиции.
+     *
+     * @param objType тип объекта получения.
+     * @param pos позиция объекта получения.
+     * @return ArrayList - все объекты поля заданного типа и позиции.
+     */
     public ArrayList<GameObject> getObjects(Class objType, Point pos) {
 
         ArrayList<GameObject> objList = new ArrayList<>();
@@ -207,6 +308,12 @@ public class GameField {
         return objList;
     }
 
+    /**
+     * Метод проверки позиции на уникальность - незанятость.
+     *
+     * @param pos позиция, которая проверяется.
+     * @return boolean - флаг - не занята ли позиция.
+     */
     public boolean isPositionUnique(Point pos) {
 
         ArrayList<GameObject> objects = getObjects();
@@ -221,13 +328,24 @@ public class GameField {
         return true;
     }
 
+    /**
+     * Метод очистки игрового поля.
+     *
+     * Очищает игровые объекты поля.
+     */
     public void clear() {
 
         _gameObjects.clear();
     }
 
     //////////////////////////////// Данные ///////////////////////////////////
+
+    /** Ширина поля */
     private int _width;
+
+    /** Высота поля */
     private int _height;
+
+    /** Игровые объекты поля */
     private Map<Class, ArrayList<GameObject>> _gameObjects = new LinkedHashMap<>();
 }

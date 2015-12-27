@@ -19,14 +19,38 @@ import badmagic.model.gameobjects.GameObjectsFactory;
 import java.util.Set;
 import java.util.logging.Logger;
 
-
+/**
+ * Класс представляет игровой уровень.
+ *
+ * Считывает уровень из json файла
+ * и хранит информацию о нем.
+ *
+ * @author Alexander Petrenko, Alexander Lyashenko
+ */
 public class Level {
 
+    /**
+     * Конструктор класса.
+     *
+     * Загружает уровнень игры.
+     *
+     * @param levelPath путь к файлу уровня.
+     * @throws Exception при возникновении ошибок загрузки или парсинга файла.
+     */
     Level(String levelPath) throws Exception {
 
         loadLevel(levelPath);
     }
 
+    /**
+     * Загрузить уровень из файла.
+     *
+     * Загружает json файл уровня, считывает его данные
+     * и инициализирует поля класса.
+     *
+     * @param levelPath путь к файлу уровня.
+     * @throws Exception при возникновении ошибок загрузки или парсинга.
+     */
     public void loadLevel(String levelPath) throws Exception {
 
         _levelPath = levelPath;
@@ -61,36 +85,75 @@ public class Level {
         parseObjects(json);
     }
 
+    /**
+     * Метод получения количества ходов уровня.
+     *
+     * @return int - количество ходов уровня.
+     */
     public int getMoves() {
 
         return _moves;
     }
 
+    /**
+     * Метод получения поля уровня.
+     *
+     * @return GameField - поле уровня.
+     */
     public GameField getField() {
 
         return _field;
     }
 
+    /**
+     * Метод получения имени уровня.
+     *
+     * @return String - имя уровня.
+     */
     public String getName() {
 
         return _name;
     }
 
+    /**
+     * Метод получения флага - пройден ли уровень.
+     *
+     * @return boolean - флаг - пройден ли уровень.
+     */
     public boolean isCompleted() {
 
         return _isCompleted;
     }
 
+    /**
+     * Метод установки флага - пройден ли уровень.
+     *
+     * @param isCompleted пройден ли уровень.
+     */
     public void setIsCompleted(boolean isCompleted) {
 
         _isCompleted = isCompleted;
     }
 
+    /**
+     * Метод получения истории уровня.
+     *
+     * @return String - история уровня.
+     */
     public String getHistory() {
 
         return _history;
     }
 
+    /**
+     * Метод разбора и установки размеров полей.
+     *
+     * Находит в json объекте данные о размерах поля
+     * и устанавливает их как размеры поля _field.
+     *
+     * @param json объект файла уровня.
+     * @throws Exception при возникновении ошибок разбора.
+     */
     private void parseFieldSize(JSONObject json) throws Exception {
 
         if ( json.containsKey("FieldSize") ) {
@@ -127,6 +190,15 @@ public class Level {
         }
     }
 
+    /**
+     * Метод разбора и установки игровых объектов.
+     *
+     * Находит в json объекте данные об игровых объектах
+     * и устанавливает их как объекты поля _field.
+     *
+     * @param json объект файла уровня.
+     * @throws Exception при возникновении ошибок разбора.
+     */
     private void parseObjects(JSONObject json) throws Exception {
 
         if ( json.containsKey("FieldObjects") ) {
@@ -156,6 +228,16 @@ public class Level {
         }
     }
 
+    /**
+     * * Метод разбора и установки одного типа игрового объектоа.
+     *
+     * Находит в json объекте данные об игровом объекте objClassName
+     * и объект к объектам поля _field.
+     *
+     * @param obj json объект с информацией об игровом объекте.
+     * @param objClassName имя класса игрового объекта.
+     * @throws Exception при возникновении ошибок разбора.
+     */
     private void parseObject(JSONObject obj,String objClassName) throws Exception {
 
         /* Парсинг объекта obj с типом, заданным именем objName */
@@ -201,13 +283,28 @@ public class Level {
     }
 
     ////////////////////////////// Данные /////////////////////////////////////
+
+    /** Максимальная ширина поля - клеток */
     private static final int MAX_WIDTH = 16;
+
+    /** Максимальная высота поля - клеток */
     private static final int MAX_HEIGHT = 11;
 
+    /** Количество ходов уровня */
     private int _moves = 100;
+
+    /** Игровое поле уровня */
     private GameField _field;
+
+    /** Имя уровня */
     private String _name = "default level name";
+
+    /** История уровня */
     private String _history = "default level history";
+
+    /** Путь к файлу с уровнем */
     private String _levelPath;
+
+    /** Флаг - пройден ли уровень */
     private boolean _isCompleted = false;
 }

@@ -31,8 +31,24 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/**
+ * Класс представляет игровую панель.
+ *
+ * Отображает текущее игровое поле, показывает перемещения объектов,
+ * информацию о текущем уровне, выводит информирующие сообщения
+ * при прохождении уровней, сожержит элементы управления - кнопки.
+ *
+ * @author Alexander Petrenko, Alexander Lyashenko
+ */
 public class GamePanel extends JPanel {
 
+    /**
+     * Конструктор класса.
+     *
+     * Инициализирует поля. Настраивает размеры и вид панели.
+     *
+     * @param model игровая модель.
+     */
     public GamePanel(GameModel model) {
 
         super();
@@ -46,33 +62,60 @@ public class GamePanel extends JPanel {
         loadResources();
     }
 
+    /**
+     * Метод начала новой игры в режиме карьеры.
+     *
+     * @throws Exception при возникновении ошибок загрузки уровней.
+     */
     public void startNewCareer() throws Exception {
 
         _model.startNewCareer();
     }
 
+    /**
+     * Метод продолжения игры в режиме карьеры.
+     *
+     * @throws Exception при возникновении ошибок загрузки уровней.
+     */
     public void continueCareer() throws Exception {
 
         _model.continueCareer();
     }
 
+    /**
+     * Метод начала новой игры в режиме прохождения одного уровня.
+     *
+     * @param levelNumber номер уровня.
+     * @throws Exception при возникновении ошибок загрузки уровня.
+     */
     public void oneLevelMode(int levelNumber) throws Exception {
 
         _model.oneLevelMode(levelNumber);
     }
 
+    /**
+     * Метод отключения слушателей мыши и клавиатуры.
+     */
     public void stopListenToPeriphery() {
 
         removeKeyListener(_keyHandler);
         removeMouseListener(_clickListener);
     }
 
+    /**
+     * Метод подключения слушателей мыши и клавиатуры.
+     */
     public void startListenToPeriphery() {
 
         addKeyListener(_keyHandler);
         addMouseListener(_clickListener);
     }
 
+    /**
+     * Метод отрисовки компонентов панели.
+     *
+     * @param g среда отрисовки.
+     */
     @Override
     public void paintComponent(Graphics g) {
 
@@ -89,6 +132,11 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Метод отрисовки информационной панели.
+     *
+     * @param g среда отрисовки.
+     */
     private void paintInfoPanel(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
@@ -121,6 +169,11 @@ public class GamePanel extends JPanel {
         g.drawString("Выход", 70, 670);
     }
 
+    /**
+     * Метод отрисовки сетки игрового поля.
+     *
+     * @param g среда отрисовки.
+     */
     private void paintGrid(Graphics g) {
 
         /* Координаты и размеры */
@@ -165,6 +218,11 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Метод отрисовки блока результатов прохождения уровня.
+     *
+     * @param g среда отрисовки.
+     */
     private void paintResultBox(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
@@ -233,6 +291,11 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Метод отрисовки игровых объектов поля.
+     *
+     * @param g среда отрисовки.
+     */
     private void paintObjects(Graphics g) {
 
         for (GameObject obj : _model.getField().getObjects()) {
@@ -243,6 +306,9 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Метод загрузки ресурсов панели.
+     */
     private void loadResources() {
 
         try {
@@ -251,15 +317,23 @@ public class GamePanel extends JPanel {
             _infoPanel = ImageIO.read(getClass().getResource(INFO_PANEL));
             _levelFont = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResource(LEVEL_FONT_PATH).openStream()).deriveFont(FONT_SIZE);
             _simpleFont = new Font(FONT_TYPE, 0, 24);
+
         } catch (IOException ex) {
 
             ex.printStackTrace();
+
         } catch (FontFormatException ex) {
 
             ex.printStackTrace();
         }
     }
 
+    /**
+     * Метод получения координат панели для отрисовки по логическим координатам.
+     *
+     * @param logPos лигические координаты.
+     * @return координаты панели для отрисовки.
+     */
     private Point getPanelPosition(Point logPos) {
 
         int x = _fieldStartX + (CELL_SIZE * (logPos.x - 1));
@@ -268,8 +342,17 @@ public class GamePanel extends JPanel {
     }
 
     //////////////////////////// Слушатели ////////////////////////////////////
+
+    /**
+     * Внутренний класс - слушатель событий игровых объектов.
+     */
     private class ObjectsObserver implements GameObjectListener {
 
+        /**
+         * Метод, обрабатывающий сигнал о перемещении игрового объекта.
+         *
+         * @param e событие.
+         */
         @Override
         public void objectMoved(EventObject e) {
 
@@ -277,8 +360,16 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /**
+     * Внутренний класс - слушатель событий модели.
+     */
     private class ModelObserver implements ModelListener {
 
+        /**
+         * Метод, обрабатывающий сигнал об успешном прохождении уровня.
+         *
+         * @param e событие.
+         */
         @Override
         public void levelCompleted(EventObject e) {
 
@@ -286,6 +377,11 @@ public class GamePanel extends JPanel {
             removeKeyListener(_keyHandler);
         }
 
+        /**
+         * Метод, обрабатывающий сигнал о неуспешном прохождении уровня.
+         *
+         * @param e событие.
+         */
         @Override
         public void levelFailed(EventObject e) {
 
@@ -295,8 +391,15 @@ public class GamePanel extends JPanel {
 
     }
 
+    /**
+     * Внутренний класс - слушатель клавиатуры.
+     */
     private class KeyHandler extends KeyAdapter {
 
+        /**
+         * Метод, обрабатывающий нажатие клавиш клавиатуры.
+         * @param _ke
+         */
         @Override
         public void keyPressed(KeyEvent _ke) {
 
@@ -372,8 +475,15 @@ public class GamePanel extends JPanel {
 
     }
 
+    /**
+     * Внутренний класс - слушатель мыши.
+     */
     private class ClickListener extends MouseAdapter {
 
+        /**
+         * Метод, обрабатывающий клики мыши.
+         * @param e событие.
+         */
         @Override
         public void mouseClicked(MouseEvent e) {
 
@@ -435,18 +545,28 @@ public class GamePanel extends JPanel {
     }
 
     //////////////////////////// Сигналы //////////////////////////////////////
-    private ArrayList _listenerList = new ArrayList();
 
+    /**
+     * Метод добавления слушателя панели.
+     * @param l слушатель.
+     */
     public void addPanelListener(PanelListener l) {
 
         _listenerList.add(l);
     }
 
+    /**
+     * Метод удаления слушателя панели.
+     * @param l слушатель.
+     */
     public void removePanelListener(PanelListener l) {
 
         _listenerList.remove(l);
     }
 
+    /**
+     * Метод испускания сигнала о нажатии кнопки "Главное меню".
+     */
     protected void fireMainMenuClicked() {
 
         EventObject e = new EventObject(this);
@@ -456,42 +576,101 @@ public class GamePanel extends JPanel {
         }
     }
 
+    /** Список слушателей панели */
+    private ArrayList _listenerList = new ArrayList();
+
     //////////////////////////// Данные ///////////////////////////////////////
+
+    /** Изображение клетки */
     private BufferedImage _cellPic;
+
+    /** Изображение информационной панели */
     private BufferedImage _infoPanel;
+
+    /** Шрифт уровня */
     private static Font _levelFont;
+
+    /** Шрифт кнопок */
     private static Font _buttonFont;
+
+    /** Обычный шрифт */
     private static Font _simpleFont;
+
+    /** Игровая модель */
     private GameModel _model;
+
+    /** Координата начала отрисовки игрового поля по Х */
     private int _fieldStartX;
+
+    /** Координата начала отрисовки игрового поля по Y */
     private int _fieldStartY;
+
+    /** "Кнопка" перехода в главное меню */
     private static Rectangle _mainMenuBtn;
+
+    /** "Кнопка" следующего действия при прохождении уровня */
     private static Rectangle _nextActionBtn;
+
+    /** Слушатель клавиатуры */
     private KeyHandler _keyHandler = new KeyHandler();
+
+    /** Слушатель мыши */
     private ClickListener _clickListener = new ClickListener();
 
     //////////////////////////// Константы ////////////////////////////////////
+
+    /** Размер клетки */
     private static final int CELL_SIZE = 64;
+
+    /** Путь к файлу с изображением клетки */
     private static final String PIC = "/badmagic/resources/brick.png";
+
+    /** Путь к файлу с изображением информационной панели */
     private static final String INFO_PANEL = "/badmagic/resources/panel.png";
+
+    /** Путь к шрифту */
     private static final String LEVEL_FONT_PATH = "/badmagic/resources/level.ttf";
 
+    /** Цвет фона */
     private static final Color BACKGROUND_COLOR = new Color(47, 79, 79);
+
+    /** Цвет рамок */
     private static final Color OBJECTS_BORDER_COLOR = new Color(205, 133, 63);
 
+    /** Размер шрифта */
     private static final float FONT_SIZE = 24;
+
+    /** Тип шрифта */
     private static final String FONT_TYPE = "Times New Roman";
+
+    /** Цвет шрифта */
     private static final Color FONT_COLOR = new Color(205, 133, 63);
 
+    /** Ширина кнопки */
     private static final int BUTTON_WIDTH = 70;
+
+    /** Высота кнопки */
     private static final int BUTTON_HEIGHT = 30;
+
+    /** Ширина информационной панели */
     private static final int INFO_PANEL_WIDTH = 200;
+
+    /** Ширина бока результатов */
     private static final int RESULT_BOX_WIDTH = 600;
+
+    /** Высота блока результатов */
     private static final int RESULT_BOX_HEIGHT = 300;
+
+    /** Ширина кнопок блока результатов */
     private static final int RES_BOX_BUTTON_WIDTH = 215;
+
+    /** Высота кнопок блока результатов */
     private static final int RES_BOX_BUTTON_HEIGHT = 40;
+
+    /** Ширина рамки */
     private static final int OBJECTS_BORDER_WIDTH = 2;
 
+    /** "Кнопка" выхода из игры */
     private static final Rectangle _quitGameBtn
             = new Rectangle(60, 650, BUTTON_WIDTH, BUTTON_HEIGHT);
 
