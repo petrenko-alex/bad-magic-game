@@ -344,23 +344,6 @@ public class GamePanel extends JPanel {
     //////////////////////////// Слушатели ////////////////////////////////////
 
     /**
-     * Внутренний класс - слушатель событий игровых объектов.
-     */
-    private class ObjectsObserver implements GameObjectListener {
-
-        /**
-         * Метод, обрабатывающий сигнал о перемещении игрового объекта.
-         *
-         * @param e событие.
-         */
-        @Override
-        public void objectMoved(EventObject e) {
-
-            ((GameObject) e.getSource()).paint(getGraphics(), null);
-        }
-    }
-
-    /**
      * Внутренний класс - слушатель событий модели.
      */
     private class ModelObserver implements ModelListener {

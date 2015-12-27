@@ -466,42 +466,6 @@ public class GameModel {
         }
     }
 
-    //////////////////////// События объектов /////////////////////////////////
-
-    /**
-     * Метод добавления слушателя игровых объектов.
-     * @param l слушатель.
-     */
-    public void addObjectListener(GameObjectListener l) {
-
-        _objectsListenerList.add(l);
-    }
-
-    /**
-     * Метод удаления слушаетля игровых объектов.
-     * @param l слушатель.
-     */
-    public void removeObjectListener(GameObjectListener l) {
-
-        _objectsListenerList.remove(l);
-    }
-
-    /**
-     * Метод испускания сигнала о перемещении игровых объектов.
-     *
-     * @param e событие.
-     */
-    protected void fireObjectMoved(EventObject e) {
-
-        for (Object listener : _objectsListenerList) {
-
-            ((GameObjectListener) listener).objectMoved(e);
-        }
-    }
-
-    /** Список слушателей игровых объектов */
-    private ArrayList _objectsListenerList = new ArrayList();
-
     ////////////////////////// События модели /////////////////////////////////
 
     /**
