@@ -149,8 +149,7 @@ public class GameMenu extends JPanel {
     private void paintMainMenu(Graphics g) {
 
         Graphics2D g2d = (Graphics2D)g;
-        g.drawString(WELCOME_STRING, WELCOME_STRING_X, WELCOME_STRING_Y);
-
+        
         g.drawString("Новая игра", _newGameBtn.x + 60,
                      _newGameBtn.y + 50);
 
@@ -177,8 +176,7 @@ public class GameMenu extends JPanel {
     private void paintLevelMenu(Graphics g) {
 
         Graphics2D g2d = (Graphics2D)g;
-        g.drawString(LEVEL_STRING, WELCOME_STRING_X, WELCOME_STRING_Y);
-
+       
         /* Шрифт */
         Font currentFont = g.getFont();
         Font newFont = currentFont.deriveFont(20F);
@@ -189,7 +187,7 @@ public class GameMenu extends JPanel {
 
         int size = levelNames.size();
         int xStart = 65;
-        int yStart = 150;
+        int yStart = 350;
 
         /* Кнопки уровней */
         for( int i = 0; i < size; ++i ) {
@@ -202,6 +200,10 @@ public class GameMenu extends JPanel {
             paintCenteredString(g, tmp,lvlName,yStart,xStart);
             g2d.draw(tmp);
             yStart += LVL_BUTTON_HEIGHT + LVL_BUTTON_SPLITTER;
+            if (i > 6 && i %7 == 0){
+                xStart = xStart + LVL_BUTTON_WIDTH + 25;
+                yStart = 350;
+            }
             _levelBtns.add(tmp);
         }
 
