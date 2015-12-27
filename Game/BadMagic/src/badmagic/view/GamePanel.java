@@ -11,8 +11,10 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -40,7 +42,7 @@ public class GamePanel extends JPanel {
 
         _model = model;
         _model.addModelListener(new ModelObserver());
-        loadPic();
+        loadResources();
     }
 
     public void startNewCareer() {
@@ -98,14 +100,13 @@ public class GamePanel extends JPanel {
         //g.setColor(OBJECTS_BORDER_COLOR);
         g.drawImage(_infoPanel, -1, -1, null);
 
-        Font font = new Font(FONT_TYPE, Font.BOLD, FONT_SIZE);
-        g.setFont(font);
-        g.setColor(FONT_COLOR);
-        g.drawString("Уровень" , 70, 30);
-        g.drawString(_model.getLevelName(), 30, 55);
-        g.drawString("Осталось ходов: " + _model.getMoves(), 25, 100);
+        g.setFont(_levelFont);
+        g.drawString("\""+_model.getLevelName()+"\"" , 15, 45);
+        g.drawString("Осталось ходов: " + _model.getMoves(), 5, 85);
 
+        
         g2d.draw(_quitGameBtn);
+        g.setColor(FONT_COLOR);
         g.drawString("Выход", 70, 670);
     }
 
@@ -233,14 +234,17 @@ public class GamePanel extends JPanel {
         }
     }
 
-    private void loadPic() {
+    private void loadResources() {
 
         try {
 
             _cellPic = ImageIO.read(getClass().getResource(PIC));
             _infoPanel = ImageIO.read(getClass().getResource(INFO_PANEL));
-
+             _levelFont = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResource(LEVEL_FONT_PATH).openStream()).deriveFont(FONT_SIZE);
         } catch ( IOException ex ) {
+
+            ex.printStackTrace();
+        } catch ( FontFormatException ex ) {
 
             ex.printStackTrace();
         }
@@ -448,6 +452,7 @@ public class GamePanel extends JPanel {
 
     private BufferedImage _cellPic;
     private BufferedImage _infoPanel;
+    private static Font _levelFont;
     private GameModel _model;
     private int _fieldStartX;
     private int _fieldStartY;
@@ -460,12 +465,14 @@ public class GamePanel extends JPanel {
 
     private static final int CELL_SIZE = 64;
     private static final String PIC = "/badmagic/resources/brick.png";
-    private static final String INFO_PANEL = "/badmagic//resources/panel.png";
+    private static final String INFO_PANEL = "/badmagic/resources/panel.png";
+    private static final String LEVEL_FONT_PATH = "/badmagic/resources/level.ttf";
+    
 
     private static final Color BACKGROUND_COLOR = new Color(47, 79, 79);
     private static final Color OBJECTS_BORDER_COLOR = new Color(205, 133, 63);
 
-    private static final int FONT_SIZE = 15;
+    private static final float FONT_SIZE = 24;
     private static final String FONT_TYPE = "Comic Sans MS";
     private static final Color FONT_COLOR = new Color(205, 133, 63);
 
