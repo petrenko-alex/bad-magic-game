@@ -390,6 +390,7 @@ public class GamePanel extends JPanel {
                         y <= (_mainMenuBtn.y + _mainMenuBtn.height) ) {
 
                         fireMainMenuClicked();
+                        GameModel.saveGameProgress();
                     }
                 }
 

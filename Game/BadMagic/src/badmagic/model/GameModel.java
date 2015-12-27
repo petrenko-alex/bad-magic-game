@@ -17,6 +17,7 @@ import java.util.EventObject;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 
 public class GameModel {
@@ -28,40 +29,29 @@ public class GameModel {
 
     public void startNewCareer() {
 
-        reset();
-        loadLevels();
-
-        /* Текущий уровень - первый */
-        setCurrentLevel(0);
-
-        /* Инициализируем игрока */
-        initializePlayer();
-
-        /* Статус уровня */
-        _levelStatus = LevelStatus.PLAYING;
+        startLevel(0);
         _gameMode = GameMode.CAREER;
     }
 
     public void continueCareer() {
 
-        /* Статус уровня */
-        _levelStatus = LevelStatus.PLAYING;
+        /* Попытка загрузить данные о прохождении */
+        try {
+
+            loadGameProgress();
+
+        } catch ( Exception ex ) {
+
+            ex.printStackTrace();
+        }
+
+        startLevel(_lastCompletedLevel);
         _gameMode = GameMode.CAREER;
     }
 
     public void oneLevelMode(int levelNumber) {
 
-        reset();
-        loadLevels();
-
-        /* Текущий уровень - выбранный */
-        setCurrentLevel(levelNumber);
-
-        /* Инициализируем игрока */
-        initializePlayer();
-
-        /* Статус уровня */
-        _levelStatus = LevelStatus.PLAYING;
+        startLevel(levelNumber);
         _gameMode = GameMode.ONE_LEVEL;
 
     }
@@ -167,6 +157,21 @@ public class GameModel {
         }
     }
 
+    private void startLevel(int levelNumber) {
+
+        reset();
+        loadLevels();
+
+        /* Текущий уровень */
+        setCurrentLevel(levelNumber);
+
+        /* Инициализируем игрока */
+        initializePlayer();
+
+        /* Статус уровня */
+        _levelStatus = LevelStatus.PLAYING;
+    }
+
     private void setCurrentLevel(int levelNumber) {
 
         if(levelNumber < 0 || levelNumber > (_levels.size() - 1) ) {
@@ -239,6 +244,32 @@ public class GameModel {
 	} catch ( IOException ex ) {
 
             ex.printStackTrace();
+        }
+    }
+
+    public void loadGameProgress() throws Exception {
+
+        JSONParser parser = new JSONParser();
+
+        Object object = parser.parse(new FileReader(PATH_TO_GAME_PROGRESS_FILE));
+        JSONObject obj = (JSONObject)object;
+
+        if( obj.containsKey("LastCompletedLevel") ) {
+
+            String tmp = obj.get("LastCompletedLevel").toString();
+            int value = Integer.parseInt(tmp);
+
+            if( value > (_levels.size() - 1) ) {
+
+                throw new Exception("Не корректно задана информация о "
+                                    + "последнем пройденном уровне.");
+            }
+            _lastCompletedLevel = Integer.parseInt(tmp);
+
+        } else {
+
+            throw new Exception("Не задана информация о "
+                                + "последнем пройденном уровне.");
         }
     }
 
