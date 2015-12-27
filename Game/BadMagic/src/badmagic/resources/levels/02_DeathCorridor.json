@@ -1,0 +1,38 @@
+{
+	"LevelName": "Катакомбы",
+	"LevelHistory": "",
+	"PlayerMoves": 47,
+	"FieldSize": [3, 11],
+
+	"FieldObjects": [{
+		"Elixir": {
+			"Positions": [
+				[2, 1]
+			]
+		}
+	},{
+		"WoodenTable": {
+			"Positions": [
+				[1, 9],
+				[3, 9],
+				[3, 10]
+			]
+		}
+	}, {
+		"Wall": {
+			"Positions": [
+				[1, 5],
+				[2, 7],
+				[2, 10],
+				[2, 8],
+				[3, 6]
+			]
+		}
+	},{
+		"Player": {
+			"Positions": [
+				[2,11]
+			]
+		}
+	}]
+}

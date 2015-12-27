@@ -1,6 +1,3 @@
 [
-	"src/badmagic/resources/levels/01_ShitHappens.json",
-	"src/badmagic/resources/levels/05_LoveForAll.json",
-	"src/badmagic/resources/levels/GetTheElexir.json",
-	"src/badmagic/resources/levels/MysteryRectangle.json"
+	"src/badmagic/resources/levels/02_DeathCorridor.json"
 ]
