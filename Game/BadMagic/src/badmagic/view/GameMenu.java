@@ -316,6 +316,7 @@ public class GameMenu extends JPanel {
                      && y <= (_quitGameBtn.y + _quitGameBtn.height) ) {
 
                     BadMagic.log.info("Нажата кнопка \"Выход\"");
+                    GameModel.saveGameProgress();
                     System.exit(0);
                 }
             }

@@ -7,8 +7,11 @@ import badmagic.model.Level;
 import badmagic.model.gameobjects.GameObject;
 import badmagic.model.gameobjects.Player;
 import java.awt.Point;
+import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.logging.Logger;
@@ -67,6 +70,7 @@ public class GameModel {
 
         /* Текущий уровень - следующий */
         setCurrentLevel( ++_currentLevel );
+        _lastCompletedLevel = _currentLevel;
 
         /* Инициализируем игрока */
         initializePlayer();
@@ -222,6 +226,22 @@ public class GameModel {
         }
     }
 
+    public static void saveGameProgress() {
+
+        JSONObject obj = new JSONObject();
+        obj.put("LastCompletedLevel", _lastCompletedLevel);
+
+        try (
+
+            FileWriter file = new FileWriter(PATH_TO_GAME_PROGRESS_FILE)) {
+            file.write(obj.toJSONString());
+
+	} catch ( IOException ex ) {
+
+            ex.printStackTrace();
+        }
+    }
+
     private void reset() {
 
         if( _field != null ) {
@@ -326,11 +346,14 @@ public class GameModel {
     private Player    _player;
     private GameMode _gameMode;
     private LevelStatus _levelStatus;
+    private static int _lastCompletedLevel = 0;
     private static ArrayList<Level> _levels = new ArrayList();
     private ArrayList<String> _levelNames = new ArrayList();
     private ObjectsObserver _objectsObserver = new ObjectsObserver();
     private static final String PATH_TO_LEVELS_INFO_FILE =
                           "src/badmagic/resources/levels/levelsinfo.json";
+    private static final String PATH_TO_GAME_PROGRESS_FILE =
+                          "src/badmagic/resources/gameprogress.json";
 
     public enum LevelStatus {
 

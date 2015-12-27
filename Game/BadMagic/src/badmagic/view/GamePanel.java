@@ -373,8 +373,8 @@ public class GamePanel extends JPanel {
                 if ( y >= _quitGameBtn.y &&
                      y <= (_quitGameBtn.y + _quitGameBtn.height) ) {
 
+                    GameModel.saveGameProgress();
                     System.exit(0);
-
                 }
             }
 
