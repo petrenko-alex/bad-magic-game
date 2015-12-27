@@ -33,5 +33,5 @@ public class Wall extends UnmovableObject {
         }
     }
 
-    private static final String PIC = "/badmagic/resources/Wall-main.png";
+    private static final String PIC = "/badmagic/resources/Wall.png";
 }
