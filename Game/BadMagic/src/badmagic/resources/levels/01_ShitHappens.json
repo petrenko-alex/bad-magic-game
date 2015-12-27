@@ -1,0 +1,34 @@
+{
+	"LevelName": "Неудачный эксперимент",
+	"LevelHistory": "",
+	"PlayerMoves": 10,
+	"FieldSize": [4, 4],
+
+	"FieldObjects": [{
+		"Elixir": {
+			"Positions": [
+				[1, 1]
+			]
+		}
+	},{
+		"WoodenTable": {
+			"Positions": [
+				[4, 3],
+				[3, 4]
+			]
+		}
+	}, {
+		"Wall": {
+			"Positions": [
+				[2, 2],
+				[3, 3]
+			]
+		}
+	}, {
+		"Player": {
+			"Positions": [
+				[4, 4]
+			]
+		}
+	}]
+}
