@@ -37,7 +37,7 @@ public class GamePanel extends JPanel {
 
         super();
         setPreferredSize(new Dimension(BadMagic.getWindowWidth(),
-                                       BadMagic.getWindowHeight()));
+                BadMagic.getWindowHeight()));
         setFocusable(true);
         requestFocus();
 
@@ -78,7 +78,7 @@ public class GamePanel extends JPanel {
 
         super.paintComponent(g);
         paintInfoPanel(g);
-        if(_model.getLevelStatus() == GameModel.LevelStatus.PLAYING) {
+        if (_model.getLevelStatus() == GameModel.LevelStatus.PLAYING) {
 
             paintGrid(g);
             paintObjects(g);
@@ -98,16 +98,26 @@ public class GamePanel extends JPanel {
         g2d.setStroke(borders);
 
         setBackground(BACKGROUND_COLOR);
-        //g.setColor(OBJECTS_BORDER_COLOR);
         g.drawImage(_infoPanel, -1, -1, null);
 
         g.setFont(_levelFont);
-        g.drawString("\""+_model.getLevelName()+"\"" , 15, 45);
-        g.drawString("Осталось ходов: " + _model.getMoves(), 5, 85);
+        g.drawString("\"" + _model.getLevelName() + "\"", 15, 50);
+        g.drawString("Осталось ходов: \n" + _model.getMoves(), 5, 94);
 
+        //g.setColor(OBJECTS_BORDER_COLOR);
+        g.drawString("Управление: ", 52, 420);
+        g.drawString("Перемещение:", 46, 445);
+        g.setFont(_simpleFont);
+        g.drawString("\u2190, \u2191, \u2192, \u2193", 50, 470);
+        g.setFont(_levelFont);
+        g.drawString("Сдвинуть стол:", 44, 495);
+        g.drawString("Ctrl+", 26, 520);
+        g.setFont(_simpleFont);
+        g.drawString("\u2190, \u2191, \u2192, \u2193", 76, 520);
 
         g2d.draw(_quitGameBtn);
         g.setColor(FONT_COLOR);
+        g.setFont(_levelFont);
         g.drawString("Выход", 70, 670);
     }
 
@@ -128,13 +138,13 @@ public class GamePanel extends JPanel {
         _fieldStartY = yOffset;
 
         /* Обрамляющий прямоугольник */
-        g.drawRect(_fieldStartX,_fieldStartY,width,height);
+        g.drawRect(_fieldStartX, _fieldStartY, width, height);
 
         /* Текстуры */
-        for(int i = 1; i < (rows + 1);i++) {
+        for (int i = 1; i < (rows + 1); i++) {
 
-            int y = _fieldStartY + CELL_SIZE * (i-1);
-            for(int j = 1; j < (columns + 1);j++) {
+            int y = _fieldStartY + CELL_SIZE * (i - 1);
+            for (int j = 1; j < (columns + 1); j++) {
 
                 int x = _fieldStartX + CELL_SIZE * (j - 1);
                 g.drawImage(_cellPic, x, y, null);
@@ -143,15 +153,13 @@ public class GamePanel extends JPanel {
 
         /* Сетка */
         /* Вертикальные линии */
-        for(int i = 1; i <= (columns + 1); i++)
-        {
+        for (int i = 1; i <= (columns + 1); i++) {
             int x1 = _fieldStartX + CELL_SIZE * (i - 1);
             g.drawLine(x1, _fieldStartY, x1, (_fieldStartY + height));
         }
 
         /* Горизонтальные линии */
-        for(int i = 1; i <= (rows + 1); i++)
-        {
+        for (int i = 1; i <= (rows + 1); i++) {
             int y1 = _fieldStartY + CELL_SIZE * (i - 1);
             g.drawLine(_fieldStartX, y1, (_fieldStartX + width), y1);
         }
@@ -159,66 +167,66 @@ public class GamePanel extends JPanel {
 
     private void paintResultBox(Graphics g) {
 
-        Graphics2D g2d = (Graphics2D)g;
+        Graphics2D g2d = (Graphics2D) g;
         Font font = new Font(FONT_TYPE, Font.BOLD, 20);
         g.setFont(font);
         int boxY = (BadMagic.getWindowHeight() - RESULT_BOX_HEIGHT) / 2;
-        int boxX = ((BadMagic.getWindowWidth() - RESULT_BOX_WIDTH) / 2) +
-                   (INFO_PANEL_WIDTH / 2);
+        int boxX = ((BadMagic.getWindowWidth() - RESULT_BOX_WIDTH) / 2)
+                + (INFO_PANEL_WIDTH / 2);
 
         Rectangle levelFinishedBox = new Rectangle(
-                                boxX,boxY, RESULT_BOX_WIDTH, RESULT_BOX_HEIGHT);
+                boxX, boxY, RESULT_BOX_WIDTH, RESULT_BOX_HEIGHT);
         g2d.draw(levelFinishedBox);
 
         /* Кнопка следующего действия */
-        _nextActionBtn = new Rectangle(boxX + 60,boxY + 200,220,40);
+        _nextActionBtn = new Rectangle(boxX + 60, boxY + 200, 220, 40);
 
         /* Кнопка перехода в главное меню */
-        if( _model.getLevelStatus() == GameModel.LevelStatus.COMPLETED &&
-            _model.getGameMode() == GameModel.GameMode.CAREER &&
-            _model.isLastLevel() ) {
+        if (_model.getLevelStatus() == GameModel.LevelStatus.COMPLETED
+                && _model.getGameMode() == GameModel.GameMode.CAREER
+                && _model.isLastLevel()) {
 
             int xPos = (RESULT_BOX_WIDTH - 215) / 2;
-            _mainMenuBtn = new Rectangle(   boxX + xPos,boxY + 200,
-                                            RES_BOX_BUTTON_WIDTH,
-                                            RES_BOX_BUTTON_HEIGHT);
+            _mainMenuBtn = new Rectangle(boxX + xPos, boxY + 200,
+                    RES_BOX_BUTTON_WIDTH,
+                    RES_BOX_BUTTON_HEIGHT);
             g.drawString("Главное меню", boxX + xPos + 35, boxY + 225);
 
         } else {
 
-            _mainMenuBtn = new Rectangle(   boxX + 310,boxY + 200,
-                                            RES_BOX_BUTTON_WIDTH,
-                                            RES_BOX_BUTTON_HEIGHT);
+            _mainMenuBtn = new Rectangle(boxX + 310, boxY + 200,
+                    RES_BOX_BUTTON_WIDTH,
+                    RES_BOX_BUTTON_HEIGHT);
             g.drawString("Главное меню", boxX + 345, boxY + 225);
         }
         g2d.draw(_mainMenuBtn);
 
         /* Кнопка следующего действия */
-        if( _model.getLevelStatus() == GameModel.LevelStatus.COMPLETED ) {
+        if (_model.getLevelStatus() == GameModel.LevelStatus.COMPLETED) {
 
             /* Если уровень успешно пройден */
             g.drawString("Поздравляем!", boxX + 240, boxY + 30);
-            g.drawString("Вы успешно прошли уровень " +
-                       _model.getLevelName() + "!", boxX + 60, boxY + 60);
+            g.drawString("Вы успешно прошли уровень "
+                    + _model.getLevelName() + "!", boxX + 60, boxY + 60);
 
-            if( _model.getGameMode() == GameModel.GameMode.CAREER &&
-                !_model.isLastLevel() ) {
+            if (_model.getGameMode() == GameModel.GameMode.CAREER
+                    && !_model.isLastLevel()) {
 
                 g2d.draw(_nextActionBtn);
                 g.drawString("Следующий уровень", boxX + 70, boxY + 225);
 
-            } else if( _model.getGameMode() == GameModel.GameMode.ONE_LEVEL ) {
+            } else if (_model.getGameMode() == GameModel.GameMode.ONE_LEVEL) {
 
                 g2d.draw(_nextActionBtn);
                 g.drawString("Попробовать снова", boxX + 75, boxY + 225);
             }
 
-        } else if ( _model.getLevelStatus() == GameModel.LevelStatus.FAILED ) {
+        } else if (_model.getLevelStatus() == GameModel.LevelStatus.FAILED) {
 
             /* Если уровень провален */
             g.drawString("Увы :(", boxX + 260, boxY + 30);
-            g.drawString("Вам не удалось пройти уровень " +
-                       _model.getLevelName() + "!", boxX + 40, boxY + 60);
+            g.drawString("Вам не удалось пройти уровень "
+                    + _model.getLevelName() + "!", boxX + 40, boxY + 60);
 
             g2d.draw(_nextActionBtn);
             g.drawString("Попробовать снова", boxX + 75, boxY + 225);
@@ -227,7 +235,7 @@ public class GamePanel extends JPanel {
 
     private void paintObjects(Graphics g) {
 
-        for(GameObject obj : _model.getField().getObjects()) {
+        for (GameObject obj : _model.getField().getObjects()) {
 
             Point objPos = obj.getPosition();
             objPos = getPanelPosition(objPos);
@@ -241,11 +249,12 @@ public class GamePanel extends JPanel {
 
             _cellPic = ImageIO.read(getClass().getResource(PIC));
             _infoPanel = ImageIO.read(getClass().getResource(INFO_PANEL));
-             _levelFont = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResource(LEVEL_FONT_PATH).openStream()).deriveFont(FONT_SIZE);
-        } catch ( IOException ex ) {
+            _levelFont = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResource(LEVEL_FONT_PATH).openStream()).deriveFont(FONT_SIZE);
+            _simpleFont = new Font(FONT_TYPE, 0, 24);
+        } catch (IOException ex) {
 
             ex.printStackTrace();
-        } catch ( FontFormatException ex ) {
+        } catch (FontFormatException ex) {
 
             ex.printStackTrace();
         }
@@ -255,17 +264,16 @@ public class GamePanel extends JPanel {
 
         int x = _fieldStartX + (CELL_SIZE * (logPos.x - 1));
         int y = _fieldStartY + (CELL_SIZE * (logPos.y - 1));
-        return new Point(x,y);
+        return new Point(x, y);
     }
 
     //////////////////////////// Слушатели ////////////////////////////////////
-
     private class ObjectsObserver implements GameObjectListener {
 
         @Override
         public void objectMoved(EventObject e) {
 
-            ((GameObject)e.getSource()).paint(getGraphics(), null);
+            ((GameObject) e.getSource()).paint(getGraphics(), null);
         }
     }
 
@@ -373,11 +381,11 @@ public class GamePanel extends JPanel {
             int y = e.getY();
 
             /* Выйти из игры */
-            if ( x >= _quitGameBtn.x &&
-                 x <= (_quitGameBtn.x + _quitGameBtn.width) ) {
+            if (x >= _quitGameBtn.x
+                    && x <= (_quitGameBtn.x + _quitGameBtn.width)) {
 
-                if ( y >= _quitGameBtn.y &&
-                     y <= (_quitGameBtn.y + _quitGameBtn.height) ) {
+                if (y >= _quitGameBtn.y
+                        && y <= (_quitGameBtn.y + _quitGameBtn.height)) {
 
                     GameModel.saveGameProgress();
                     System.exit(0);
@@ -385,36 +393,36 @@ public class GamePanel extends JPanel {
             }
 
             /* Блок результатов */
-            if( _model.getLevelStatus() != GameModel.LevelStatus.PLAYING ) {
+            if (_model.getLevelStatus() != GameModel.LevelStatus.PLAYING) {
 
                 /* Главное меню */
-                if ( x >= _mainMenuBtn.x &&
-                     x <= (_mainMenuBtn.x + _mainMenuBtn.width) ) {
+                if (x >= _mainMenuBtn.x
+                        && x <= (_mainMenuBtn.x + _mainMenuBtn.width)) {
 
-                    if( y >= _mainMenuBtn.y &&
-                        y <= (_mainMenuBtn.y + _mainMenuBtn.height) ) {
+                    if (y >= _mainMenuBtn.y
+                            && y <= (_mainMenuBtn.y + _mainMenuBtn.height)) {
 
                         fireMainMenuClicked();
                         GameModel.saveGameProgress();
                     }
                 }
 
-                if( x >= _nextActionBtn.x &&
-                    x <= (_nextActionBtn.x + _nextActionBtn.width) ) {
+                if (x >= _nextActionBtn.x
+                        && x <= (_nextActionBtn.x + _nextActionBtn.width)) {
 
-                    if( y >= _nextActionBtn.y &&
-                        y <= (_nextActionBtn.y + _nextActionBtn.height)) {
+                    if (y >= _nextActionBtn.y
+                            && y <= (_nextActionBtn.y + _nextActionBtn.height)) {
 
-                        if( _model.getLevelStatus() == GameModel.LevelStatus.COMPLETED &&
-                            _model.getGameMode() == GameModel.GameMode.CAREER &&
-                            !_model.isLastLevel()) {
+                        if (_model.getLevelStatus() == GameModel.LevelStatus.COMPLETED
+                                && _model.getGameMode() == GameModel.GameMode.CAREER
+                                && !_model.isLastLevel()) {
 
                             _model.nextLevel();
                             stopListenToPeriphery();
                             startListenToPeriphery();
 
-                        } else if( _model.getLevelStatus() == GameModel.LevelStatus.FAILED ||
-                                   _model.getGameMode() == GameModel.GameMode.ONE_LEVEL ) {
+                        } else if (_model.getLevelStatus() == GameModel.LevelStatus.FAILED
+                                || _model.getGameMode() == GameModel.GameMode.ONE_LEVEL) {
 
                             _model.tryAgain();
                             stopListenToPeriphery();
@@ -423,11 +431,10 @@ public class GamePanel extends JPanel {
                     }
                 }
             }
+        }
     }
-     }
 
     //////////////////////////// Сигналы //////////////////////////////////////
-
     private ArrayList _listenerList = new ArrayList();
 
     public void addPanelListener(PanelListener l) {
@@ -443,17 +450,18 @@ public class GamePanel extends JPanel {
     protected void fireMainMenuClicked() {
 
         EventObject e = new EventObject(this);
-        for( Object listener : _listenerList ) {
+        for (Object listener : _listenerList) {
 
-            ((PanelListener)listener).mainMenuClicked(e);
+            ((PanelListener) listener).mainMenuClicked(e);
         }
     }
 
     //////////////////////////// Данные ///////////////////////////////////////
-
     private BufferedImage _cellPic;
     private BufferedImage _infoPanel;
     private static Font _levelFont;
+    private static Font _buttonFont;
+    private static Font _simpleFont;
     private GameModel _model;
     private int _fieldStartX;
     private int _fieldStartY;
@@ -463,18 +471,16 @@ public class GamePanel extends JPanel {
     private ClickListener _clickListener = new ClickListener();
 
     //////////////////////////// Константы ////////////////////////////////////
-
     private static final int CELL_SIZE = 64;
     private static final String PIC = "/badmagic/resources/brick.png";
     private static final String INFO_PANEL = "/badmagic/resources/panel.png";
     private static final String LEVEL_FONT_PATH = "/badmagic/resources/level.ttf";
 
-
     private static final Color BACKGROUND_COLOR = new Color(47, 79, 79);
     private static final Color OBJECTS_BORDER_COLOR = new Color(205, 133, 63);
 
     private static final float FONT_SIZE = 24;
-    private static final String FONT_TYPE = "Comic Sans MS";
+    private static final String FONT_TYPE = "Times New Roman";
     private static final Color FONT_COLOR = new Color(205, 133, 63);
 
     private static final int BUTTON_WIDTH = 70;
@@ -487,7 +493,6 @@ public class GamePanel extends JPanel {
     private static final int OBJECTS_BORDER_WIDTH = 2;
 
     private static final Rectangle _quitGameBtn
-                      = new Rectangle(60,650, BUTTON_WIDTH, BUTTON_HEIGHT);
-
+            = new Rectangle(60, 650, BUTTON_WIDTH, BUTTON_HEIGHT);
 
 }
