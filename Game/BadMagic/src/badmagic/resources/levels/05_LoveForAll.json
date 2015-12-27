@@ -1,0 +1,45 @@
+{
+	"LevelName": "Дела сердечные",
+	"LevelHistory": "",
+	"PlayerMoves": 28,
+	"FieldSize": [9, 8],
+
+	"FieldObjects": [{
+		"Elixir": {
+			"Positions": [
+				[5, 7]
+			]
+		}
+	},{
+		"Wall": {
+			"Positions": [
+				[4, 2],
+				[6, 2],
+				[3, 3],
+				[7, 3],
+				[2, 4],
+				[8, 4],
+				[3, 5],
+				[7, 5],
+				[4, 6],
+				[5, 6],
+				[6, 6]
+			]
+		}
+	}, {
+		"WoodenTable": {
+			"Positions": [
+				[4, 3],
+				[5, 3],
+				[6, 3],
+				[5, 5]
+			]
+		}
+	},{
+		"Player": {
+			"Positions": [
+				[5, 4]
+			]
+		}
+	}]
+}
