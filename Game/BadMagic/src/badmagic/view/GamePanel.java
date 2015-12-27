@@ -95,8 +95,8 @@ public class GamePanel extends JPanel {
         g2d.setStroke(borders);
 
         setBackground(BACKGROUND_COLOR);
-        g.setColor(OBJECTS_BORDER_COLOR);
-        g.drawRect(-1, -1, INFO_PANEL_WIDTH, height);
+        //g.setColor(OBJECTS_BORDER_COLOR);
+        g.drawImage(_infoPanel, -1, -1, null);
 
         Font font = new Font(FONT_TYPE, Font.BOLD, FONT_SIZE);
         g.setFont(font);
@@ -238,6 +238,7 @@ public class GamePanel extends JPanel {
         try {
 
             _cellPic = ImageIO.read(getClass().getResource(PIC));
+            _infoPanel = ImageIO.read(getClass().getResource(INFO_PANEL));
 
         } catch ( IOException ex ) {
 
@@ -445,6 +446,7 @@ public class GamePanel extends JPanel {
     //////////////////////////// Данные ///////////////////////////////////////
 
     private BufferedImage _cellPic;
+    private BufferedImage _infoPanel;
     private GameModel _model;
     private int _fieldStartX;
     private int _fieldStartY;
@@ -457,6 +459,7 @@ public class GamePanel extends JPanel {
 
     private static final int CELL_SIZE = 64;
     private static final String PIC = "/badmagic/resources/brick.png";
+    private static final String INFO_PANEL = "/badmagic//resources/panel.png";
 
     private static final Color BACKGROUND_COLOR = new Color(47, 79, 79);
     private static final Color OBJECTS_BORDER_COLOR = new Color(205, 133, 63);
