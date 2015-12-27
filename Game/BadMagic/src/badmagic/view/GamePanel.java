@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventObject;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
@@ -45,17 +46,17 @@ public class GamePanel extends JPanel {
         loadResources();
     }
 
-    public void startNewCareer() {
+    public void startNewCareer() throws Exception {
 
         _model.startNewCareer();
     }
 
-    public void continueCareer() {
+    public void continueCareer() throws Exception {
 
         _model.continueCareer();
     }
 
-    public void oneLevelMode(int levelNumber) {
+    public void oneLevelMode(int levelNumber) throws Exception {
 
         _model.oneLevelMode(levelNumber);
     }
@@ -104,7 +105,7 @@ public class GamePanel extends JPanel {
         g.drawString("\""+_model.getLevelName()+"\"" , 15, 45);
         g.drawString("Осталось ходов: " + _model.getMoves(), 5, 85);
 
-        
+
         g2d.draw(_quitGameBtn);
         g.setColor(FONT_COLOR);
         g.drawString("Выход", 70, 670);
@@ -467,7 +468,7 @@ public class GamePanel extends JPanel {
     private static final String PIC = "/badmagic/resources/brick.png";
     private static final String INFO_PANEL = "/badmagic/resources/panel.png";
     private static final String LEVEL_FONT_PATH = "/badmagic/resources/level.ttf";
-    
+
 
     private static final Color BACKGROUND_COLOR = new Color(47, 79, 79);
     private static final Color OBJECTS_BORDER_COLOR = new Color(205, 133, 63);

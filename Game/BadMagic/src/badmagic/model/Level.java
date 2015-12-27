@@ -22,51 +22,43 @@ import java.util.logging.Logger;
 
 public class Level {
 
-    Level(String levelPath) {
+    Level(String levelPath) throws Exception {
 
         loadLevel(levelPath);
     }
 
-    public void loadLevel(String levelPath) {
+    public void loadLevel(String levelPath) throws Exception {
 
         _levelPath = levelPath;
         Point size;
         JSONParser parser = new JSONParser();
 
-        try {
+        Object object = parser.parse(new FileReader(levelPath));
+        JSONObject json = (JSONObject) object;
 
-            Object object = parser.parse(new FileReader(levelPath));
-            JSONObject json = (JSONObject) object;
+        /* Название уровня */
+        if ( json.containsKey("LevelName") ) {
 
-            /* Название уровня */
-            if(json.containsKey("LevelName")) {
-
-                _name = (String)json.get("LevelName");
-            }
-
-            /* История уровня */
-            if(json.containsKey("LevelHistory")) {
-
-                _history = (String)json.get("LevelHistory");
-            }
-
-            /* Количество ходов игрока */
-            if(json.containsKey("PlayerMoves")) {
-
-                _moves = Integer.parseInt(json.get("PlayerMoves").toString());
-            }
-
-            /* Размер поля */
-            parseFieldSize(json);
-
-            /* Объекты поля */
-            parseObjects(json);
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-            BadMagic.log.info("Ошика при разборе файла \"" + levelPath + "\"");
+            _name = (String) json.get("LevelName");
         }
+
+        /* История уровня */
+        if ( json.containsKey("LevelHistory") ) {
+
+            _history = (String) json.get("LevelHistory");
+        }
+
+        /* Количество ходов игрока */
+        if ( json.containsKey("PlayerMoves") ) {
+
+            _moves = Integer.parseInt(json.get("PlayerMoves").toString());
+        }
+
+        /* Размер поля */
+        parseFieldSize(json);
+
+        /* Объекты поля */
+        parseObjects(json);
     }
 
     public int getMoves() {
@@ -90,7 +82,7 @@ public class Level {
     }
 
     public void setIsCompleted(boolean isCompleted) {
-        
+
         _isCompleted = isCompleted;
     }
 

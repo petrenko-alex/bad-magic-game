@@ -22,18 +22,18 @@ import org.json.simple.parser.JSONParser;
 
 public class GameModel {
 
-    public GameModel() {
+    public GameModel() throws Exception {
 
         loadLevels();
     }
 
-    public void startNewCareer() {
+    public void startNewCareer() throws Exception {
 
         startLevel(0);
         _gameMode = GameMode.CAREER;
     }
 
-    public void continueCareer() {
+    public void continueCareer() throws Exception {
 
         /* Попытка загрузить данные о прохождении */
         try {
@@ -49,7 +49,7 @@ public class GameModel {
         _gameMode = GameMode.CAREER;
     }
 
-    public void oneLevelMode(int levelNumber) {
+    public void oneLevelMode(int levelNumber) throws Exception {
 
         startLevel(levelNumber);
         _gameMode = GameMode.ONE_LEVEL;
@@ -72,7 +72,17 @@ public class GameModel {
     public void tryAgain() {
 
         /* Загрузить уровень снова */
-        Level sameLevel = new Level(_levelNames.get(_currentLevel));
+        Level sameLevel;
+        try {
+
+            sameLevel = new Level(_levelNames.get(_currentLevel));
+
+        } catch ( Exception ex ) {
+
+            ex.printStackTrace();
+            return;
+        }
+        
         _levels.set(_currentLevel,sameLevel);
 
         /* Текущий уровень - этот же */
@@ -132,21 +142,13 @@ public class GameModel {
         return (_levels.size() - 1) == _currentLevel;
     }
 
-    private void loadLevels() {
+    private void loadLevels() throws Exception {
 
         Level level = null;
         _levels.clear();
 
         /* Попытка загрузить имена файлов с уровнями */
-        try {
-
-            _levelNames = loadLevelNames();
-
-        } catch (Exception ex) {
-
-            ex.printStackTrace();
-            return;
-        }
+        _levelNames = loadLevelNames();
 
         /* Загружаем данные уровней */
         for( Object i : _levelNames ) {
@@ -157,7 +159,7 @@ public class GameModel {
         }
     }
 
-    private void startLevel(int levelNumber) {
+    private void startLevel(int levelNumber) throws Exception {
 
         reset();
         loadLevels();

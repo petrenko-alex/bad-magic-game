@@ -9,9 +9,11 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.EventObject;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -33,7 +35,17 @@ public class BadMagic  {
 
     private BadMagic() {
 
-        _gameModel = new GameModel();
+        try {
+
+            _gameModel = new GameModel();
+
+        } catch ( Exception ex ) {
+
+            ex.printStackTrace();
+            showErrorMessage(ex.toString());
+            System.exit(0);
+        }
+
         _gamePanel = new GamePanel(_gameModel);
         _gameMenu = new GameMenu();
         _gameMenu.startListenToPeriphery();
@@ -60,6 +72,14 @@ public class BadMagic  {
         return HEIGHT;
     }
 
+    private void showErrorMessage(String msg) {
+
+        JOptionPane.showMessageDialog(  _window,
+                                        msg,
+                                        "Ошибка",
+                                        JOptionPane.ERROR_MESSAGE);
+    }
+
     private void changePanelTo(JPanel panel) {
 
         _window.getContentPane().removeAll();
@@ -78,7 +98,15 @@ public class BadMagic  {
             _gameMenu.stopListenToPeriphery();
             changePanelTo(_gamePanel);
             _gamePanel.startListenToPeriphery();
-            _gamePanel.startNewCareer();
+
+            try {
+
+                _gamePanel.startNewCareer();
+
+            } catch ( Exception ex ) {
+
+                showErrorMessage(ex.toString());
+            }
         }
 
         @Override
@@ -88,7 +116,15 @@ public class BadMagic  {
             _gameMenu.stopListenToPeriphery();
             changePanelTo(_gamePanel);
             _gamePanel.startListenToPeriphery();
-            _gamePanel.continueCareer();
+
+            try {
+
+                _gamePanel.continueCareer();
+
+            } catch ( Exception ex ) {
+
+                showErrorMessage(ex.toString());
+            }
         }
 
         @Override
@@ -98,7 +134,15 @@ public class BadMagic  {
             _gameMenu.stopListenToPeriphery();
             changePanelTo(_gamePanel);
             _gamePanel.startListenToPeriphery();
-            _gamePanel.oneLevelMode(e.getChoosenLevel());
+
+            try {
+
+                _gamePanel.oneLevelMode(e.getChoosenLevel());
+
+            } catch ( Exception ex ) {
+
+                showErrorMessage(ex.toString());
+            }
         }
     }
 
