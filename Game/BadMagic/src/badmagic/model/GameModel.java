@@ -25,6 +25,9 @@ public class GameModel {
 
     public void startNewCareer() {
 
+        reset();
+        loadLevels();
+
         /* Текущий уровень - первый */
         setCurrentLevel(0);
 
@@ -33,17 +36,19 @@ public class GameModel {
 
         /* Статус уровня */
         _levelStatus = LevelStatus.PLAYING;
+        _gameMode = GameMode.CAREER;
     }
 
     public void continueCareer() {
 
         /* Статус уровня */
         _levelStatus = LevelStatus.PLAYING;
+        _gameMode = GameMode.CAREER;
     }
 
     public void oneLevelMode() {
 
-
+        _gameMode = GameMode.ONE_LEVEL;
     }
 
     public void nextLevel() {
@@ -63,7 +68,7 @@ public class GameModel {
         /* Загрузить уровень снова */
         Level sameLevel = new Level(_levelNames.get(_currentLevel));
         _levels.set(_currentLevel,sameLevel);
-        
+
         /* Текущий уровень - этот же */
         setCurrentLevel( _currentLevel );
 
@@ -89,6 +94,11 @@ public class GameModel {
         return _levelStatus;
     }
 
+    public GameMode getGameMode() {
+
+        return _gameMode;
+    }
+
     public String getLevelName() {
 
         return _levels.get(_currentLevel).getName();
@@ -99,9 +109,15 @@ public class GameModel {
         return _player.getMoves();
     }
 
+    public boolean isLastLevel() {
+
+        return (_levels.size() - 1) == _currentLevel;
+    }
+
     private void loadLevels() {
 
         Level level = null;
+        _levels.clear();
 
         /* Попытка загрузить имена файлов с уровнями */
         try {
@@ -142,7 +158,7 @@ public class GameModel {
             _player = (Player)_field.getObjects(
                     Class.forName("badmagic.model.gameobjects.Player")).get(0);
             _player.setMoves(_levels.get(_currentLevel).getMoves());
-            _player.addObjectListener(new ObjectsObserver());
+            _player.addObjectListener(_objectsObserver);
 
         } catch ( ClassNotFoundException ex ) {
 
@@ -180,6 +196,19 @@ public class GameModel {
                 _levelStatus = LevelStatus.FAILED;
             }
         }
+    }
+
+    private void reset() {
+
+        if( _field != null ) {
+
+            _field.clear();
+        }
+
+        _player = null;
+        _currentLevel = 0;
+        _levels.clear();
+        _levelNames.clear();
     }
 
     private ArrayList<String> loadLevelNames() throws Exception {
@@ -268,12 +297,14 @@ public class GameModel {
 
     //////////////////////////// Данные ///////////////////////////////////////
 
-    private LevelStatus _levelStatus;
     private GameField _field;
+    private int _currentLevel;
     private Player    _player;
+    private GameMode _gameMode;
+    private LevelStatus _levelStatus;
     private ArrayList<Level> _levels = new ArrayList();
     private ArrayList<String> _levelNames = new ArrayList();
-    private int _currentLevel;
+    private ObjectsObserver _objectsObserver = new ObjectsObserver();
     private static final String PATH_TO_LEVELS_INFO_FILE =
                           "src/badmagic/resources/levels/levelsinfo.json";
 
@@ -282,5 +313,11 @@ public class GameModel {
     COMPLETED,
     FAILED,
     PLAYING
-}
+    }
+
+    public enum GameMode {
+
+    CAREER,
+    ONE_LEVEL
+    }
 }

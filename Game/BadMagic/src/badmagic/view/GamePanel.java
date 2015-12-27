@@ -170,12 +170,26 @@ public class GamePanel extends JPanel {
 
         /* Кнопка следующего действия */
         _nextActionBtn = new Rectangle(boxX + 60,boxY + 200,220,40);
-        g2d.draw(_nextActionBtn);
 
         /* Кнопка перехода в главное меню */
-        _mainMenuBtn = new Rectangle(boxX + 310,boxY + 200,215,40);
+        if( _model.getLevelStatus() == GameModel.LevelStatus.COMPLETED &&
+            _model.isLastLevel() ) {
+
+            int xPos = (RESULT_BOX_WIDTH - 215) / 2;
+            _mainMenuBtn = new Rectangle(   boxX + xPos,boxY + 200,
+                                            RES_BOX_BUTTON_WIDTH,
+                                            RES_BOX_BUTTON_HEIGHT);
+            g.drawString("Главное меню", boxX + xPos + 35, boxY + 225);
+
+        } else {
+
+            _mainMenuBtn = new Rectangle(   boxX + 310,boxY + 200,
+                                            RES_BOX_BUTTON_WIDTH,
+                                            RES_BOX_BUTTON_HEIGHT);
+            g.drawString("Главное меню", boxX + 345, boxY + 225);
+        }
         g2d.draw(_mainMenuBtn);
-        g.drawString("Главное меню", boxX + 345, boxY + 225);
+
 
         if( _model.getLevelStatus() == GameModel.LevelStatus.COMPLETED ) {
 
@@ -184,9 +198,12 @@ public class GamePanel extends JPanel {
             g.drawString("Вы успешно прошли уровень " +
                        _model.getLevelName() + "!", boxX + 60, boxY + 60);
 
+            if( _model.getGameMode() == GameModel.GameMode.CAREER &&
+                !_model.isLastLevel() ) {
 
-            g.drawString("Следующий уровень", boxX + 70, boxY + 225);
-
+                g2d.draw(_nextActionBtn);
+                g.drawString("Следующий уровень", boxX + 70, boxY + 225);
+            }
 
         } else if ( _model.getLevelStatus() == GameModel.LevelStatus.FAILED ) {
 
@@ -195,6 +212,7 @@ public class GamePanel extends JPanel {
             g.drawString("Вам не удалось пройти уровень " +
                        _model.getLevelName() + "!", boxX + 40, boxY + 60);
 
+            g2d.draw(_nextActionBtn);
             g.drawString("Попробовать снова", boxX + 75, boxY + 225);
         }
     }
@@ -374,14 +392,18 @@ public class GamePanel extends JPanel {
                     if( y >= _nextActionBtn.y &&
                         y <= (_nextActionBtn.y + _nextActionBtn.height)) {
 
-                        if( _model.getLevelStatus() == GameModel.LevelStatus.COMPLETED ) {
+                        if( _model.getLevelStatus() == GameModel.LevelStatus.COMPLETED &&
+                            _model.getGameMode() == GameModel.GameMode.CAREER &&
+                            !_model.isLastLevel()) {
 
                             _model.nextLevel();
+                            stopListenToPeriphery();
                             startListenToPeriphery();
 
                         } else if( _model.getLevelStatus() == GameModel.LevelStatus.FAILED) {
 
                             _model.tryAgain();
+                            stopListenToPeriphery();
                             startListenToPeriphery();
                         }
                     }
@@ -441,6 +463,8 @@ public class GamePanel extends JPanel {
     private static final int INFO_PANEL_WIDTH = 200;
     private static final int RESULT_BOX_WIDTH = 600;
     private static final int RESULT_BOX_HEIGHT = 300;
+    private static final int RES_BOX_BUTTON_WIDTH = 215;
+    private static final int RES_BOX_BUTTON_HEIGHT = 40;
     private static final int OBJECTS_BORDER_WIDTH = 2;
 
     private static final Rectangle _quitGameBtn
