@@ -53,9 +53,9 @@ public class GamePanel extends JPanel {
         _model.continueCareer();
     }
 
-    public void oneLevelMode() {
+    public void oneLevelMode(int levelNumber) {
 
-
+        _model.oneLevelMode(levelNumber);
     }
 
     public void stopListenToPeriphery() {
@@ -173,6 +173,7 @@ public class GamePanel extends JPanel {
 
         /* Кнопка перехода в главное меню */
         if( _model.getLevelStatus() == GameModel.LevelStatus.COMPLETED &&
+            _model.getGameMode() == GameModel.GameMode.CAREER &&
             _model.isLastLevel() ) {
 
             int xPos = (RESULT_BOX_WIDTH - 215) / 2;
@@ -190,7 +191,7 @@ public class GamePanel extends JPanel {
         }
         g2d.draw(_mainMenuBtn);
 
-
+        /* Кнопка следующего действия */
         if( _model.getLevelStatus() == GameModel.LevelStatus.COMPLETED ) {
 
             /* Если уровень успешно пройден */
@@ -203,6 +204,11 @@ public class GamePanel extends JPanel {
 
                 g2d.draw(_nextActionBtn);
                 g.drawString("Следующий уровень", boxX + 70, boxY + 225);
+
+            } else if( _model.getGameMode() == GameModel.GameMode.ONE_LEVEL ) {
+
+                g2d.draw(_nextActionBtn);
+                g.drawString("Попробовать снова", boxX + 75, boxY + 225);
             }
 
         } else if ( _model.getLevelStatus() == GameModel.LevelStatus.FAILED ) {
@@ -400,7 +406,8 @@ public class GamePanel extends JPanel {
                             stopListenToPeriphery();
                             startListenToPeriphery();
 
-                        } else if( _model.getLevelStatus() == GameModel.LevelStatus.FAILED) {
+                        } else if( _model.getLevelStatus() == GameModel.LevelStatus.FAILED ||
+                                   _model.getGameMode() == GameModel.GameMode.ONE_LEVEL ) {
 
                             _model.tryAgain();
                             stopListenToPeriphery();

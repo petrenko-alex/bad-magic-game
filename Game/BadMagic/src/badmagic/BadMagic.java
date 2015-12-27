@@ -1,4 +1,5 @@
 package badmagic;
+import badmagic.events.MenuEvent;
 import badmagic.events.MenuListener;
 import badmagic.events.PanelListener;
 import badmagic.model.GameModel;
@@ -71,7 +72,7 @@ public class BadMagic  {
     private class MenuObserver implements MenuListener {
 
         @Override
-        public void startCareerClicked(EventObject e) {
+        public void startCareerClicked(MenuEvent e) {
 
             log.info("Пойман сигнал из класса GameMenu о начале Новой игры");
             _gameMenu.stopListenToPeriphery();
@@ -81,13 +82,23 @@ public class BadMagic  {
         }
 
         @Override
-        public void continueCareerClicked(EventObject e) {
+        public void continueCareerClicked(MenuEvent e) {
 
             log.info("Пойман сигнал из класса GameMenu о Продолжении игры");
             _gameMenu.stopListenToPeriphery();
             changePanelTo(_gamePanel);
             _gamePanel.startListenToPeriphery();
             _gamePanel.continueCareer();
+        }
+
+        @Override
+        public void levelChoosen(MenuEvent e) {
+
+            log.info("Пойман сигнал из класса GameMenu об Игре конкретного уровня");
+            _gameMenu.stopListenToPeriphery();
+            changePanelTo(_gamePanel);
+            _gamePanel.startListenToPeriphery();
+            _gamePanel.oneLevelMode(e.getChoosenLevel());
         }
     }
 

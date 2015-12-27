@@ -46,9 +46,21 @@ public class GameModel {
         _gameMode = GameMode.CAREER;
     }
 
-    public void oneLevelMode() {
+    public void oneLevelMode(int levelNumber) {
 
+        reset();
+        loadLevels();
+
+        /* Текущий уровень - выбранный */
+        setCurrentLevel(levelNumber);
+
+        /* Инициализируем игрока */
+        initializePlayer();
+
+        /* Статус уровня */
+        _levelStatus = LevelStatus.PLAYING;
         _gameMode = GameMode.ONE_LEVEL;
+
     }
 
     public void nextLevel() {

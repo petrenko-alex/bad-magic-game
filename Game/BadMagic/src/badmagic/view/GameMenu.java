@@ -1,6 +1,7 @@
 package badmagic.view;
 
 import badmagic.BadMagic;
+import badmagic.events.MenuEvent;
 import badmagic.events.MenuListener;
 import badmagic.model.GameModel;
 import java.awt.Canvas;
@@ -198,6 +199,24 @@ public class GameMenu extends JPanel {
         g.drawString(string, x + xStart, y + yStart);
     }
 
+    private int getLevelNumberByClickCoordinates(int x,int y) {
+
+        int size = _levelBtns.size();
+        for( int i = 0;i < size;++i ) {
+
+            Rectangle btn = _levelBtns.get(i);
+
+            if ( x >= btn.x && x <= (btn.x + btn.width) ) {
+
+                if ( y >= btn.y && y <= (btn.y + btn.height) ) {
+
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
     //////////////////////////// Сигналы //////////////////////////////////////
 
     private ArrayList _listenerList = new ArrayList();
@@ -214,7 +233,8 @@ public class GameMenu extends JPanel {
 
     protected void fireStartCareerClicked() {
 
-        EventObject e = new EventObject(this);
+        MenuEvent e = new MenuEvent(this);
+        e.setChoosenLevel(0);
         for ( Object listener : _listenerList ) {
 
             ((MenuListener) listener).startCareerClicked(e);
@@ -223,10 +243,20 @@ public class GameMenu extends JPanel {
 
     protected void fireContinueCareerClicked() {
 
-        EventObject e = new EventObject(this);
+        MenuEvent e = new MenuEvent(this);
         for ( Object listener : _listenerList ) {
 
             ((MenuListener) listener).continueCareerClicked(e);
+        }
+    }
+
+    protected void fireLevelChoosen(int levelNumber) {
+
+        MenuEvent e = new MenuEvent(this);
+        e.setChoosenLevel(levelNumber);
+        for ( Object listener : _listenerList ) {
+
+            ((MenuListener) listener).levelChoosen(e);
         }
     }
 
@@ -311,9 +341,19 @@ public class GameMenu extends JPanel {
                     startListenToPeriphery();
                 }
             }
-            else {
 
+            /* Если не перешли в главное меню */
+            if( _menuMode == MenuMode.LEVEL_MENU ){
 
+                int levelNumber = getLevelNumberByClickCoordinates(x, y);
+
+                if( levelNumber != -1 ) {
+
+                    _menuMode = MenuMode.MAIN_MENU;
+                    stopListenToPeriphery();
+                    startListenToPeriphery();
+                    fireLevelChoosen(levelNumber);
+                }
             }
         }
     }
