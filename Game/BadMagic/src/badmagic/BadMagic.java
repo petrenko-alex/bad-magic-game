@@ -190,6 +190,7 @@ public class BadMagic  {
             log.info("Пойман сигнал из класса GameMenu об Игре конкретного уровня");
             _gameMenu.stopListenToPeriphery();
             changePanelTo(_gamePanel);
+            _gamePanel.stopListenToPeriphery();
             _gamePanel.startListenToPeriphery();
 
             try {
