@@ -104,6 +104,18 @@ public class GameModel {
         return _levels.get(_currentLevel).getName();
     }
 
+    static public ArrayList<String> getLevelNames() {
+
+        ArrayList<String> levelNames = new ArrayList<>();
+
+        for( Level lvl : _levels ) {
+
+            levelNames.add(lvl.getName());
+        }
+
+        return levelNames;
+    }
+
     public int getMoves() {
 
         return _player.getMoves();
@@ -302,7 +314,7 @@ public class GameModel {
     private Player    _player;
     private GameMode _gameMode;
     private LevelStatus _levelStatus;
-    private ArrayList<Level> _levels = new ArrayList();
+    private static ArrayList<Level> _levels = new ArrayList();
     private ArrayList<String> _levelNames = new ArrayList();
     private ObjectsObserver _objectsObserver = new ObjectsObserver();
     private static final String PATH_TO_LEVELS_INFO_FILE =
