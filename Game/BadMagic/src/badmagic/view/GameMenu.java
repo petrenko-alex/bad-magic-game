@@ -2,12 +2,14 @@ package badmagic.view;
 
 import badmagic.BadMagic;
 import badmagic.events.MenuListener;
+import badmagic.model.GameModel;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
@@ -17,6 +19,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -77,6 +80,45 @@ public class GameMenu extends JPanel {
         //Установка шрифта
         g.setFont(menu_font);
         g.setColor(FONT_COLOR);
+
+        /* Кнопки меню в зависимости от типа */
+        if( _menuMode == MenuMode.MAIN_MENU ) {
+
+            paintMainMenu(g);
+
+        } else if ( _menuMode ==MenuMode.LEVEL_MENU ) {
+
+            paintLevelMenu(g);
+        }
+    }
+
+    public void stopListenToPeriphery() {
+
+        if( _menuMode == MenuMode.MAIN_MENU ) {
+
+            removeMouseListener(_mainMenuMouseListener);
+
+        } else if ( _menuMode == MenuMode.LEVEL_MENU ) {
+
+            removeMouseListener(_levelMenuMouseListener);
+        }
+    }
+
+    public void startListenToPeriphery() {
+
+        if( _menuMode == MenuMode.MAIN_MENU ) {
+
+            addMouseListener(_mainMenuMouseListener);
+
+        } else if ( _menuMode == MenuMode.LEVEL_MENU ) {
+
+            addMouseListener(_levelMenuMouseListener);
+        }
+    }
+
+    private void paintMainMenu(Graphics g) {
+
+        Graphics2D g2d = (Graphics2D)g;
         g.drawString(WELCOME_STRING, WELCOME_STRING_X, WELCOME_STRING_Y);
 
         g.drawString("Новая игра", _newGameBtn.x + 60,
@@ -95,20 +137,69 @@ public class GameMenu extends JPanel {
         g2d.draw(_continueGameBtn);
         g2d.draw(_chooseLevelBtn);
         g2d.draw(_quitGameBtn);
-
     }
 
-    public void stopListenToPeriphery() {
+    private void paintLevelMenu(Graphics g) {
 
-        removeMouseListener(_mouseListener);
+        Graphics2D g2d = (Graphics2D)g;
+        g.drawString(LEVEL_STRING, WELCOME_STRING_X, WELCOME_STRING_Y);
+
+        /* Шрифт */
+        Font currentFont = g.getFont();
+        Font newFont = currentFont.deriveFont(20F);
+        g.setFont(newFont);
+
+        /* Получаем названия уровней */
+        ArrayList<String> levelNames = GameModel.getLevelNames();
+
+        int size = levelNames.size();
+        int xStart = 65;
+        int yStart = 150;
+
+        /* Кнопки уровней */
+        for( int i = 0; i < size; ++i ) {
+
+            String lvlName = levelNames.get(i);
+            Rectangle tmp = new Rectangle(xStart,
+                                          yStart,
+                                          LVL_BUTTON_WIDTH,LVL_BUTTON_HEIGHT);
+
+            paintCenteredString(g, tmp,lvlName,yStart,xStart);
+            g2d.draw(tmp);
+            yStart += LVL_BUTTON_HEIGHT + LVL_BUTTON_SPLITTER;
+            _levelBtns.add(tmp);
+        }
+
+        /* Кнопка назад */
+        _backToMainMenuBtn = new Rectangle(xStart,yStart,
+                                           LVL_BUTTON_WIDTH,LVL_BUTTON_HEIGHT);
+        g2d.draw(_backToMainMenuBtn);
+        paintCenteredString(g, _backToMainMenuBtn,"Назад",
+                            _backToMainMenuBtn.y,_backToMainMenuBtn.x);
     }
 
-    public void startListenToPeriphery() {
+    private void paintCenteredString(Graphics g,Rectangle area,String string,
+                                     int yStart,int xStart) {
 
-        addMouseListener(_mouseListener);
+        /* Настройки шрифта */
+        FontMetrics fm   = g.getFontMetrics(g.getFont());
+        Rectangle2D rect = fm.getStringBounds(string, g);
+
+        /* Размеры */
+        int textHeight = (int)(rect.getHeight());
+        int textWidth  = (int)(rect.getWidth());
+        int panelHeight= (int)(area.getHeight());
+        int panelWidth = (int)(area.getWidth());
+
+        /* Координаты начала */
+        int x = (panelWidth  - textWidth)  / 2;
+        int y = (panelHeight - textHeight) / 2  + fm.getAscent();
+
+        g.drawString(string, x + xStart, y + yStart);
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    //////////////////////////// Сигналы //////////////////////////////////////
+
     private ArrayList _listenerList = new ArrayList();
 
     public void addMenuListener(MenuListener l) {
@@ -139,8 +230,9 @@ public class GameMenu extends JPanel {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    private class ClickListener extends MouseAdapter {
+    //////////////////////////// Слушатели ////////////////////////////////////
+
+    private class MainMenuClickListener extends MouseAdapter {
 
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -180,6 +272,9 @@ public class GameMenu extends JPanel {
                      && y <= (_chooseLevelBtn.y + _chooseLevelBtn.height) ) {
 
                     BadMagic.log.info("Нажата кнопка \"Выбрать уровень\"");
+                    _menuMode = MenuMode.LEVEL_MENU;
+                    stopListenToPeriphery();
+                    startListenToPeriphery();
                 }
             }
 
@@ -197,6 +292,34 @@ public class GameMenu extends JPanel {
         }
     }
 
+    private class LevelMenuClickListener extends MouseAdapter {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+
+            int x = e.getX();
+            int y = e.getY();
+
+            if ( x >= _backToMainMenuBtn.x
+                 && x <= (_backToMainMenuBtn.x + _backToMainMenuBtn.width) ) {
+
+                if ( y >= _backToMainMenuBtn.y
+                     && y <= (_backToMainMenuBtn.y + _backToMainMenuBtn.height) ) {
+
+                    _menuMode = MenuMode.MAIN_MENU;
+                    stopListenToPeriphery();
+                    startListenToPeriphery();
+                }
+            }
+            else {
+
+
+            }
+        }
+    }
+
+    //////////////////////////// Константы ////////////////////////////////////
+
     private static final String MENU_BACKGROUND_PATH = "/badmagic/resources/menu.png";
     private static final String MENU_FONT_PATH = "/badmagic/resources/menu.ttf";
 
@@ -207,13 +330,16 @@ public class GameMenu extends JPanel {
     private static final int WELCOME_STRING_X = 350;
     private static final int WELCOME_STRING_Y = 100;
     private static final String WELCOME_STRING = "Welcome To Bad Magic";
+    private static final String LEVEL_STRING = "Выберите уровень";
 
     private static final Color BACKGROUND_COLOR = new Color(47, 79, 79);
 
+    private static final int LVL_BUTTON_WIDTH = 300;
+    private static final int LVL_BUTTON_HEIGHT = 30;
+    private static final int LVL_BUTTON_SPLITTER = 10;
     private static final int BUTTON_WIDTH = 400;
     private static final int BUTTON_HEIGHT = 60;
 
-    private ClickListener _mouseListener = new ClickListener();
 
     private Rectangle _newGameBtn
                       = new Rectangle(BadMagic.getWindowWidth() / 6 - 150,
@@ -230,4 +356,21 @@ public class GameMenu extends JPanel {
     private Rectangle _quitGameBtn
                       = new Rectangle(BadMagic.getWindowWidth() / 6 - 150,
                                       600, BUTTON_WIDTH, BUTTON_HEIGHT);
+
+
+    //////////////////////////// Данные ///////////////////////////////////////
+
+    private enum MenuMode {
+
+        MAIN_MENU,
+        LEVEL_MENU
+    }
+    private Rectangle _backToMainMenuBtn;
+    private MenuMode _menuMode = MenuMode.MAIN_MENU;
+    ArrayList<Rectangle> _levelBtns = new ArrayList<>();
+    private MainMenuClickListener _mainMenuMouseListener
+                                                = new MainMenuClickListener();
+    private LevelMenuClickListener _levelMenuMouseListener
+                                                = new LevelMenuClickListener();
+
 }
