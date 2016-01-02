@@ -103,7 +103,7 @@ public class Direction {
      */
     public Direction clockwise() {
 
-        return new Direction(getAngle() - 90);
+        return new Direction(getAngle() + 90);
     }
 
     /**
@@ -113,7 +113,7 @@ public class Direction {
      */
     public Direction anticlockwise() {
 
-        return new Direction(getAngle() + 90);
+        return new Direction(getAngle() - 90);
     }
 
     /**
