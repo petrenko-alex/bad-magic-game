@@ -35,13 +35,14 @@ public class GameField {
     /////////////////// Работа с клетками поля ////////////////////////////////
 
     /**
-     * Метод получения следующей позиции в указанном направлнеии.
+     * Метод получения nextIn позиции в указанном направлнеии относительно текущей.
      *
      * @param currentPos текущая позиция.
      * @param direction направление.
+     * @param nextIn номер позиции в направлении относительно текущей
      * @return Point - следующая позиция.
      */
-    public Point getNextPos(Point currentPos, Direction direction) {
+    public Point getPosIn(Point currentPos, Direction direction,int nextIn) {
 
         /* Проверка на невалидные аргументы */
         if( currentPos == null || direction == null ) {
@@ -55,27 +56,39 @@ public class GameField {
         int y = currentPos.y;
 
         if( direction.equals(Direction.north())
-            && (y - 1) >= 1 ) {
+            && (y - nextIn) >= 1 ) {
 
-            nextPos = new Point(x,y - 1);
+            nextPos = new Point(x,y - nextIn);
 
         } else if ( direction.equals(Direction.south())
-                    && (y+1) <= _height ) {
+                    && (y+nextIn) <= _height ) {
 
-            nextPos = new Point(x,y + 1);
+            nextPos = new Point(x,y + nextIn);
 
         } else if ( direction.equals(Direction.west())
-                    && (x-1) >= 1 ) {
+                    && (x-nextIn) >= 1 ) {
 
-            nextPos = new Point(x - 1,y);
+            nextPos = new Point(x - nextIn,y);
 
         } else if(  direction.equals(Direction.east())
-                    && (x+1) <= _width ) {
+                    && (x+nextIn) <= _width ) {
 
-            nextPos = new Point(x + 1,y);
+            nextPos = new Point(x + nextIn,y);
         }
 
         return nextPos;
+    }
+
+    /**
+     * Метод получения следующей позиции в указанном направлнеии.
+     *
+     * @param currentPos текущая позиция.
+     * @param direction направление.
+     * @return Point - следующая позиция.
+     */
+    public Point getNextPos(Point currentPos, Direction direction) {
+
+        return getPosIn(currentPos,direction,1);
     }
 
     /**
@@ -170,6 +183,11 @@ public class GameField {
      */
     public void setHeight(int height) {
         _height = height;
+    }
+
+    public int getDirectionsNumber() {
+
+        return DIRECTIONS_NUMBER;
     }
 
     /////////////////// Работа с объектами поля ///////////////////////////////
@@ -308,6 +326,45 @@ public class GameField {
         return objList;
     }
 
+    public ArrayList<GameObject> getSurrounding(Class objType,
+                                                Point currentPos,
+                                                int scope) {
+
+        ArrayList<GameObject> objList = new ArrayList<>();
+        Direction direction = Direction.north();
+
+        for( int i = 0;i < DIRECTIONS_NUMBER;++i ) {
+
+            GameObject obj = getNearestObject(objType,currentPos,direction,scope);
+            if( obj != null ) {
+
+                objList.add(obj);
+            }
+            direction = direction.clockwise();
+        }
+
+        return objList;
+    }
+
+    public GameObject getNearestObject(Class objType,
+                                                  Point currentPos,
+                                                  Direction direction,
+                                                  int scope) {
+
+        for(int i = 1; i <= scope; ++i) {
+
+            Point nextPos = getPosIn(currentPos, direction,i);
+            ArrayList<GameObject> objects = getObjects(objType,nextPos);
+
+            if( !objects.isEmpty() ) {
+
+                return objects.get(0);
+            }
+        }
+
+        return null;
+    }
+
     /**
      * Метод проверки позиции на уникальность - незанятость.
      *
@@ -338,7 +395,23 @@ public class GameField {
         _gameObjects.clear();
     }
 
+    public void setActiveObject(GameObject object) {
+
+        _activeObject = object;
+    }
+
+    public void unsetActiveObject() {
+
+        _activeObject = null;
+    }
+
+    public boolean isActiveObjectSet() {
+
+        return _activeObject != null;
+    }
     //////////////////////////////// Данные ///////////////////////////////////
+
+    private GameObject _activeObject;
 
     /** Ширина поля */
     private int _width;
@@ -348,4 +421,7 @@ public class GameField {
 
     /** Игровые объекты поля */
     private Map<Class, ArrayList<GameObject>> _gameObjects = new LinkedHashMap<>();
+
+    /** Количество возможных направлений поля */
+    private final static int DIRECTIONS_NUMBER = 4;
 }
