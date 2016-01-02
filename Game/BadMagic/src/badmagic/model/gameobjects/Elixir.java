@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 /**
  * Класс представляет игровой объект - элексир.
  *
- * Наследник класса GameObject. Реализует абстрактные методы.
+ * Наследник класса CollectableObject. Реализует абстрактные методы.
  * Имеет образ - изображение.
  *
  * @author Alexander Petrenko, Alexander Lyashenko
