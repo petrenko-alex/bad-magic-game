@@ -1,0 +1,28 @@
+{
+	"LevelName": "Тест котла",
+	"LevelHistory": "",
+	"PlayerMoves": 40,
+	"FieldSize": [10, 10],
+
+	"FieldObjects": [{
+		"Elixir": {
+			"Positions": [
+				[10, 10]
+			]
+		}
+	},{
+		"Couldron": {
+			"Positions": [
+				[3, 5],
+				[4, 3],
+				[4, 7]
+			]
+		}
+	}, {
+		"Player": {
+			"Positions": [
+				[1, 10]
+			]
+		}
+	}]
+}
