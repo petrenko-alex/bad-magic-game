@@ -1,7 +1,9 @@
 package badmagic.model.gameobjects;
 
+import badmagic.BadMagic;
 import badmagic.model.GameField;
 import badmagic.navigation.Direction;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.io.IOException;
@@ -51,6 +53,56 @@ public class Couldron extends MovableObject {
     public void paint(Graphics g, Point pos) {
 
         g.drawImage(_image, pos.x, pos.y, null);
+        paintPole(g,pos);
+    }
+
+    private void paintPole(Graphics g, Point pos) {
+
+        Color tmp = g.getColor();
+        String str = "";
+
+        for( int i = 0; i < _pole.length; ++i) {
+
+            int x = pos.x;
+            int y = pos.y;
+            int offset = 15;
+            int centerOffset = 5;
+
+            if( _pole[i] == Pole.NEGATIVE) {
+
+                g.setColor(Color.red);
+                str = "-";
+
+            } else {
+
+                g.setColor(Color.green);
+                str = "+";
+            }
+
+            if ( i == 0 ) {
+
+                x += (_image.getWidth() / 2) - centerOffset;
+                y += offset;
+
+            } else if ( i == 1 ) {
+
+                x += _image.getWidth() - offset;
+                y += (_image.getHeight() / 2) + centerOffset;
+
+            } else if ( i == 2 ) {
+
+                x += (_image.getWidth() / 2) - centerOffset;
+                y += _image.getHeight();
+
+            } else if ( i == 3 ) {
+
+                x += centerOffset;
+                y += (_image.getHeight() / 2) + centerOffset;
+            }
+
+            g.drawString(str, x, y);
+        }
+        g.setColor(tmp);
     }
 
     /**
@@ -69,9 +121,29 @@ public class Couldron extends MovableObject {
         }
     }
 
+    public void setPole(int[] pole) {
+
+        for( int i = 0;i < POLE_NUMBER;++i ) {
+
+            if( pole[i] == 0 ) {
+
+                _pole[i] = Pole.NEGATIVE;
+
+            } else if( pole[i] == 1 ) {
+
+                _pole[i] = Pole.POSITIVE;
+            }
+        }
+    }
+
+    private Pole getPole(int poleNumber) {
+
+        return _pole[poleNumber];
+    }
+
     private void sideEffect() {
 
-        /* Получить предметы в соседних клатках */
+        /* Получить предметы в соседних клетках */
         ArrayList<GameObject> surrounding = _field.getSurrounding(this.getClass(),
                                                                   _position,
                                                                   SCOPE);
@@ -80,24 +152,33 @@ public class Couldron extends MovableObject {
         int objNumber = surrounding.size();
         for( int i = 0; i < objNumber; ++i ) {
 
+            Direction moveDirection = null;
+
+            /* Получаем соседний котел */
             Couldron couldron = (Couldron) surrounding.get(i);
 
-            Direction moveDirection = null;
+            /* Полчаем направление, в котором находится соседний котел */
             Direction currentDirection = getDirectionToObject(couldron);
-            int currentPole = getPoleNumberByDirection(currentDirection);
 
-            /* Получить следующий полюс */
-            Pole nextPole = getOppositePole(currentPole);
+            /* Получаем полюс, направленный на соседний котел */
+            int currentPoleNumber = getPoleNumberByDirection(currentDirection);
+            Pole currentPole      = this.getPole(currentPoleNumber);
 
-            if( _pole[currentPole].equals(nextPole) ) {
+            /* Получаем полюс другого котла */
+            int nextPoleNumber = getOppositePole(currentPoleNumber);
+            Pole nextPole      = couldron.getPole(nextPoleNumber);
+
+            if( currentPole.equals(nextPole) ) {
 
                 /* Если полюса одинаковые  */
                 moveDirection = currentDirection;
+                BadMagic.log.info("Котлы разъезжаются.");
 
             } else {
 
                 /* Если полюса разные */
                 moveDirection = currentDirection.opposite();
+                BadMagic.log.info("Котлы съезжаются.");
             }
 
             /* Двигаем котел в заданном направлении */
@@ -105,18 +186,18 @@ public class Couldron extends MovableObject {
         }
     }
 
-    private Pole getOppositePole(int currentPoleNumber) {
+    private int getOppositePole(int currentPoleNumber) {
 
-        int nextPoleNumber = currentPoleNumber;
+
         if ( currentPoleNumber == 3 ||
              currentPoleNumber == 2    ) {
 
-            return _pole[currentPoleNumber - 2];
+            return (currentPoleNumber - 2);
 
         } else if ( currentPoleNumber == 0 ||
                     currentPoleNumber == 1    ) {
 
-            return _pole[currentPoleNumber + 2];
+            return (currentPoleNumber + 2);
 
         } else {
 
@@ -181,12 +262,23 @@ public class Couldron extends MovableObject {
 
     /** Путь к файлу с изображением */
     private static final String PIC = "/badmagic/resources/Couldron.png";
+
+    /** Количество возможных полюсов */
+    private final static int POLE_NUMBER = 4;
+
+    /** Область действия магнитных свойств котла */
     private static final int SCOPE = 2;
+
+    /** Полюс котла */
     private enum Pole {
         POSITIVE,
         NEGATIVE
     }
+
+    /** Полюса котла */
     private Pole _pole[] = new Pole[4];
+
+    /** Полюса по умолчанию */
     {
         _pole[0] = Pole.POSITIVE;
         _pole[1] = Pole.NEGATIVE;

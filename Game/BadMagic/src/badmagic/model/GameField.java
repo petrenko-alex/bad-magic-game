@@ -346,10 +346,10 @@ public class GameField {
         return objList;
     }
 
-    public GameObject getNearestObject(Class objType,
-                                                  Point currentPos,
-                                                  Direction direction,
-                                                  int scope) {
+    public GameObject getNearestObject( Class objType,
+                                        Point currentPos,
+                                        Direction direction,
+                                        int scope) {
 
         for(int i = 1; i <= scope; ++i) {
 
