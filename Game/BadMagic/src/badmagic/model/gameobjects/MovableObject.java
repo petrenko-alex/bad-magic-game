@@ -1,5 +1,6 @@
 package badmagic.model.gameobjects;
 
+import badmagic.BadMagic;
 import badmagic.model.GameField;
 import badmagic.navigation.Direction;
 
@@ -38,6 +39,11 @@ public abstract class MovableObject extends GameObject {
         if( _field.isNextPosEmpty(_position,moveDirection) ) {
 
             _position = _field.getNextPos(_position,moveDirection);
+            BadMagic.log.info("Объект сдвинут.");
+
+        } else {
+            
+            BadMagic.log.info("Объект не сдвинут.");
         }
     }
 }
