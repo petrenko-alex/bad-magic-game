@@ -1,7 +1,7 @@
 {
 	"LevelName": "Тест котла",
 	"LevelHistory": "",
-	"PlayerMoves": 40,
+	"PlayerMoves": 101,
 	"FieldSize": [10, 10],
 
 	"FieldObjects": [{
@@ -15,7 +15,13 @@
 			"Positions": [
 				[3, 5],
 				[4, 3],
-				[4, 7]
+				[4, 7],
+				[6, 5]
+			],
+			"Pole": [
+				[1,0,0,1],
+				[0,1,0,1],
+				[1,1,1,1]
 			]
 		}
 	}, {

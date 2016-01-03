@@ -1,6 +1,7 @@
 package badmagic.model;
 
 import badmagic.BadMagic;
+import badmagic.model.gameobjects.Couldron;
 import badmagic.model.gameobjects.GameObject;
 import badmagic.model.gameobjects.WoodenTable;
 import java.awt.Point;
@@ -240,17 +241,22 @@ public class Level {
      */
     private void parseObject(JSONObject obj,String objClassName) throws Exception {
 
+        int x = 0;
+        int y = 0;
+
         /* Парсинг объекта obj с типом, заданным именем objName */
         if( obj.containsKey("Positions")) {
 
+            /* Парсинг позиций */
             JSONArray pos = (JSONArray)obj.get("Positions");
 
             /* Позиции объектов данного типа */
+            int index = 0;
             for(Object j : pos) {
 
                 JSONArray onePos = (JSONArray) j;
-                int x = Integer.parseInt(onePos.get(0).toString());
-                int y = Integer.parseInt(onePos.get(1).toString());
+                x = Integer.parseInt(onePos.get(0).toString());
+                y = Integer.parseInt(onePos.get(1).toString());
 
                 if(!_field.isPositionUnique(new Point(x,y))) {
 
@@ -278,8 +284,56 @@ public class Level {
                 GameObject object = new GameObjectsFactory().createGameObject(objClassName, getField());
                 getField().addObject( new Point(x,y), object);
 
+                /* Парсинг полюсов */
+                if ( obj.containsKey("Pole") ) {
+
+                    JSONArray pole = (JSONArray) obj.get("Pole");
+                    int size = pole.size();
+
+                    /* На случай, если полюса заданы не для всех объектов */
+                    if( index < size ) {
+
+                        JSONArray oneObjPole = (JSONArray) pole.get(index);
+                        parsePole(oneObjPole,objClassName,new Point(x,y));
+                    }
+                }
+                ++index;
             }
         }
+
+    }
+
+    private void parsePole(JSONArray oneObjPole, String objClassName, Point objPos) throws Exception {
+
+        int x = objPos.x;
+        int y = objPos.y;
+
+        /* Парсинг полюсов */
+        int pUp    = Integer.parseInt(oneObjPole.get(0).toString());
+        int pRight = Integer.parseInt(oneObjPole.get(1).toString());
+        int pDown  = Integer.parseInt(oneObjPole.get(2).toString());
+        int pLeft  = Integer.parseInt(oneObjPole.get(3).toString());
+
+        /* Проверка корректности значение */
+        if ( pUp    < 0 || pUp    > 1 ||
+             pRight < 0 || pRight > 1 ||
+             pDown  < 0 || pDown  > 1 ||
+             pLeft  < 0 || pLeft  > 1    ) {
+
+            String error = "Неверно заданы полюса объекта типа " + objClassName
+                           + " с позицией (" + x + ";" + y + "). "
+                           + "Значение может быть либо 0, либо 1 ";
+
+            throw new Exception(error);
+        }
+
+        /* Добавляем полюса в объект */
+        int[] tmp = {pUp, pRight, pDown, pLeft};
+        String className = PATH_TO_GAME_OBJECTS_PACKAGE + objClassName;
+        GameObject object = getField().getObjects(Class.forName(className),
+                                                  new Point(x, y)).get(0);
+        ((Couldron) object).setPole(tmp);
+
     }
 
     ////////////////////////////// Данные /////////////////////////////////////
@@ -307,4 +361,8 @@ public class Level {
 
     /** Флаг - пройден ли уровень */
     private boolean _isCompleted = false;
+
+    /** Путь к классам - состовная часть имени класса */
+    private final static String PATH_TO_GAME_OBJECTS_PACKAGE =
+                                "badmagic.model.gameobjects.";
 }
