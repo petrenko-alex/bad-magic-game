@@ -300,7 +300,6 @@ public class Level {
                 ++index;
             }
         }
-
     }
 
     private void parsePole(JSONArray oneObjPole, String objClassName, Point objPos) throws Exception {

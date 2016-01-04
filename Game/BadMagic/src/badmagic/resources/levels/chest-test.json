@@ -1,0 +1,29 @@
+{
+	"LevelName": "Тест сундука",
+	"LevelHistory": "",
+	"PlayerMoves": 101,
+	"FieldSize": [10, 10],
+
+	"FieldObjects": [{
+		"Elixir": {
+			"Positions": [
+				[10, 10]
+			]
+		}
+	},{
+		"Chest": {
+			"Positions": [
+				[3, 5],
+				[4, 3],
+				[4, 7],
+				[6, 5]
+			]
+		}
+	}, {
+		"Player": {
+			"Positions": [
+				[1, 10]
+			]
+		}
+	}]
+}
