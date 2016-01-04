@@ -29,11 +29,10 @@ public class Chest extends MovableObject {
 
         /* Рекурсивно сформировать сцепку */
         Point startPos = (Point) _position.clone();
-        ArrayList<Chest> chain = new ArrayList();
 
         BadMagic.log.info("Начато формирование сцепки...");
 
-        buildChain(chain,this);
+        Chain chain = new Chain(_field,this);
 
         BadMagic.log.info("Формирование сцепки завершено.");
 
@@ -68,91 +67,6 @@ public class Chest extends MovableObject {
 
             ex.printStackTrace();
         }
-    }
-
-    private void buildChain(ArrayList<Chest> chain,Chest startChest) {
-
-        Point nextPos = null;
-        ArrayList<GameObject> tmp;
-        Chest chest = null;
-
-        /* Добавляем текущий сундук к сцепке */
-        chain.add(startChest);
-        BadMagic.log.info("Добавлен сундук на (" +
-                          startChest.getPosition().x +
-                          ";" +
-                          startChest.getPosition().y +
-                          ")");
-
-        /* Проверка с 4 сторон */
-
-        /* Проверка сверху */
-        nextPos = _field.getNextPos(startChest.getPosition(), Direction.north());
-        tmp = _field.getObjects(this.getClass(),nextPos);
-        if( !tmp.isEmpty() ) {
-
-            chest = (Chest)tmp.get(0);
-
-            if( chest != null && !isInChain(chain,chest) ) {
-
-                BadMagic.log.info("Присоединяем сундук сверху");
-                buildChain(chain,chest);
-            }
-        }
-
-        /* Проверка справа */
-        nextPos = _field.getNextPos(startChest.getPosition(), Direction.east());
-        tmp = _field.getObjects(this.getClass(),nextPos);
-        if( !tmp.isEmpty() ) {
-
-            chest = (Chest)tmp.get(0);
-
-            if( chest != null && !isInChain(chain,chest) ) {
-
-                BadMagic.log.info("Присоединяем сундук справа");
-                buildChain(chain,chest);
-            }
-        }
-
-        /* Проверка снизу */
-        nextPos = _field.getNextPos(startChest.getPosition(), Direction.south());
-        tmp = _field.getObjects(this.getClass(),nextPos);
-        if( !tmp.isEmpty() ) {
-
-            chest = (Chest)tmp.get(0);
-
-            if( chest != null && !isInChain(chain,chest) ) {
-
-                BadMagic.log.info("Присоединяем сундук снизу");
-                buildChain(chain,chest);
-            }
-        }
-
-        /* Проверка слева */
-        nextPos = _field.getNextPos(startChest.getPosition(), Direction.west());
-        tmp = _field.getObjects(this.getClass(),nextPos);
-        if( !tmp.isEmpty() ) {
-
-            chest = (Chest)tmp.get(0);
-
-            if( chest != null && !isInChain(chain,chest) ) {
-
-                BadMagic.log.info("Присоединяем сундук слева");
-                buildChain(chain,chest);
-            }
-        }
-    }
-
-    private boolean isInChain(ArrayList<Chest> chain, Chest chest) {
-
-        for( Chest i : chain ) {
-
-            if( i.getPosition().equals(chest.getPosition()) ) {
-
-                return true;
-            }
-        }
-        return false;
     }
 
     ///////////////////////////// Данные //////////////////////////////////////
