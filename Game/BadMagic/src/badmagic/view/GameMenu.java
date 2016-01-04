@@ -149,7 +149,7 @@ public class GameMenu extends JPanel {
     private void paintMainMenu(Graphics g) {
 
         Graphics2D g2d = (Graphics2D)g;
-        
+
         g.drawString("Новая игра", _newGameBtn.x + 60,
                      _newGameBtn.y + 50);
 
@@ -176,7 +176,7 @@ public class GameMenu extends JPanel {
     private void paintLevelMenu(Graphics g) {
 
         Graphics2D g2d = (Graphics2D)g;
-       
+
         /* Шрифт */
         Font currentFont = g.getFont();
         Font newFont = currentFont.deriveFont(20F);
@@ -380,8 +380,8 @@ public class GameMenu extends JPanel {
                      && y <= (_chooseLevelBtn.y + _chooseLevelBtn.height) ) {
 
                     BadMagic.log.info("Нажата кнопка \"Выбрать уровень\"");
-                    _menuMode = MenuMode.LEVEL_MENU;
                     stopListenToPeriphery();
+                    _menuMode = MenuMode.LEVEL_MENU;
                     startListenToPeriphery();
                 }
             }
@@ -422,8 +422,8 @@ public class GameMenu extends JPanel {
                 if ( y >= _backToMainMenuBtn.y
                      && y <= (_backToMainMenuBtn.y + _backToMainMenuBtn.height) ) {
 
-                    _menuMode = MenuMode.MAIN_MENU;
                     stopListenToPeriphery();
+                    _menuMode = MenuMode.MAIN_MENU;
                     startListenToPeriphery();
                 }
             }
@@ -435,8 +435,8 @@ public class GameMenu extends JPanel {
 
                 if( levelNumber != -1 ) {
 
-                    _menuMode = MenuMode.MAIN_MENU;
                     stopListenToPeriphery();
+                    _menuMode = MenuMode.MAIN_MENU;
                     startListenToPeriphery();
                     fireLevelChoosen(levelNumber);
                 }
