@@ -5,7 +5,6 @@ import badmagic.model.gameobjects.GameObject;
 import badmagic.navigation.Direction;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

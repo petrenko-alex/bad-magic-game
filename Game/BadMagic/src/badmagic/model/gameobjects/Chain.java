@@ -15,7 +15,7 @@ public class Chain extends MovableObject {
     Chain(GameField field,Chest startChest) {
 
         super(field);
-        
+
         /* Формируем сцепку */
         try {
 
@@ -24,6 +24,57 @@ public class Chain extends MovableObject {
         } catch ( ClassNotFoundException ex ) {
 
             ex.printStackTrace();
+        }
+    }
+
+    public boolean canMove(Direction moveDirection) {
+
+        /*
+         * Проходим по всем объектам сцепки и проверяем
+         * их следующие позиции в заданном направлении
+         */
+        for( Chest chest : _chain ) {
+
+            Point chestPos = chest.getPosition();
+
+            if( !(_field.isNextPosEmpty(chestPos,moveDirection)) ) {
+
+                /*
+                 * Если на следующей позиции сундук, то
+                 * пройдем до конца сцепки в заданном направлении и
+                 * проверим, может ли передвинуться последний объект сцепки
+                 */
+
+                Point nextPos = _field.getNextPos(chestPos, moveDirection);
+
+                if( hasObjectWithPos(nextPos) ) {
+
+                    if ( !canLastObjectMove( chestPos, moveDirection) ) {
+
+                        return false;
+                    }
+
+                } else {
+
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public void move(Direction moveDirection) {
+
+        /*
+         * Проходим по всем объектам сцепки и
+         * перемещаем их в заданном направлении.
+         */
+        for( Chest chest : _chain ) {
+
+            Point currentPos = chest.getPosition();
+            chest._position = _field.getNextPos(currentPos, moveDirection);
         }
     }
 
@@ -61,7 +112,7 @@ public class Chain extends MovableObject {
 
             chest = (Chest)tmp.get(0);
 
-            if( chest != null && !isInChain(chest) ) {
+            if( chest != null && !hasObjectWithPos(chest.getPosition()) ) {
 
                 BadMagic.log.info("Присоединяем сундук сверху");
                 buildChain(chest);
@@ -75,7 +126,7 @@ public class Chain extends MovableObject {
 
             chest = (Chest)tmp.get(0);
 
-            if( chest != null && !isInChain(chest) ) {
+            if( chest != null && !hasObjectWithPos(chest.getPosition()) ) {
 
                 BadMagic.log.info("Присоединяем сундук справа");
                 buildChain(chest);
@@ -89,7 +140,7 @@ public class Chain extends MovableObject {
 
             chest = (Chest)tmp.get(0);
 
-            if( chest != null && !isInChain(chest) ) {
+            if( chest != null && !hasObjectWithPos(chest.getPosition()) ) {
 
                 BadMagic.log.info("Присоединяем сундук снизу");
                 buildChain(chest);
@@ -103,7 +154,7 @@ public class Chain extends MovableObject {
 
             chest = (Chest)tmp.get(0);
 
-            if( chest != null && !isInChain(chest) ) {
+            if( chest != null && !hasObjectWithPos(chest.getPosition()) ) {
 
                 BadMagic.log.info("Присоединяем сундук слева");
                 buildChain(chest);
@@ -111,16 +162,57 @@ public class Chain extends MovableObject {
         }
     }
 
-    private boolean isInChain(Chest chest) {
+    private boolean hasObjectWithPos(Point pos) {
 
         for( Chest i : _chain ) {
 
-            if( i.getPosition().equals(chest.getPosition()) ) {
+            if( i.getPosition().equals(pos) ) {
 
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean canLastObjectMove(Point currentObjectPos,
+                                      Direction moveDirection) {
+
+        boolean stop = false;
+        boolean canMove = false;
+        Point currentPos = (Point) currentObjectPos.clone();
+
+        while( !stop ) {
+
+            /* Получаем следующую позицию на поле в направлении */
+            Point nextPos = _field.getNextPos(currentPos, moveDirection);
+
+            if( nextPos == null ) {
+
+                stop = true;
+                continue;
+            }
+
+            /* Если объекта с такой позицией нет в сцепке */
+            if( !hasObjectWithPos(nextPos) ) {
+
+                /* Проверяем, свободна ли позиция на поле */
+
+                if( _field.isPosEmpty(nextPos) ) {
+
+                    canMove = true;
+
+                } else {
+
+                    canMove = false;
+                }
+
+                stop = true;
+            }
+            /* Переходим к следующей позиции */
+            currentPos = nextPos;
+        }
+
+        return canMove;
     }
 
     ///////////////////////////// Данные //////////////////////////////////////

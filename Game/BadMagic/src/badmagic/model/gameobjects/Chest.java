@@ -37,8 +37,17 @@ public class Chest extends MovableObject {
         BadMagic.log.info("Формирование сцепки завершено.");
 
         /* Проверить возможность перемещения сцепки */
-        /* Перместить сцепку */
-        super.move(moveDirection);
+        if( chain.canMove(moveDirection) ) {
+
+            BadMagic.log.info("СЦЕПКУ МОЖНО ПЕРЕМЕСТИТЬ.");
+
+            /* Перместить сцепку */
+            chain.move(moveDirection);
+
+        } else {
+
+            BadMagic.log.info("СЦЕПКУ НЕЛЬЗЯ ПЕРЕМЕСТИТЬ.");
+        }
     }
 
     /**
