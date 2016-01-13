@@ -361,6 +361,9 @@ public class Level {
     /** Флаг - пройден ли уровень */
     private boolean _isCompleted = false;
 
+    /** Флаг - изменена ли обстановка уровня игроком */
+    private boolean _isModified = false;
+
     /** Путь к классам - состовная часть имени класса */
     private final static String PATH_TO_GAME_OBJECTS_PACKAGE =
                                 "badmagic.model.gameobjects.";
