@@ -196,8 +196,7 @@ public class Chain extends MovableObject {
             if( !hasObjectWithPos(nextPos) ) {
 
                 /* Проверяем, свободна ли позиция на поле */
-
-                if( _field.isPosEmpty(nextPos) ) {
+                if( _field.isPosEmpty(nextPos,false) ) {
 
                     canMove = true;
 
