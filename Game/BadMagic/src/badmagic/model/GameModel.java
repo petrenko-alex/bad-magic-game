@@ -101,20 +101,34 @@ public class GameModel {
     /**
      * Метод перехода к следующему уровню игры.
      */
-    public void nextLevel() throws Exception {
+    public void nextLevel() {
 
-        /* Текущий уровень - следующий */
-        startLevel(++_currentLevel);
-        _lastCompletedLevel = _currentLevel;
+        try {
+
+            /* Текущий уровень - следующий */
+            startLevel(++_currentLevel);
+            _lastCompletedLevel = _currentLevel;
+
+        } catch ( Exception ex ) {
+            
+            ex.printStackTrace();
+        }
     }
 
     /**
      * Метод повторного прохождения уровня.
      */
-    public void tryAgain() throws Exception {
+    public void tryAgain() {
 
-        /* Текущий уровень - этот же */
-        startLevel(_currentLevel);
+        try {
+
+            /* Текущий уровень - этот же */
+            startLevel(_currentLevel);
+
+        } catch ( Exception ex ) {
+
+            ex.printStackTrace();
+        }
     }
 
     /**
