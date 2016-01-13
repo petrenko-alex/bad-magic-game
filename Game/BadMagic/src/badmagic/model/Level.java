@@ -116,6 +116,16 @@ public class Level {
         return _name;
     }
 
+    public boolean isModified() {
+
+        return _isModified;
+    }
+
+    public void setModified(boolean isModified) {
+
+        _isModified = isModified;
+    }
+
     /**
      * Метод получения флага - пройден ли уровень.
      *

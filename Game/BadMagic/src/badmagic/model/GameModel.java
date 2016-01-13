@@ -101,46 +101,20 @@ public class GameModel {
     /**
      * Метод перехода к следующему уровню игры.
      */
-    public void nextLevel() {
+    public void nextLevel() throws Exception {
 
         /* Текущий уровень - следующий */
-        setCurrentLevel( ++_currentLevel );
+        startLevel(++_currentLevel);
         _lastCompletedLevel = _currentLevel;
-
-        /* Инициализируем игрока */
-        initializePlayer();
-
-        /* Статус уровня */
-        _levelStatus = LevelStatus.PLAYING;
     }
 
     /**
      * Метод повторного прохождения уровня.
      */
-    public void tryAgain() {
-
-        /* Загрузить уровень снова */
-        Level sameLevel;
-        try {
-
-            sameLevel = new Level(_levelNames.get(_currentLevel));
-
-        } catch ( Exception ex ) {
-
-            ex.printStackTrace();
-            return;
-        }
-
-        _levels.set(_currentLevel,sameLevel);
+    public void tryAgain() throws Exception {
 
         /* Текущий уровень - этот же */
-        setCurrentLevel( _currentLevel );
-
-        /* Инициализируем игрока */
-        initializePlayer();
-
-        /* Статус уровня */
-        _levelStatus = LevelStatus.PLAYING;
+        startLevel(_currentLevel);
     }
 
     /**
@@ -260,8 +234,8 @@ public class GameModel {
      */
     private void startLevel(int levelNumber) throws Exception {
 
-        reset();
-        loadLevels();
+        /* Перезагружаем уроень */
+        reloadLevel(levelNumber);
 
         /* Текущий уровень */
         setCurrentLevel(levelNumber);
@@ -271,6 +245,7 @@ public class GameModel {
 
         /* Статус уровня */
         _levelStatus = LevelStatus.PLAYING;
+        _levels.get(levelNumber).setModified(true);
     }
 
     /**
@@ -395,6 +370,17 @@ public class GameModel {
 
             throw new Exception("Не задана информация о "
                                 + "последнем пройденном уровне.");
+        }
+    }
+
+    private void reloadLevel(int levelNumber) throws Exception {
+
+        /* Если уровень был изменен(перемещены объекты) */
+        if( _levels.get(levelNumber).isModified() ) {
+
+            /* Перезагружаем уровень */
+            Level level = new Level(_levelNames.get(levelNumber));
+            _levels.set(levelNumber, level);
         }
     }
 
