@@ -160,7 +160,7 @@ public class GamePanel extends JPanel {
         g.setFont(_simpleFont);
         g.drawString("\u2190, \u2191, \u2192, \u2193", 50, 470);
         g.setFont(_levelFont);
-        g.drawString("Сдвинуть стол:", 44, 495);
+        g.drawString("Сдвинуть предмет:", 30, 495);
         g.drawString("Ctrl+", 26, 520);
         g.setFont(_simpleFont);
         g.drawString("\u2190, \u2191, \u2192, \u2193", 76, 520);
