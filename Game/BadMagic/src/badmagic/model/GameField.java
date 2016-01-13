@@ -2,7 +2,6 @@ package badmagic.model;
 
 import badmagic.model.gameobjects.CollectableObject;
 import badmagic.model.gameobjects.GameObject;
-import badmagic.model.gameobjects.Player;
 import badmagic.navigation.Direction;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -97,7 +96,7 @@ public class GameField {
      * @param pos позиция, которая проверяется.
      * @return boolean - флаг - занята ли позиция.
      */
-    public boolean isPosEmpty(Point pos,boolean isPlayerAnObstacle) {
+    public boolean isPosEmpty(Point pos) {
 
         /* Проверка переданных координат на принадлежность полю */
         if(   pos == null                   ||
@@ -116,22 +115,10 @@ public class GameField {
             if(  object.getPosition().equals(pos) &&
                !(object instanceof CollectableObject)) {
 
-                if( isPlayerAnObstacle ) {
-
-                    isEmpty = false;
-
-                } else if( object instanceof Player ) {
-
-                    isEmpty = true;
-                }
+                isEmpty = false;
             }
         }
         return isEmpty;
-    }
-
-    public boolean isPosEmpty(Point pos) {
-
-        return isPosEmpty(pos, true);
     }
 
     /**
