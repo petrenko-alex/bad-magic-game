@@ -28,11 +28,12 @@ public class Couldron extends MovableObject {
      * от полюса.
      *
      * @param moveDirection направление перемещения.
+     * @return boolean - успешность перемещения.
      */
     @Override
-    public void move(Direction moveDirection) {
+    public boolean move(Direction moveDirection) {
 
-        super.move(moveDirection);
+        boolean isMoved = super.move(moveDirection);
 
         if( !_field.isActiveObjectSet() ) {
 
@@ -40,7 +41,7 @@ public class Couldron extends MovableObject {
             sideEffect();
             _field.unsetActiveObject();
         }
-
+        return isMoved;
     }
 
     /**

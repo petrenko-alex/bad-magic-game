@@ -33,17 +33,20 @@ public abstract class MovableObject extends GameObject {
      * указанном направлении, если эта клетка свободна.
      *
      * @param moveDirection направление перемещения.
+     * @return boolean - успешность перемещения.
      */
-    public void move(Direction moveDirection) {
+    public boolean move(Direction moveDirection) {
 
         if( _field.isNextPosEmpty(_position,moveDirection) ) {
 
             _position = _field.getNextPos(_position,moveDirection);
             BadMagic.log.info("Объект сдвинут.");
+            return true;
 
         } else {
-            
+
             BadMagic.log.info("Объект не сдвинут.");
+            return false;
         }
     }
 }

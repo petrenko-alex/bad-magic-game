@@ -23,9 +23,10 @@ public class Chest extends MovableObject {
      * ..................................................
      *
      * @param moveDirection направление перемещения.
+     * @return boolean - успешность перемещения.
      */
     @Override
-    public void move(Direction moveDirection) {
+    public boolean move(Direction moveDirection) {
 
         /* Рекурсивно сформировать сцепку */
         Point startPos = (Point) _position.clone();
@@ -43,10 +44,12 @@ public class Chest extends MovableObject {
 
             /* Перместить сцепку */
             chain.move(moveDirection);
+            return true;
 
         } else {
 
             BadMagic.log.info("СЦЕПКУ НЕЛЬЗЯ ПЕРЕМЕСТИТЬ.");
+            return false;
         }
     }
 
