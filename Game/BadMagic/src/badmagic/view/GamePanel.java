@@ -166,9 +166,11 @@ public class GamePanel extends JPanel {
         g.drawString("\u2190, \u2191, \u2192, \u2193", 76, 520);
 
         g2d.draw(_quitGameBtn);
+        g2d.draw(_menuBtn);
         g.setColor(FONT_COLOR);
         g.setFont(_levelFont);
-        g.drawString("Выход", 70, 670);
+        g.drawString("Выход", 70, 690);
+        g.drawString("Меню", 75, 650);
     }
 
     /**
@@ -527,6 +529,17 @@ public class GamePanel extends JPanel {
                     System.exit(0);
                 }
             }
+            /* Переход в меню */
+            if (x >= _menuBtn.x
+                    && x <= (_menuBtn.x + _menuBtn.width)) {
+
+                if (y >= _menuBtn.y
+                        && y <= (_menuBtn.y + _menuBtn.height)) {
+
+                    fireMainMenuClicked();
+                    GameModel.saveGameProgress();
+                }
+            }
 
             /* Блок результатов */
             if (_model.getLevelStatus() != GameModel.LevelStatus.PLAYING) {
@@ -698,6 +711,10 @@ public class GamePanel extends JPanel {
 
     /** "Кнопка" выхода из игры */
     private static final Rectangle _quitGameBtn
-            = new Rectangle(60, 650, BUTTON_WIDTH, BUTTON_HEIGHT);
+            = new Rectangle(60, 670, BUTTON_WIDTH, BUTTON_HEIGHT);
+
+    /** "Кнопка" перехода в меню */
+    private static final Rectangle _menuBtn
+            = new Rectangle(60, 630, BUTTON_WIDTH, BUTTON_HEIGHT);
 
 }
