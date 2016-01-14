@@ -177,7 +177,8 @@ public class BadMagic  {
 
         /**
          * Метод, обрбатывающий сигнал о выборе конкретного уровня.
-         * @param e
+         *
+         * @param e событие меню.
          */
         @Override
         public void levelChoosen(MenuEvent e) {
@@ -205,8 +206,9 @@ public class BadMagic  {
     private class PanelObserver implements PanelListener {
 
         /**
-         * Метод, обрабатывающий сигнал о нажатии кнопки "Главное меню"
-         * @param e
+         * Метод, обрабатывающий сигнал о нажатии кнопки "Главное меню".
+         * 
+         * @param e событие.
          */
         @Override
         public void mainMenuClicked(EventObject e) {

@@ -421,7 +421,8 @@ public class GamePanel extends JPanel {
 
         /**
          * Метод, обрабатывающий нажатие клавиш клавиатуры.
-         * @param _ke
+         * 
+         * @param _ke событие.
          */
         @Override
         public void keyPressed(KeyEvent _ke) {
