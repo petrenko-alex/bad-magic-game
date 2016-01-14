@@ -10,12 +10,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class Chain extends MovableObject {
+public class Chain {
 
     Chain(GameField field,Chest startChest) {
 
-        super(field);
-
+        _field = field;
+        
         /* Формируем сцепку */
         try {
 
@@ -64,7 +64,6 @@ public class Chain extends MovableObject {
         return true;
     }
 
-    @Override
     public void move(Direction moveDirection) {
 
         /*
@@ -76,16 +75,6 @@ public class Chain extends MovableObject {
             Point currentPos = chest.getPosition();
             chest._position = _field.getNextPos(currentPos, moveDirection);
         }
-    }
-
-    @Override
-    public void paint(Graphics g, Point pos) {
-        throw new UnsupportedOperationException("Not supported.");
-    }
-
-    @Override
-    protected void loadPic() {
-        throw new UnsupportedOperationException("Not supported.");
     }
 
     private void buildChain(Chest startChest) throws ClassNotFoundException {
@@ -216,6 +205,9 @@ public class Chain extends MovableObject {
     }
 
     ///////////////////////////// Данные //////////////////////////////////////
+
+    /** Ссылка на поле */
+    private GameField _field;
 
     /** Массив сундуков - сцепка */
     ArrayList<Chest> _chain = new ArrayList<>();
