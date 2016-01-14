@@ -58,7 +58,7 @@ public abstract class GameObject {
      */
     public boolean setPosition(Point pos) {
 
-        if( pos != null && _field.getObjects(pos).isEmpty() ) {
+        if( pos != null ) {
 
             _position = pos;
             return true;
