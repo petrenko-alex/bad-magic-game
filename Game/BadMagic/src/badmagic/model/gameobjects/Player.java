@@ -60,10 +60,11 @@ public class Player extends GameObject {
      * взгляда установлен в true.
      *
      * @param moveDirection направление перемещения.
+     * @return boolean - успешность перемещения.
      */
-    public void move(Direction moveDirection) {
+    public boolean move(Direction moveDirection) {
 
-        move(moveDirection,true);
+        return move(moveDirection,true);
     }
 
     /**
@@ -108,8 +109,14 @@ public class Player extends GameObject {
             } else if( _gazeDirection.isOpposite(moveDirection) ) {
 
                 /* Тянем предмет на себя */
-                this.move(moveDirection,false);
-                ((MovableObject)nextObject).move(moveDirection);
+                boolean isPlayerMoved = this.move(moveDirection,false);
+                boolean isObjectMoved = ((MovableObject)nextObject).move(moveDirection);
+
+                /* Если игрок передвинут, а объект нет */
+                if( isPlayerMoved && !isObjectMoved ) {
+
+                    this.move(moveDirection.opposite(),false);
+                }
 
                 BadMagic.log.info("Тянем предмет на себя.");
 
@@ -184,8 +191,9 @@ public class Player extends GameObject {
      *
      * @param moveDirection направление перемещения.
      * @param needToChangeDirection флаг - менять ли направление взгляда.
+     * @return boolean - успешность перемещения.
      */
-    private void move(Direction moveDirection,boolean needToChangeDirection) {
+    private boolean move(Direction moveDirection,boolean needToChangeDirection) {
 
         if( needToChangeDirection ) {
 
@@ -202,14 +210,16 @@ public class Player extends GameObject {
 
             BadMagic.log.info("Переход на клетку (" +
                               _position.x + ";" + _position.y + ").");
+            return true;
         } else {
 
             BadMagic.log.info("Невозможно перейти на клетку.");
+            return false;
         }
     }
 
     ///////////////////////////// Данные //////////////////////////////////////
-    
+
     /** Количество ходов игрока */
     private int _moves;
 
