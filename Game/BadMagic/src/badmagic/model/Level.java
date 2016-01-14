@@ -268,28 +268,16 @@ public class Level {
                 x = Integer.parseInt(onePos.get(0).toString());
                 y = Integer.parseInt(onePos.get(1).toString());
 
-                if(!_field.isPositionUnique(new Point(x,y))) {
+                if(!_field.isPosEmpty(new Point(x,y))) {
 
                     String error = "Объект типа " + objClassName +
                                    " с позицией (" + onePos.get(0).toString() +
                                    ";" + onePos.get(1).toString() +
-                                   ") не может быть размещен, "
-                                   + "т.к. его позиция уже занята.";
-
-                    throw new Exception(error);
-
-                } else if((x < 1 || x > _field.getWidth()) ||
-                          (y < 1 || y > _field.getHeight())) {
-
-                    String error = "Объект типа " + objClassName +
-                                   " с позицией (" + onePos.get(0).toString() +
-                                   ";" + onePos.get(1).toString() +
-                                   ") не может быть размещен, "
-                                   + "т.к. его позиция за пределами поля.";
+                                   ") не может быть размещен.";
 
                     throw new Exception(error);
                 }
-
+                
                 /* Создаем объект с помощью фабрики */
                 GameObject object = new GameObjectsFactory().createGameObject(objClassName, getField());
                 getField().addObject( new Point(x,y), object);
