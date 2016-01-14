@@ -11,15 +11,35 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import java.lang.IllegalArgumentException;
 
+/**
+ * Класс представляет игровой объект - котел.
+ *
+ * Наследник класса MovableObject. Реализует абстрактные методы.
+ * Имеет образ - изображение и полюса(положительный или отрицательный),
+ * а так же радиус действия.<br>
+ * Если при перемещении котла в его радиус
+ * действия попадают другие котлы, то в зависимости от полюсов, они
+ * будут либо притягиваться(разноименные полюса), либо отталкиваться
+ * (одноименные полюса).
+ *
+ * @author Alexander Petrenko
+ */
 public class Couldron extends MovableObject {
 
+    /**
+     * Конструктор класса.
+     *
+     * Инициализирует поля. Загружает изображение объекта.
+     *
+     * @param field ссылка на игровое поле.
+     */
     public Couldron(GameField field) {
         super(field);
         loadPic();
     }
 
     /**
-     * Перегрузка метода перемещения объекта в направлении.
+     * Метод перемещения объекта в направлении.
      *
      * Осуществляет перемещение объекта на соседнюю клетку в
      * указанном направлении, если эта клетка свободна;
@@ -48,7 +68,7 @@ public class Couldron extends MovableObject {
      * Метод отрисовки объекта.
      *
      * @param g   среда отрисовки.
-     * @param pos позиция отрисоки.
+     * @param pos позиция отрисовки.
      */
     @Override
     public void paint(Graphics g, Point pos) {
@@ -57,6 +77,12 @@ public class Couldron extends MovableObject {
         paintPole(g,pos);
     }
 
+    /**
+     * Метод отрисовки полюсов объекта.
+     *
+     * @param g   среда отрисовки.
+     * @param pos позиция отрисовки самого объекта.
+     */
     private void paintPole(Graphics g, Point pos) {
 
         Color tmp = g.getColor();
@@ -122,6 +148,13 @@ public class Couldron extends MovableObject {
         }
     }
 
+    /**
+     * Метод установки полюсов объекта.
+     *
+     * @param pole массив целых чисел - полюсов:
+     *             1 - "+";
+     *             0 - "-".
+     */
     public void setPole(int[] pole) {
 
         for( int i = 0;i < POLE_NUMBER;++i ) {
@@ -137,11 +170,23 @@ public class Couldron extends MovableObject {
         }
     }
 
+    /**
+     * Метод получения полюса объекта.
+     *
+     * @param poleNumber номер полюса.
+     * @return Pole - полюс.
+     */
     private Pole getPole(int poleNumber) {
 
         return _pole[poleNumber];
     }
 
+    /**
+     * Метод, осуществляющий побочный эффект перемещения котла:
+     * проверяет окружение(заданного радиуса действия) и
+     * притягивает/отталкивает соседние объекты
+     * этого же типа в зависимости от полюса.
+     */
     private void sideEffect() {
 
         /* Получить предметы в соседних клетках */
@@ -187,8 +232,13 @@ public class Couldron extends MovableObject {
         }
     }
 
+    /**
+     * Метод получения номера противоположного полюса.
+     *
+     * @param currentPoleNumber номер текущего полюса.
+     * @return int - номер противоположного полюса.
+     */
     private int getOppositePole(int currentPoleNumber) {
-
 
         if ( currentPoleNumber == 3 ||
              currentPoleNumber == 2    ) {
@@ -206,6 +256,12 @@ public class Couldron extends MovableObject {
         }
     }
 
+    /**
+     * Метод получения номера полюса по направлению.
+     *
+     * @param direction направление, в котором находится полюс.
+     * @return int - номер полюса.
+     */
     private int getPoleNumberByDirection(Direction direction) {
 
         if( direction.equals(Direction.north()) ) {
@@ -230,6 +286,14 @@ public class Couldron extends MovableObject {
         }
     }
 
+    /**
+     * Метод получения направления, в котором находится объект
+     * nextObject относительно текущего объекта.
+     *
+     * @param nextObject объект, относительно которого требуется
+     *                   узнать направление.
+     * @return Direction - направление.
+     */
     private Direction getDirectionToObject(Couldron nextObject) {
 
         int curX = _position.x;

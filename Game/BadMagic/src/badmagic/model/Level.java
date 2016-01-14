@@ -116,11 +116,21 @@ public class Level {
         return _name;
     }
 
+    /**
+     * Метод проверки, изменен ли уровень(объекты на поле).
+     *
+     * @return boolean - изменен ли уровень.
+     */
     public boolean isModified() {
 
         return _isModified;
     }
 
+    /**
+     * Метод установки признака, изменен ли уровень.
+     *
+     * @param isModified флаг - изменен ли уровень.
+     */
     public void setModified(boolean isModified) {
 
         _isModified = isModified;
@@ -277,7 +287,7 @@ public class Level {
 
                     throw new Exception(error);
                 }
-                
+
                 /* Создаем объект с помощью фабрики */
                 GameObject object = new GameObjectsFactory().createGameObject(objClassName, getField());
                 getField().addObject( new Point(x,y), object);
@@ -300,6 +310,17 @@ public class Level {
         }
     }
 
+    /**
+     * Метод разбора и установки полюсов объекта.
+     *
+     * Находит в json оьъекте oneObjPole данные о полюсах объекта objClassName с
+     * позицией objPos и устанавливает их этому объекту.
+     *
+     * @param oneObjPole json объект с информацией о полюсах объекта.
+     * @param objClassName тип объекта.
+     * @param objPos позиция объекта.
+     * @throws Exception при возникновении ошибок разбора.
+     */
     private void parsePole(JSONArray oneObjPole, String objClassName, Point objPos) throws Exception {
 
         int x = objPos.x;

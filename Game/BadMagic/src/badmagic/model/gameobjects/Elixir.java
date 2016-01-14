@@ -32,7 +32,7 @@ public class Elixir extends CollectableObject {
      * Метод отрисовки объекта.
      *
      * @param g среда отрисовки.
-     * @param pos позиция отрисоки.
+     * @param pos позиция отрисовки.
      */
     @Override
     public void paint(Graphics g, Point pos) {

@@ -4,10 +4,8 @@ import badmagic.BadMagic;
 import badmagic.events.MenuEvent;
 import badmagic.events.MenuListener;
 import badmagic.model.GameModel;
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Event;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.FontMetrics;
@@ -15,20 +13,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.EventObject;
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -273,6 +265,7 @@ public class GameMenu extends JPanel {
 
     /**
      * Метод добавления слушателя меню.
+     *
      * @param l слушатель.
      */
     public void addMenuListener(MenuListener l) {
@@ -282,6 +275,7 @@ public class GameMenu extends JPanel {
 
     /**
      * Метод удаления слушателя меню.
+     *
      * @param l слушатель.
      */
     public void removeMenuListener(MenuListener l) {
@@ -316,6 +310,7 @@ public class GameMenu extends JPanel {
 
     /**
      * Метод испускания сигнала о прохождении конкретного уровня.
+     *
      * @param levelNumber номер уровня.
      */
     protected void fireLevelChoosen(int levelNumber) {
@@ -340,6 +335,7 @@ public class GameMenu extends JPanel {
 
         /**
          * Метод, обрабатывающий клики мыши.
+         *
          * @param e событие.
          */
         @Override
@@ -408,6 +404,7 @@ public class GameMenu extends JPanel {
 
         /**
          * Метод, обрабатывающий клики мыши.
+         * 
          * @param e событие.
          */
         @Override

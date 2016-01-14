@@ -19,7 +19,7 @@ public class GameObjectsFactory {
      *
      * @param className имя класса.
      * @param field ссылка на игровое поле.
-     * @return GameObject - объект наследник класса GameObject/
+     * @return GameObject - объект наследник класса GameObject.
      */
     public GameObject createGameObject(String className,GameField field) {
 

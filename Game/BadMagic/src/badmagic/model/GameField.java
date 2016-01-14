@@ -38,7 +38,7 @@ public class GameField {
      *
      * @param currentPos текущая позиция.
      * @param direction направление.
-     * @param nextIn номер позиции в направлении относительно текущей
+     * @param nextIn номер позиции в направлении, относительно текущей.
      * @return Point - следующая позиция.
      */
     public Point getPosIn(Point currentPos, Direction direction,int nextIn) {
@@ -81,6 +81,8 @@ public class GameField {
     /**
      * Метод получения следующей позиции в указанном направлнеии.
      *
+     * Обертка над методом getPosIn. Значение аргумента nextIn установлено в 1.
+     *
      * @param currentPos текущая позиция.
      * @param direction направление.
      * @return Point - следующая позиция.
@@ -92,6 +94,9 @@ public class GameField {
 
     /**
      * Метод проверки позиции на незанятость.
+     *
+     * Если на позиции находится объект класса CollectableObject,
+     * позиция считается свободной.
      *
      * @param pos позиция, которая проверяется.
      * @return boolean - флаг - занята ли позиция.
@@ -124,6 +129,9 @@ public class GameField {
     /**
      * Метод проверки следующей позиции в направлении на незанятость.
      *
+     * Если на позиции находится объект класса CollectableObject,
+     * позиция считается свободной.
+     *
      * @param currentPos текущая позиция.
      * @param direction направление.
      * @return boolean - флаг - занята ли следующая позиция.
@@ -139,8 +147,8 @@ public class GameField {
     /**
      * Метод установления размера поля
      *
-     * @param width ширина
-     * @param height высота
+     * @param width ширина.
+     * @param height высота.
      */
     public void setSize(int width,int height) {
 
@@ -154,6 +162,7 @@ public class GameField {
      * @return int - ширина поля.
      */
     public int getWidth() {
+
         return _width;
     }
 
@@ -163,6 +172,7 @@ public class GameField {
      * @param width ширина.
      */
     public void setWidth(int width) {
+
         _width = width;
     }
 
@@ -172,6 +182,7 @@ public class GameField {
      * @return int - высота поля.
      */
     public int getHeight() {
+
         return _height;
     }
 
@@ -181,9 +192,15 @@ public class GameField {
      * @param height высота.
      */
     public void setHeight(int height) {
+
         _height = height;
     }
 
+    /**
+     * Метод получения количества возможных направлений поля.
+     *
+     * @return int - количество возможных направлений поля.
+     */
     public int getDirectionsNumber() {
 
         return DIRECTIONS_NUMBER;
@@ -325,6 +342,17 @@ public class GameField {
         return objList;
     }
 
+    /**
+     * Метод получения окружения позиции на поле.
+     *
+     * Возвращаются все объекты типа objType вокруг позиции currentPos
+     * во всех возможных направления в пределах области видимости scope.
+     *
+     * @param objType тип возвращаемых объектов.
+     * @param currentPos позиция, вокруг которой ищутся объекты.
+     * @param scope область видимости.
+     * @return ArrayList - массив объектов.
+     */
     public ArrayList<GameObject> getSurrounding(Class objType,
                                                 Point currentPos,
                                                 int scope) {
@@ -345,6 +373,18 @@ public class GameField {
         return objList;
     }
 
+    /**
+     * Метод получения ближайшего объекта заданного типа в направлении.
+     *
+     * Возвращается ближайший объект типа objType в направлении direction
+     * относительно позиции currentPos в пределах области видимости scope.
+     *
+     * @param objType тип объекта.
+     * @param currentPos начальная позиция.
+     * @param direction направление поиска.
+     * @param scope область видимости.
+     * @return GameObject - игровой объект.
+     */
     public GameObject getNearestObject( Class objType,
                                         Point currentPos,
                                         Direction direction,
@@ -394,22 +434,36 @@ public class GameField {
         _gameObjects.clear();
     }
 
+    /**
+     * Метод установки активного игрового объекта.
+     *
+     * @param object объект.
+     */
     public void setActiveObject(GameObject object) {
 
         _activeObject = object;
     }
 
+    /**
+     * Метод сброса активного игрового объекта.
+     */
     public void unsetActiveObject() {
 
         _activeObject = null;
     }
 
+    /**
+     * Метод проверки, установлен ли активный игровой объект.
+     *
+     * @return boolean - установлен ли активный игровой объект.
+     */
     public boolean isActiveObjectSet() {
 
         return _activeObject != null;
     }
     //////////////////////////////// Данные ///////////////////////////////////
 
+    /** Активный игровой объект - тот, с которым происходит взаимодействие */
     private GameObject _activeObject;
 
     /** Ширина поля */

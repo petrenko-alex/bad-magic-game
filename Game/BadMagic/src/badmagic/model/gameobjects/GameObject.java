@@ -11,7 +11,7 @@ import java.util.EventObject;
 /**
  * Абстрактный класс - игровой объект.<br>
  *
- * Хранит позицию игрового объекта и ссылку на класс игрового поля.<br>
+ * Хранит позицию игрового объекта и ссылку на игровое поле.<br>
  * Может посылать сообщения.<br>
  *
  * @author Alexander Petrenko, Alexander Lyashenko
@@ -19,11 +19,11 @@ import java.util.EventObject;
 public abstract class GameObject {
 
     /**
-     * Конструктор класса.<br>
+     * Конструктор класса.
      *
      * Инициализирует  поля класса.
      *
-     * @param field ссылка на игровое поле
+     * @param field ссылка на игровое поле.
      */
     public GameObject(GameField field) {
 
@@ -31,7 +31,7 @@ public abstract class GameObject {
     }
 
     /**
-     * Метод получения позиции объекта.<br>
+     * Метод получения позиции объекта.
      *
      * @return Point - позиция объекта.
      */
@@ -41,7 +41,7 @@ public abstract class GameObject {
     }
 
     /**
-     * Метод обнуления позиции игрового объекта.
+     * Метод обнуления позиции объекта.
      */
     public void unsetPosition() {
 
@@ -51,7 +51,7 @@ public abstract class GameObject {
     /**
      * Метод установки позиции игрового объекта.<br>
      * Позиция будет установлена, если передаваемый
-     * параметр не выходит за границы поля и не null.
+     * параметр не null.
      *
      * @param pos позиция объекта.
      * @return boolean - успешность установки.
@@ -68,8 +68,9 @@ public abstract class GameObject {
 
     /**
      * Абстрактный метод отрисовки объекта.
+     *
      * @param g среда отрисовки.
-     * @param pos позиция отрисовки
+     * @param pos позиция отрисовки.
      */
     public abstract void paint(Graphics g,Point pos);
 
@@ -82,6 +83,7 @@ public abstract class GameObject {
 
     /**
      * Метод добавления слушателя игрового объекта.
+     *
      * @param l слушатель.
      */
     public void addObjectListener(GameObjectListener l) {
@@ -91,6 +93,7 @@ public abstract class GameObject {
 
     /**
      * Метод удаления слушаетля игрового объекта.
+     * 
      * @param l слушатель.
      */
     public void removeObjectListener(GameObjectListener l) {

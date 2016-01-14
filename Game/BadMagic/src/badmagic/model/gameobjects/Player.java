@@ -29,6 +29,7 @@ public class Player extends GameObject {
      * @param field ссылка на игровое поле.
      */
     public Player(GameField field) {
+
         super(field);
         loadPic();
     }
@@ -138,7 +139,7 @@ public class Player extends GameObject {
      * Метод отрисовки объекта.
      *
      * @param g среда отрисовки.
-     * @param pos позиция отрисоки.
+     * @param pos позиция отрисовки.
      */
     @Override
     public void paint(Graphics g,Point pos) {

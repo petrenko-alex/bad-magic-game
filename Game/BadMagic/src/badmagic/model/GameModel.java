@@ -60,7 +60,7 @@ public class GameModel {
     /**
      * Метод продожения игры в режиме карьеры
      *
-     * Загружает из номер последнего пройденного уровня,
+     * Загружает номер последнего пройденного уровня,
      * загружает этот уровень и дальше игра продолжается
      * пока есть уровни.
      *
@@ -85,8 +85,7 @@ public class GameModel {
     /**
      * Метод начала игры в режиме одного уровня.
      *
-     * Загружает выбранный уровень и дальше игра продолжается
-     * пока есть уровни.
+     * Загружает выбранный уровень.
      *
      * @param levelNumber номер уровня
      * @throws Exception при возникновении ошибок загрузки уровней.
@@ -110,7 +109,7 @@ public class GameModel {
             _lastCompletedLevel = _currentLevel;
 
         } catch ( Exception ex ) {
-            
+
             ex.printStackTrace();
         }
     }
@@ -144,7 +143,7 @@ public class GameModel {
     /**
      * Метод получения текущего игрока.
      *
-     * @return Player - текущий игрок
+     * @return Player - текущий игрок.
      */
     public Player getPlayer() {
 
@@ -154,7 +153,7 @@ public class GameModel {
     /**
      * Метод получения статуса текущего уровня.
      *
-     * @return LevelStatus - статус уровня.
+     * @return LevelStatus - статус текущего уровня.
      */
     public LevelStatus getLevelStatus() {
 
@@ -164,7 +163,7 @@ public class GameModel {
     /**
      * Метод получения текущего игрового режима.
      *
-     * @return GameMode - текущий игровой режим
+     * @return GameMode - текущий игровой режим.
      */
     public GameMode getGameMode() {
 
@@ -201,7 +200,7 @@ public class GameModel {
     /**
      * Метод получения количества ходов текущего уровня.
      *
-     * @return int - количество ходов.
+     * @return int - количество ходов текущего уровня.
      */
     public int getMoves() {
 
@@ -211,7 +210,7 @@ public class GameModel {
     /**
      * Метод,получения информации о том, является ли текущий уровень последним.
      *
-     * @return boolean - флаг - последний ли уровень
+     * @return boolean - флаг - последний ли уровень.
      */
     public boolean isLastLevel() {
 
@@ -387,6 +386,14 @@ public class GameModel {
         }
     }
 
+    /**
+     * Метод перезагрузки уровня, если он изменен.
+     *
+     * Уровень считается измененным, если установлен его соответствующий флаг.
+     *
+     * @param levelNumber номер уровня.
+     * @throws Exception при возникновении ошибок загрузки уровней.
+     */
     private void reloadLevel(int levelNumber) throws Exception {
 
         /* Если уровень был изменен(перемещены объекты) */
@@ -470,6 +477,7 @@ public class GameModel {
 
     /**
      * Метод добавления слушателя модели.
+     *
      * @param l слушатель.
      */
     public void addModelListener(ModelListener l) {
@@ -479,6 +487,7 @@ public class GameModel {
 
     /**
      * Метод удаления слушаетля модели.
+     *
      * @param l слушатель.
      */
     public void removeModelListener(ModelListener l) {
@@ -553,15 +562,15 @@ public class GameModel {
     /** Статус уровня */
     public enum LevelStatus {
 
-    COMPLETED,
-    FAILED,
-    PLAYING
+        COMPLETED,
+        FAILED,
+        PLAYING
     }
 
     /** Игровой режим */
     public enum GameMode {
 
-    CAREER,
-    ONE_LEVEL
+        CAREER,
+        ONE_LEVEL
     }
 }

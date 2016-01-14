@@ -10,7 +10,7 @@ import java.util.EventObject;
 public class MenuEvent extends EventObject {
 
     /**
-     * Конструктор класса
+     * Конструктор класса.
      *
      * @param o объект.
      */

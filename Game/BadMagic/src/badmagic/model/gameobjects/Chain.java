@@ -9,13 +9,28 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+/**
+ * Класс представляет вспомогательный игровой объект - сцепка.
+ *
+ * Объект класса создается только при перемещении объекта типа Сундук и
+ * является активным(может перемещаться) контейнером объектов типа Сундук.
+ *
+ * @author Alexander Petrenko
+ */
 public class Chain {
 
+    /**
+     * Конструктор класса.
+     *
+     * Инициализирует поля. Формирует сцепку.
+     *
+     * @param field ссылка на игровое поле.
+     * @param startChest сундук, с которого начинает формироваться сцепка.
+     */
     Chain(GameField field,Chest startChest) {
 
         _field = field;
-        
+
         /* Формируем сцепку */
         try {
 
@@ -27,6 +42,17 @@ public class Chain {
         }
     }
 
+    /**
+     * Метод проверки, может ли сцепка сдвинуться в заданном направлении.
+     *
+     * Сцепка может сдвинуться, если могут сдвинуться все ее объекты.<br>
+     * Если какой-либо объект сцепки не может сдвинуться т.к. ему мешает
+     * другой объект этой же сцепки, то будет проверена возможность перемещения
+     * крайнего объекта сцепки в этом же направлении.
+     *
+     * @param moveDirection направление передвижения..
+     * @return boolean - может ли сцепки передвинуться.
+     */
     public boolean canMove(Direction moveDirection) {
 
         /*
@@ -64,6 +90,13 @@ public class Chain {
         return true;
     }
 
+    /**
+     * Метод перемещения сцепки в заданном направлении.
+     *
+     * При перемещении сцепки, перемещаются все ее объекты.
+     *
+     * @param moveDirection направление перемещения.
+     */
     public void move(Direction moveDirection) {
 
         /*
@@ -77,6 +110,12 @@ public class Chain {
         }
     }
 
+    /**
+     * Рекурсивный метод формирования сцепки.
+     *
+     * @param startChest объект, с которого начинается формирование сцепки.
+     * @throws ClassNotFoundException выбрасывается, если не верно задано имя класса.
+     */
     private void buildChain(Chest startChest) throws ClassNotFoundException {
 
         Chest chest = null;
@@ -93,7 +132,6 @@ public class Chain {
                           ")");
 
         /* Проверка с 4 сторон */
-
         /* Проверка сверху */
         nextPos = _field.getNextPos(startChest.getPosition(), Direction.north());
         tmp = _field.getObjects(chestClass,nextPos);
@@ -151,6 +189,12 @@ public class Chain {
         }
     }
 
+    /**
+     * Метод проверки, имеется ли в сцепке объект с позицией pos.
+     *
+     * @param pos позиция объекта.
+     * @return boolean - имеется ли объект в сцепке.
+     */
     private boolean hasObjectWithPos(Point pos) {
 
         for( Chest i : _chain ) {
@@ -163,6 +207,13 @@ public class Chain {
         return false;
     }
 
+    /**
+     * Метод проверки, может ли передвинуться крайний объект сцепки в направлении.
+     *
+     * @param currentObjectPos позиция текущго объекта.
+     * @param moveDirection направление передвижения.
+     * @return boolean - может ли передвинуться крайний объект в направлении.
+     */
     private boolean canLastObjectMove(Point currentObjectPos,
                                       Direction moveDirection) {
 

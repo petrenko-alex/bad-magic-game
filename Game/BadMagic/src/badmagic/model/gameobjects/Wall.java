@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 /**
  * Класс представляет игровой объект - стену.
  *
- * Наследник класса GameObject. Реализует абстрактные методы.
+ * Наследник класса UnmovableObject. Реализует абстрактные методы.
  * Имеет образ - изображение.
  *
  * @author Alexander Petrenko, Alexander Lyashenko
@@ -24,6 +24,7 @@ public class Wall extends UnmovableObject {
      * @param field ссылка на игровое поле.
      */
     public Wall(GameField field) {
+
         super(field);
         loadPic();
     }
@@ -32,7 +33,7 @@ public class Wall extends UnmovableObject {
      * Метод отрисовки объекта.
      *
      * @param g среда отрисовки.
-     * @param pos позиция отрисоки.
+     * @param pos позиция отрисовки.
      */
     @Override
     public void paint(Graphics g, Point pos) {

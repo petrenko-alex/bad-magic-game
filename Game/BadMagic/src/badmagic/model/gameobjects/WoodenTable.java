@@ -24,6 +24,7 @@ public class WoodenTable extends MovableObject {
      * @param field ссылка на игровое поле.
      */
     public WoodenTable(GameField field) {
+
         super(field);
         loadPic();
     }
@@ -32,7 +33,7 @@ public class WoodenTable extends MovableObject {
      * Метод отрисовки объекта.
      *
      * @param g среда отрисовки.
-     * @param pos позиция отрисоки.
+     * @param pos позиция отрисовки.
      */
     @Override
     public void paint(Graphics g, Point pos) {
