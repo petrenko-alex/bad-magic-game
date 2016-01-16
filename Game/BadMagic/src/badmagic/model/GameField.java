@@ -108,7 +108,31 @@ public class GameField {
         }
         return isEmpty;
     }
+    
+    public boolean isPosHasCollectable(Point pos) {
 
+        /* Проверка переданных координат на принадлежность полю */
+        if(   pos == null                   ||
+            ((pos.x < 1 || pos.x > _width ) ||
+             (pos.y < 1 || pos.y > _height))    ) {
+
+            return false;
+        }
+
+        /* Поиск объектов с такой же позицией */
+        boolean isEmpty = false;
+        ArrayList<GameObject> fieldObjects = getObjects(pos);
+
+        for(GameObject object : fieldObjects) {
+
+            if(object instanceof CollectableObject) {
+
+                isEmpty = true;
+            }
+        }
+        return isEmpty;
+    }
+    
     /**
      * Метод проверки следующей позиции в направлении на незанятость.
      *
@@ -120,6 +144,11 @@ public class GameField {
 
         Point nextPos = getNextPos(currentPos,direction);
         return isPosEmpty(nextPos);
+    }
+    
+    public boolean isNextPosHasCollectable(Point currentPos, Direction direction){
+        Point nextPos = getNextPos(currentPos,direction);
+        return isPosHasCollectable(nextPos);
     }
 
     /////////////////// Работа с размерами поля ///////////////////////////////
