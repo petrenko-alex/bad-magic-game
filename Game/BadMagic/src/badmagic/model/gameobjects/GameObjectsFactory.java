@@ -36,7 +36,6 @@ public class GameObjectsFactory {
         } catch (Exception e) {
 
             e.printStackTrace();
-            BadMagic.log.info("Не удалось найти класс с указанным именем");
         }
 
         return (GameObject)gameObject;

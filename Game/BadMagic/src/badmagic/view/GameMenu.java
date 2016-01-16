@@ -78,12 +78,10 @@ public class GameMenu extends JPanel {
         } catch ( IOException e ) {
 
             e.printStackTrace();
-            BadMagic.log.info("Cannot load recources");
 
         } catch ( FontFormatException e ) {
 
             e.printStackTrace();
-            BadMagic.log.info("Cannot register font");
         }
 
         //Установка изображения
@@ -351,7 +349,6 @@ public class GameMenu extends JPanel {
                 if ( y >= _newGameBtn.y
                      && y <= (_newGameBtn.y + _newGameBtn.height) ) {
 
-                    BadMagic.log.info("Нажата кнопка \"Новая игра\"");
                     fireStartCareerClicked();
                 }
             }
@@ -363,7 +360,6 @@ public class GameMenu extends JPanel {
                 if ( y >= _continueGameBtn.y
                      && y <= (_continueGameBtn.y + _continueGameBtn.height) ) {
 
-                    BadMagic.log.info("Нажата кнопка \"Продолжить игру\"");
                     fireContinueCareerClicked();
                 }
             }
@@ -375,7 +371,6 @@ public class GameMenu extends JPanel {
                 if ( y >= _chooseLevelBtn.y
                      && y <= (_chooseLevelBtn.y + _chooseLevelBtn.height) ) {
 
-                    BadMagic.log.info("Нажата кнопка \"Выбрать уровень\"");
                     stopListenToPeriphery();
                     _menuMode = MenuMode.LEVEL_MENU;
                     startListenToPeriphery();
@@ -389,7 +384,6 @@ public class GameMenu extends JPanel {
                 if ( y >= _quitGameBtn.y
                      && y <= (_quitGameBtn.y + _quitGameBtn.height) ) {
 
-                    BadMagic.log.info("Нажата кнопка \"Выход\"");
                     GameModel.saveGameProgress();
                     System.exit(0);
                 }

@@ -125,11 +125,6 @@ public class Chain {
 
         /* Добавляем текущий сундук к сцепке */
         _chain.add(startChest);
-        BadMagic.log.info("Добавлен сундук на (" +
-                          startChest.getPosition().x +
-                          ";" +
-                          startChest.getPosition().y +
-                          ")");
 
         /* Проверка с 4 сторон */
         /* Проверка сверху */
@@ -141,7 +136,6 @@ public class Chain {
 
             if( chest != null && !hasObjectWithPos(chest.getPosition()) ) {
 
-                BadMagic.log.info("Присоединяем сундук сверху");
                 buildChain(chest);
             }
         }
@@ -155,7 +149,6 @@ public class Chain {
 
             if( chest != null && !hasObjectWithPos(chest.getPosition()) ) {
 
-                BadMagic.log.info("Присоединяем сундук справа");
                 buildChain(chest);
             }
         }
@@ -169,7 +162,6 @@ public class Chain {
 
             if( chest != null && !hasObjectWithPos(chest.getPosition()) ) {
 
-                BadMagic.log.info("Присоединяем сундук снизу");
                 buildChain(chest);
             }
         }
@@ -183,7 +175,6 @@ public class Chain {
 
             if( chest != null && !hasObjectWithPos(chest.getPosition()) ) {
 
-                BadMagic.log.info("Присоединяем сундук слева");
                 buildChain(chest);
             }
         }

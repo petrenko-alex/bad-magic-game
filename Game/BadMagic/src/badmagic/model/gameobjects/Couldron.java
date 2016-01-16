@@ -218,13 +218,11 @@ public class Couldron extends MovableObject {
 
                 /* Если полюса одинаковые  */
                 moveDirection = currentDirection;
-                BadMagic.log.info("Котлы разъезжаются.");
 
             } else {
 
                 /* Если полюса разные */
                 moveDirection = currentDirection.opposite();
-                BadMagic.log.info("Котлы съезжаются.");
             }
 
             /* Двигаем котел в заданном направлении */

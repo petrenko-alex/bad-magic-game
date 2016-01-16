@@ -40,12 +40,10 @@ public abstract class MovableObject extends GameObject {
         if( _field.isNextPosEmpty(_position,moveDirection) ) {
 
             _position = _field.getNextPos(_position,moveDirection);
-            BadMagic.log.info("Объект сдвинут.");
             return true;
 
         } else {
 
-            BadMagic.log.info("Объект не сдвинут.");
             return false;
         }
     }

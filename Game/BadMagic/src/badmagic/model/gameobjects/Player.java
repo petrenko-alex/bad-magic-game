@@ -105,8 +105,6 @@ public class Player extends GameObject {
                 ((MovableObject)nextObject).move(moveDirection);
                 this.move(moveDirection,false);
 
-                BadMagic.log.info("Толкаем предмет вперед.");
-
             } else if( _gazeDirection.isOpposite(moveDirection) ) {
 
                 /* Тянем предмет на себя */
@@ -119,19 +117,15 @@ public class Player extends GameObject {
                     this.move(moveDirection.opposite(),false);
                 }
 
-                BadMagic.log.info("Тянем предмет на себя.");
-
             } else {
 
                 _gazeDirection = moveDirection;
 
-                BadMagic.log.info("Нельзя сдвинуть в этом направлении.");
             }
         }  else {
 
             _gazeDirection = moveDirection;
 
-            BadMagic.log.info("Нечего двигать.");
         }
     }
 
@@ -199,8 +193,6 @@ public class Player extends GameObject {
         if( needToChangeDirection ) {
 
             _gazeDirection = moveDirection;
-
-            BadMagic.log.info("Направление взгляда изменено.");
         }
 
         if( _field.isNextPosEmpty(_position,moveDirection) ) {
@@ -209,12 +201,10 @@ public class Player extends GameObject {
             _moves--;
             fireObjectMoved();
 
-            BadMagic.log.info("Переход на клетку (" +
-                              _position.x + ";" + _position.y + ").");
             return true;
+            
         } else {
 
-            BadMagic.log.info("Невозможно перейти на клетку.");
             return false;
         }
     }
