@@ -26,7 +26,7 @@ import javax.swing.JPanel;
 /**
  * Класс представляет игровое меню.
  *
- * Позводяет начать новую игру в режиме карьеры,
+ * Позволяет начать новую игру в режиме карьеры,
  * продолжить текущую игру, пройти конкретный уровень.
  *
  * @author Alexander Petrenko, Alexander Lyashenko
@@ -398,13 +398,13 @@ public class GameMenu extends JPanel {
     }
 
     /**
-     * Внутренний класс - слушатель мыши для меню выбора уровн.
+     * Внутренний класс - слушатель мыши для меню выбора уровня.
      */
     private class LevelMenuClickListener extends MouseAdapter {
 
         /**
          * Метод, обрабатывающий клики мыши.
-         * 
+         *
          * @param e событие.
          */
         @Override
