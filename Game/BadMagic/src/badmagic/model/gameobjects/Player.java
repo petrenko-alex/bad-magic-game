@@ -30,9 +30,17 @@ public class Player extends GameObject {
      */
     public Player(GameField field) {
         super(field);
+        _inventory = new ArrayList<GameObject>();
         loadPic();
     }
+    
+    public ArrayList<GameObject> inventory(){
+        return _inventory;
+    }
 
+    public void clearInventory(){
+        _inventory.clear();
+    }
     /**
      * Метод получения количества ходов игрока.
      *
@@ -193,10 +201,17 @@ public class Player extends GameObject {
 
             BadMagic.log.info("Направление взгляда изменено.");
         }
-
-        if( _field.isNextPosEmpty(_position,moveDirection) ) {
-
-            _position = _field.getNextPos(_position,moveDirection);
+        
+        Point newPosition = _field.getNextPos(_position,moveDirection);
+        
+        if( _field.isPosEmpty(newPosition) ) {
+            
+            if( _field.isPosHasCollectable(newPosition)){
+            /*Take item to inventory*/
+                getItemFromField(newPosition);
+            }
+                        
+            _position = newPosition;
             _moves--;
             fireObjectMoved();
 
@@ -206,6 +221,21 @@ public class Player extends GameObject {
 
             BadMagic.log.info("Невозможно перейти на клетку.");
         }
+    }
+    
+    private void getItemFromField(Point pos){
+        
+        ArrayList<GameObject> itemList = _field.getObjects(pos);
+        
+         for( GameObject obj  : itemList ) {
+
+                if( obj instanceof CollectableObject ) {
+
+                    _inventory.add(obj);
+                    _field.removeObject(obj);
+                }
+            }
+        
     }
 
     ///////////////////////////// Данные //////////////////////////////////////
@@ -218,4 +248,7 @@ public class Player extends GameObject {
 
     /** Путь к файлу с изображением */
     private static final String PIC = "/badmagic/resources/goat.png";
+    
+    /** Инвентарь */
+    private ArrayList<GameObject> _inventory;
 }

@@ -4,6 +4,8 @@ import badmagic.BadMagic;
 import badmagic.events.GameObjectListener;
 import badmagic.events.ModelListener;
 import badmagic.model.Level;
+import badmagic.model.gameobjects.CollectableObject;
+import badmagic.model.gameobjects.Elixir;
 import badmagic.model.gameobjects.GameObject;
 import badmagic.model.gameobjects.Player;
 import java.awt.Point;
@@ -300,6 +302,7 @@ public class GameModel {
             _player = (Player)_field.getObjects(
                     Class.forName("badmagic.model.gameobjects.Player")).get(0);
             _player.setMoves(_levels.get(_currentLevel).getMoves());
+            _player.clearInventory();
             _player.addObjectListener(_objectsObserver);
 
         } catch ( ClassNotFoundException ex ) {
@@ -318,34 +321,24 @@ public class GameModel {
      */
     private void checkIfLevelIsFinished() {
 
-        GameObject elixir = null;
-
-        try {
-
-            elixir = (GameObject)_field.getObjects(
-                    Class.forName("badmagic.model.gameobjects.Elixir")).get(0);
-
-        } catch ( ClassNotFoundException ex ) {
-
-            ex.printStackTrace();
-        }
-
-        if( elixir != null ) {
-
-            Point elixirPos = elixir.getPosition();
-            Point playerPos = _player.getPosition();
-
-            if( playerPos.equals(elixirPos) ) {
-
+        
+        ArrayList<GameObject> inventory = _player.inventory();
+        
+        for(GameObject item : inventory) {
+            /*В инвентаре есть эликсир*/
+            if(item instanceof Elixir) {
+                
                 fireLevelCompleted();
                 _levelStatus = LevelStatus.COMPLETED;
-
-            } else if( _player.getMoves() == 0 ){
+                
+            }
+        }
+        
+        if( _player.getMoves() == 0 ){
 
                 fireLevelFailed();
                 _levelStatus = LevelStatus.FAILED;
             }
-        }
     }
 
     /**
