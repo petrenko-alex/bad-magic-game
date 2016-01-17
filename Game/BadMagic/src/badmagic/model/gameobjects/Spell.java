@@ -32,7 +32,7 @@ public class Spell  extends CollectableObject  {
     @Override
     protected void loadPic() {
         
-         try {
+        try {
 
             _image = ImageIO.read(getClass().getResource(PIC));
 
