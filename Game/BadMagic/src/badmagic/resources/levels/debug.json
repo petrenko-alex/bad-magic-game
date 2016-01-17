@@ -27,6 +27,15 @@
 	}
 	,
 	{
+		"Teleport":
+		{
+			"TeleportPositions":[[5, 2]],
+			"TeleportKeys":[-1],
+			"Positions":[[2,2]]
+		}
+	}
+	,
+	{
 		"WoodenTable": {
 			"Positions": [
 				[2, 4]

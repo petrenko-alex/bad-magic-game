@@ -6,7 +6,6 @@ import java.awt.Point;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-
 public class Teleport extends InteractiveObject {
 
     public Teleport(GameField field) {
@@ -15,6 +14,14 @@ public class Teleport extends InteractiveObject {
         openId = -1;
     }
 
+    public void setTPosition(Point tPosition){
+        _tPosition = new Point(tPosition);
+    }
+    
+    public void setKey (int key){
+        openId = key;
+    }
+    
     @Override
     public void paint(Graphics g, Point pos) {
         g.drawImage(_image, pos.x, pos.y, null);
@@ -26,24 +33,46 @@ public class Teleport extends InteractiveObject {
 
             _image = ImageIO.read(getClass().getResource(PIC));
 
-        } catch ( IOException ex ) {
+        } catch (IOException ex) {
 
             ex.printStackTrace();
         }
     }
-    
-     ///////////////////////////// Данные //////////////////////////////////////
 
-    /** Путь к файлу с изображением */
-    private static final String PIC = "/badmagic/resources/teleport.png";
-
-    @Override
+     @Override
     public boolean unlock(CollectableObject key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (((Spell) key).getId() == openId) {
+            openId = -1;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public boolean activate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (openId == -1){
+            
+            for (GameObject o : _field.getObjects()){
+                if (o instanceof Player){
+                    ((Player)o).setPosition(_tPosition);
+                    break;
+                }
+            }
+            
+            return true;
+        }
+        else{
+            return false;
+        }
     }
+     ///////////////////////////// Данные //////////////////////////////////////
+    /**
+     * Путь к файлу с изображением
+     */
+    private static final String PIC = "/badmagic/resources/teleport.png";
+
+   
+    
+    private Point _tPosition;
 }

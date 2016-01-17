@@ -326,6 +326,32 @@ public class Level {
             }
         }
 
+        /*Телепорты*/
+        /*Позиции для телепортации*/
+        if (obj.containsKey("TeleportPositions")) {
+            tp_positions = parsePointArray((JSONArray) obj.get("TeleportPositions"));
+        }
+        
+        /*Ключи*/
+        if (obj.containsKey("TeleportKeys")) {
+            if (((JSONArray) obj.get("TeleportKeys")).size() != positions.size()) {
+                String error = "Число заклинаний-ключей не совпадает с числом позиций";
+
+                throw new Exception(error);
+            }
+
+            tp_keys_ids = parseIntegerArray((JSONArray) obj.get("TeleportKeys"));
+
+            /*Проверка на неизвестные идентификаторы*/
+            for (Integer value : bs_keys_ids){
+                 if (_field.isSpellIdUnique(value) && value != -1) {
+                    String error = "Неизвестный идентификатор заклинания-ключа: " + value;
+                    throw new Exception(error);
+                }
+            }
+        }
+        
+        /*Создание объектов*/
         for (int i = 0; i < positions.size(); ++i) {
             GameObject o = new GameObjectsFactory().createGameObject(objClassName, getField());
             if (o instanceof Spell) {
@@ -339,6 +365,8 @@ public class Level {
             }
             if (o instanceof Teleport) {
                 /*Присваивание ключа и позиции телепортирования*/
+                ((Teleport) o).setTPosition(tp_positions.get(i));
+                ((Teleport) o).setKey(tp_keys_ids.get(i));
             }
             getField().addObject(positions.get(i), o);
         }
