@@ -10,7 +10,7 @@ public abstract class InteractiveObject extends GameObject {
         super(field);
     }
     
-    public abstract boolean unlock(int key);
+    public abstract boolean unlock(CollectableObject key);
     public abstract boolean activate();
     
     /**

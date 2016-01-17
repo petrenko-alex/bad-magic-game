@@ -38,7 +38,7 @@ public class Teleport extends InteractiveObject {
     private static final String PIC = "/badmagic/resources/teleport.png";
 
     @Override
-    public boolean unlock(int key) {
+    public boolean unlock(CollectableObject key) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

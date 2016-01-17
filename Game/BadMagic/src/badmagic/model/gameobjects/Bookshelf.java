@@ -24,8 +24,8 @@ public class Bookshelf extends InteractiveObject {
     }
     
     @Override
-    public boolean unlock(int key){
-       if (key == openId){
+    public boolean unlock(CollectableObject key){
+       if (((Spell)key).getId() == openId){
            openId = -1;
            return true;
        }
@@ -38,13 +38,14 @@ public class Bookshelf extends InteractiveObject {
     public boolean activate() {
          if (openId == -1){
             /*Удаление полки с поля*/
+           Point temp = new Point(_position);
            _field.removeObject(this);
            
             /*Добавление заклинания на его место*/
             if (_spellId != -1){
                  GameObject newSpell = new Spell(_field);
                 ((Spell)newSpell).setId(_spellId);
-                _field.addObject(_position, newSpell);
+                _field.addObject(temp, (Spell)newSpell);
             }
             return true;
         }

@@ -300,7 +300,7 @@ public class Level {
             bs_contains_ids = parseIntegerArray((JSONArray) obj.get("Contains"));
             /*Проверка на неизвестные идентификаторы*/
             for (Integer value : bs_contains_ids){
-                 if (_field.isSpellIdUnique(value) || value == -1) {
+                 if (_field.isSpellIdUnique(value) && value != -1) {
                     String error = "Неизвестный идентификатор заклинания-содержимого: " + value;
                     throw new Exception(error);
                 }
@@ -319,7 +319,7 @@ public class Level {
 
             /*Проверка на неизвестные идентификаторы*/
             for (Integer value : bs_keys_ids){
-                 if (_field.isSpellIdUnique(value) || value == -1) {
+                 if (_field.isSpellIdUnique(value) && value != -1) {
                     String error = "Неизвестный идентификатор заклинания-ключа: " + value;
                     throw new Exception(error);
                 }
