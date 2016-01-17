@@ -31,14 +31,19 @@ public class Teleport extends InteractiveObject {
             ex.printStackTrace();
         }
     }
-
-    @Override
-    public boolean activateObject(int key) {
-        return true;
-    }
     
      ///////////////////////////// Данные //////////////////////////////////////
 
     /** Путь к файлу с изображением */
     private static final String PIC = "/badmagic/resources/teleport.png";
+
+    @Override
+    public boolean unlock(int key) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean activate() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

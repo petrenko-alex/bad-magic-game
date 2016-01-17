@@ -12,12 +12,45 @@ public class Bookshelf extends InteractiveObject {
     public Bookshelf(GameField field) {
         super(field);
         openId = -1;
+        loadPic();
     }
 
+    public void setSpell(int spellId){
+        _spellId = spellId;
+    }
+    
+    public void setLock (int key){
+        openId = key;
+    }
+    
     @Override
-    public boolean activateObject(int key){
-        
-        return true;
+    public boolean unlock(int key){
+       if (key == openId){
+           openId = -1;
+           return true;
+       }
+       else {
+           return false;
+       }
+    }
+    
+    @Override
+    public boolean activate() {
+         if (openId == -1){
+            /*Удаление полки с поля*/
+           _field.removeObject(this);
+           
+            /*Добавление заклинания на его место*/
+            if (_spellId != -1){
+                 GameObject newSpell = new Spell(_field);
+                ((Spell)newSpell).setId(_spellId);
+                _field.addObject(_position, newSpell);
+            }
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     
     @Override
@@ -42,4 +75,10 @@ public class Bookshelf extends InteractiveObject {
 
     /** Путь к файлу с изображением */
     private static final String PIC = "/badmagic/resources/bookshelf.png";
+    
+    /** Хранимое заклинание (-1 если отсутствует)*/
+    private int _spellId = -1;
+
+    
+    
 }

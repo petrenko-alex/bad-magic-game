@@ -1,7 +1,7 @@
 {
 	"LevelName": "Загадочный квадрат",
 	"LevelHistory": "Let's explore this mystery rectangle",
-	"PlayerMoves": 5,
+	"PlayerMoves": 999,
 	"FieldSize": [5, 5],
 
 	"FieldObjects": [{
@@ -11,6 +11,22 @@
 			]
 		}
 	},{
+		"Spell": {
+			"AvailableIds": [1, 2, 3],
+			"OnField":[1],
+			"Positions":[[1,2]]
+		}
+	},
+	{
+		"Bookshelf":
+		{
+			"Contains":[2],
+			"Keys":[1],
+			"Positions":[[4,4]]
+		}
+	}
+	,
+	{
 		"WoodenTable": {
 			"Positions": [
 				[2, 4]

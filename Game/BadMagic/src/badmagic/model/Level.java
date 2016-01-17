@@ -20,14 +20,14 @@ import badmagic.model.gameobjects.GameObjectsFactory;
 import badmagic.model.gameobjects.Spell;
 import badmagic.model.gameobjects.Teleport;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
 /**
  * Класс представляет игровой уровень.
  *
- * Считывает уровень из json файла
- * и хранит информацию о нем.
+ * Считывает уровень из json файла и хранит информацию о нем.
  *
  * @author Alexander Petrenko, Alexander Lyashenko
  */
@@ -49,8 +49,8 @@ public class Level {
     /**
      * Загрузить уровень из файла.
      *
-     * Загружает json файл уровня, считывает его данные
-     * и инициализирует поля класса.
+     * Загружает json файл уровня, считывает его данные и инициализирует поля
+     * класса.
      *
      * @param levelPath путь к файлу уровня.
      * @throws Exception при возникновении ошибок загрузки или парсинга.
@@ -65,19 +65,19 @@ public class Level {
         JSONObject json = (JSONObject) object;
 
         /* Название уровня */
-        if ( json.containsKey("LevelName") ) {
+        if (json.containsKey("LevelName")) {
 
             _name = (String) json.get("LevelName");
         }
 
         /* История уровня */
-        if ( json.containsKey("LevelHistory") ) {
+        if (json.containsKey("LevelHistory")) {
 
             _history = (String) json.get("LevelHistory");
         }
 
         /* Количество ходов игрока */
-        if ( json.containsKey("PlayerMoves") ) {
+        if (json.containsKey("PlayerMoves")) {
 
             _moves = Integer.parseInt(json.get("PlayerMoves").toString());
         }
@@ -152,36 +152,36 @@ public class Level {
     /**
      * Метод разбора и установки размеров полей.
      *
-     * Находит в json объекте данные о размерах поля
-     * и устанавливает их как размеры поля _field.
+     * Находит в json объекте данные о размерах поля и устанавливает их как
+     * размеры поля _field.
      *
      * @param json объект файла уровня.
      * @throws Exception при возникновении ошибок разбора.
      */
     private void parseFieldSize(JSONObject json) throws Exception {
 
-        if ( json.containsKey("FieldSize") ) {
+        if (json.containsKey("FieldSize")) {
 
             JSONArray tmp = (JSONArray) json.get("FieldSize");
             int width = Integer.parseInt(tmp.get(0).toString());
             int height = Integer.parseInt(tmp.get(1).toString());
 
-            if ( width > MAX_WIDTH || height > MAX_HEIGHT ) {
+            if (width > MAX_WIDTH || height > MAX_HEIGHT) {
 
                 Exception ex = new Exception("Размер поля ("
-                                             + tmp.get(0).toString() + ";"
-                                             + tmp.get(1).toString()
-                                             + ") превышет "
-                                             + "максимально допустимый ("
-                                             + MAX_WIDTH + ";" + MAX_HEIGHT + ")");
+                        + tmp.get(0).toString() + ";"
+                        + tmp.get(1).toString()
+                        + ") превышет "
+                        + "максимально допустимый ("
+                        + MAX_WIDTH + ";" + MAX_HEIGHT + ")");
                 throw ex;
 
-            } else if ( width < 1 || height < 1) {
+            } else if (width < 1 || height < 1) {
 
                 Exception ex = new Exception("Размер поля ("
-                                             + tmp.get(0).toString() + ";"
-                                             + tmp.get(1).toString()
-                                             + ") не допустим");
+                        + tmp.get(0).toString() + ";"
+                        + tmp.get(1).toString()
+                        + ") не допустим");
                 throw ex;
             }
 
@@ -197,20 +197,20 @@ public class Level {
     /**
      * Метод разбора и установки игровых объектов.
      *
-     * Находит в json объекте данные об игровых объектах
-     * и устанавливает их как объекты поля _field.
+     * Находит в json объекте данные об игровых объектах и устанавливает их как
+     * объекты поля _field.
      *
      * @param json объект файла уровня.
      * @throws Exception при возникновении ошибок разбора.
      */
     private void parseObjects(JSONObject json) throws Exception {
 
-        if ( json.containsKey("FieldObjects") ) {
+        if (json.containsKey("FieldObjects")) {
 
             JSONArray objects = (JSONArray) json.get("FieldObjects");
 
             /* Парсинг объектов в массиве objects */
-            for ( Object i : objects ) {
+            for (Object i : objects) {
 
                 JSONObject obj = (JSONObject) i;
                 Set keys = obj.keySet();
@@ -219,7 +219,7 @@ public class Level {
                  * Ключ - конкретный тип объекта,
                  * должен соответствовать имени класса
                  */
-                for ( Object key : keys ) {
+                for (Object key : keys) {
 
                     JSONObject tmp = (JSONObject) obj.get(key.toString());
                     parseObject(tmp, key.toString());
@@ -235,172 +235,225 @@ public class Level {
     /**
      * * Метод разбора и установки одного типа игрового объектоа.
      *
-     * Находит в json объекте данные об игровом объекте objClassName
-     * и объект к объектам поля _field.
+     * Находит в json объекте данные об игровом объекте objClassName и объект к
+     * объектам поля _field.
      *
      * @param obj json объект с информацией об игровом объекте.
      * @param objClassName имя класса игрового объекта.
      * @throws Exception при возникновении ошибок разбора.
      */
-    private void parseObject(JSONObject obj,String objClassName) throws Exception {
-        
+    private void parseObject(JSONObject obj, String objClassName) throws Exception {
+
         /*Список позиций объекта типа objClassName*/
-        ArrayList<Point>    positions = new ArrayList<>();
+        ArrayList<Point> positions = new ArrayList<>();
         /*Список идентификаторов заклинаний*/
-        ArrayList<Integer>   spell_ids = new ArrayList<>();
+        ArrayList<Integer> spell_ids = new ArrayList<>();
+        /*Список заклинаний-содержимого книжных полок*/
+        ArrayList<Integer> bs_contains_ids = new ArrayList<>();
+        /*Список заклинаний-ключей книжных полок*/
+        ArrayList<Integer> bs_keys_ids = new ArrayList<>();
+        /*Список заклинаний-ключей телепортов*/
+        ArrayList<Integer> tp_keys_ids = new ArrayList<>();
         /*Список позиций для телепорта*/
-        ArrayList<Point>    teleport_positions = new ArrayList<>();
-        
-        if( obj.containsKey("Positions")) {
-            positions = parsePointArray((JSONArray)obj.get("Positions"));            
+        ArrayList<Point> tp_positions = new ArrayList<>();
+
+        if (obj.containsKey("Positions")) {
+            positions = parsePointArray((JSONArray) obj.get("Positions"));
         }
-        
+
         /*Для заклинаний*/
         /*Парсинг доступных id*/
-        if( obj.containsKey("AvailableIds")) {
-            spell_ids = parseIntegerArray((JSONArray)obj.get("AvailableIds"));
+        if (obj.containsKey("AvailableIds")) {
+            spell_ids = parseIntegerArray((JSONArray) obj.get("AvailableIds"));
+            spell_ids = removeIntegerDuplicates(spell_ids);
             getField().setSpellIdsList(spell_ids);
         }
-        
+
         /*Парсинг заклинаний на поле и вне объектов*/
-        if( obj.containsKey("OnField")) {
-            /*несовпадение количества позиций и idшников на поле*/
-            if (((JSONArray)obj.get("OnField")).size() != positions.size()){
-                String error = "Количество заданных позиций для заклинаний не совпадает с перечнем заклинаний на поле";
-                
+        if (obj.containsKey("OnField")) {
+            /*Несовпадение количества позиций и idшников на поле*/
+            if (((JSONArray) obj.get("OnField")).size() != positions.size()) {
+                String error = "Число заклинаний вне объектов не совпадает с числом позиций";
                 throw new Exception(error);
             }
-            
-            spell_ids.clear();
-            
-            for(Object j : (JSONArray)obj.get("OnField")) {
 
-                int value = Integer.parseInt(j.toString());
-               
-                /* -1 - зарезервированный id для полок и телепортов без ключа*/
-                if(_field.isSpellIdUnique(value) || value == -1) {
+            spell_ids = parseIntegerArray((JSONArray) obj.get("OnField"));
 
-                    String error = "Неизвестный идентификатор заклинания (" + value +
-                                   ") уже занят.";
-
+            /*Проверка на неизвестные идентификаторы*/
+            for (Integer value : spell_ids){
+                 if (_field.isSpellIdUnique(value) || value == -1) {
+                    String error = "Неизвестный идентификатор заклинания вне объекта: " + value;
                     throw new Exception(error);
                 }
-                
-                spell_ids.add(value);
             }
-                       
+        }
+
+        /*Книжная полка с заклинаниями*/
+        /*Содержимое полок*/
+        if (obj.containsKey("Contains")) {
+            if (((JSONArray) obj.get("Contains")).size() != positions.size()) {
+                String error = "Число заклинаний-содержимых не совпадает с числом позиций";
+
+                throw new Exception(error);
+            }
+
+            bs_contains_ids = parseIntegerArray((JSONArray) obj.get("Contains"));
+            /*Проверка на неизвестные идентификаторы*/
+            for (Integer value : bs_contains_ids){
+                 if (_field.isSpellIdUnique(value) || value == -1) {
+                    String error = "Неизвестный идентификатор заклинания-содержимого: " + value;
+                    throw new Exception(error);
+                }
+            }
         }
         
-        if (objClassName.contains("teleport") && positions.size() != teleport_positions.size()){
-            /*Ошибка*/
+        /*Ключи*/
+        if (obj.containsKey("Keys")) {
+            if (((JSONArray) obj.get("Keys")).size() != positions.size()) {
+                String error = "Число заклинаний-ключей не совпадает с числом позиций";
+
+                throw new Exception(error);
+            }
+
+            bs_keys_ids = parseIntegerArray((JSONArray) obj.get("Keys"));
+
+            /*Проверка на неизвестные идентификаторы*/
+            for (Integer value : bs_keys_ids){
+                 if (_field.isSpellIdUnique(value) || value == -1) {
+                    String error = "Неизвестный идентификатор заклинания-ключа: " + value;
+                    throw new Exception(error);
+                }
+            }
         }
-        
-        for (int i = 0; i < positions.size(); ++i){
+
+        for (int i = 0; i < positions.size(); ++i) {
             GameObject o = new GameObjectsFactory().createGameObject(objClassName, getField());
-            if (o instanceof Spell){
+            if (o instanceof Spell) {
                 /*Присваивание идентификтора*/
-                ((Spell)o).setId(spell_ids.get(i));
+                ((Spell) o).setId(spell_ids.get(i));
             }
-            if (o instanceof Bookshelf){
+            if (o instanceof Bookshelf) {
                 /*Присваивание ключа и содержания*/
+                ((Bookshelf) o).setLock(bs_keys_ids.get(i));
+                ((Bookshelf) o).setSpell(bs_contains_ids.get(i));
             }
-            if (o instanceof Teleport){
+            if (o instanceof Teleport) {
                 /*Присваивание ключа и позиции телепортирования*/
             }
-            getField().addObject( positions.get(i), o);
+            getField().addObject(positions.get(i), o);
         }
     }
-    
-    private ArrayList<Point>  parsePointArray (JSONArray array) throws Exception {
-        
+
+    private ArrayList<Point> parsePointArray(JSONArray array) throws Exception {
+
         ArrayList<Point> resultList = new ArrayList<>();
-        
-        for(Object j : array) {
 
-                JSONArray positionData = (JSONArray) j;
-                
-                if (positionData.size()!=2){
-                     String error = "Позиция " + (resultList.size()+1) + "-го элемента некорректна." 
-                                    + "Ожидаемое количество координат: 2, Полученное количество: " +
-                             positionData.size();
+        for (Object j : array) {
 
-                    throw new Exception(error);
-                }
-                
-                Point position = new Point(Integer.parseInt(positionData.get(0).toString()),
-                                           Integer.parseInt(positionData.get(1).toString()));
+            JSONArray positionData = (JSONArray) j;
 
-                if(!_field.isPositionUnique(position)) {
+            if (positionData.size() != 2) {
+                String error = "Позиция " + (resultList.size() + 1) + "-го элемента некорректна."
+                        + "Ожидаемое количество координат: 2, Полученное количество: "
+                        + positionData.size();
 
-                    String error = "Позиция " + (resultList.size()+1) 
-                                    + "-го элемента (" + position.x +
-                                   ";" + position.y +
-                                   ") уже занята.";
-
-                    throw new Exception(error);
-
-                } else if((position.x < 1 || position.x > _field.getWidth()) ||
-                          (position.y < 1 || position.y > _field.getHeight())) {
-
-                    String error = "Позиция " + (resultList.size()+1) 
-                                    + "-го элемента (" + position.x +
-                                   ";" + position.y +
-                                   ") не может быть размещен, "
-                                   + "т.к. его позиция за пределами поля.";
-
-                    throw new Exception(error);
-                }
-                
-                resultList.add(position);
+                throw new Exception(error);
             }
+
+            Point position = new Point(Integer.parseInt(positionData.get(0).toString()),
+                    Integer.parseInt(positionData.get(1).toString()));
+
+            if (!_field.isPositionUnique(position)) {
+
+                String error = "Позиция " + (resultList.size() + 1)
+                        + "-го элемента (" + position.x
+                        + ";" + position.y
+                        + ") уже занята.";
+
+                throw new Exception(error);
+
+            } else if ((position.x < 1 || position.x > _field.getWidth())
+                    || (position.y < 1 || position.y > _field.getHeight())) {
+
+                String error = "Позиция " + (resultList.size() + 1)
+                        + "-го элемента (" + position.x
+                        + ";" + position.y
+                        + ") не может быть размещен, "
+                        + "т.к. его позиция за пределами поля.";
+
+                throw new Exception(error);
+            }
+
+            resultList.add(position);
+        }
+        return resultList;
+    }
+
+    private ArrayList<Integer> parseIntegerArray(JSONArray array) throws Exception {
+
+        ArrayList<Integer> resultList = new ArrayList<>();
+
+        for (Object j : array) {
+
+            int value = Integer.parseInt(j.toString());
+            resultList.add(value);
+        }
         return resultList;
     }
     
-    private ArrayList<Integer>  parseIntegerArray (JSONArray array) throws Exception {
-        
-        ArrayList<Integer> resultList = new ArrayList<>();
-        
-        for(Object j : array) {
+     static ArrayList<Integer> removeIntegerDuplicates(ArrayList<Integer> list) {
 
-                int value = Integer.parseInt(j.toString());
-               
-                /* -1 - зарезервированный id для полок и телепортов без ключа*/
-                if(!_field.isSpellIdUnique(value) || value == -1) {
+	ArrayList<Integer> result = new ArrayList<>();
 
-                    String error = "Идентификатор " + (resultList.size()+1) 
-                                    + "-го заклинания (" + value +
-                                   ") уже занят.";
+	HashSet<Integer> set = new HashSet<>();
 
-                    throw new Exception(error);
-                }
-                
-                resultList.add(value);
-            }
-        return resultList;
+	for (Integer item : list) {
+
+	    if (!set.contains(item)) {
+		result.add(item);
+		set.add(item);
+	    }
+	}
+	return result;
     }
-    ////////////////////////////// Данные /////////////////////////////////////
+    
+     ////////////////////////////// Данные /////////////////////////////////////
 
-    /** Максимальная ширина поля - клеток */
+     /** Максимальная ширина поля - клеток */
     private static final int MAX_WIDTH = 16;
 
-    /** Максимальная высота поля - клеток */
+    /**
+     * Максимальная высота поля - клеток
+     */
     private static final int MAX_HEIGHT = 11;
 
-    /** Количество ходов уровня */
+    /**
+     * Количество ходов уровня
+     */
     private int _moves = 100;
 
-    /** Игровое поле уровня */
+    /**
+     * Игровое поле уровня
+     */
     private GameField _field;
 
-    /** Имя уровня */
+    /**
+     * Имя уровня
+     */
     private String _name = "default level name";
 
-    /** История уровня */
+    /**
+     * История уровня
+     */
     private String _history = "default level history";
 
-    /** Путь к файлу с уровнем */
+    /**
+     * Путь к файлу с уровнем
+     */
     private String _levelPath;
 
-    /** Флаг - пройден ли уровень */
+    /**
+     * Флаг - пройден ли уровень
+     */
     private boolean _isCompleted = false;
 }

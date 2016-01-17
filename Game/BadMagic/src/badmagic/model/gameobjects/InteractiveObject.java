@@ -10,7 +10,8 @@ public abstract class InteractiveObject extends GameObject {
         super(field);
     }
     
-    public abstract boolean activateObject (int key);
+    public abstract boolean unlock(int key);
+    public abstract boolean activate();
     
     /**
      * Метод проверки требования к ключу.
