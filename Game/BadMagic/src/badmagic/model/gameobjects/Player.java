@@ -14,8 +14,8 @@ import javax.imageio.ImageIO;
 /**
  * Класс представляет игрока.
  *
- * Наследник класса GameObject. Реализует абстрактные методы.
- * Имеет образ - изображение, направление взгляда и количество ходов.
+ * Наследник класса GameObject. Реализует абстрактные методы. Имеет образ -
+ * изображение, направление взгляда и количество ходов.
  *
  * @author Alexander Petrenko, Alexander Lyashenko
  */
@@ -33,14 +33,15 @@ public class Player extends GameObject {
         _inventory = new ArrayList<GameObject>();
         loadPic();
     }
-    
-    public ArrayList<GameObject> inventory(){
+
+    public ArrayList<GameObject> inventory() {
         return _inventory;
     }
 
-    public void clearInventory(){
+    public void clearInventory() {
         _inventory.clear();
     }
+
     /**
      * Метод получения количества ходов игрока.
      *
@@ -64,21 +65,21 @@ public class Player extends GameObject {
     /**
      * Метод перехода игрока на соседнюю клетку в направлении.
      *
-     * Обертка над одноименным методом. Флаг изменения направления
-     * взгляда установлен в true.
+     * Обертка над одноименным методом. Флаг изменения направления взгляда
+     * установлен в true.
      *
      * @param moveDirection направление перемещения.
      */
     public void move(Direction moveDirection) {
 
-        move(moveDirection,true);
+        move(moveDirection, true);
     }
 
     /**
      * Метод перемещения объекта на соседнюю клетку.
      *
-     * Перемещает игрока и объект на который он смотрит
-     * на соседние клетки в направлении, если они свободны.
+     * Перемещает игрока и объект на который он смотрит на соседние клетки в
+     * направлении, если они свободны.
      *
      * @param moveDirection направление перемещения.
      */
@@ -91,11 +92,11 @@ public class Player extends GameObject {
 
         /* Получаем объекты в этой позиции и ищем тот, который можно сдвинуть */
         objects = _field.getObjects(nextPos);
-        if( !objects.isEmpty() ) {
+        if (!objects.isEmpty()) {
 
-            for(GameObject object : objects) {
+            for (GameObject object : objects) {
 
-                if( object instanceof MovableObject ) {
+                if (object instanceof MovableObject) {
 
                     nextObject = object;
                 }
@@ -103,21 +104,21 @@ public class Player extends GameObject {
         }
 
         /* Пробуем сдвинуть */
-        if( nextObject != null ) {
+        if (nextObject != null) {
 
-            if( _gazeDirection.equals(moveDirection) ) {
+            if (_gazeDirection.equals(moveDirection)) {
 
                 /* Толкаем предмет вперед */
-                ((MovableObject)nextObject).move(moveDirection);
-                this.move(moveDirection,false);
+                ((MovableObject) nextObject).move(moveDirection);
+                this.move(moveDirection, false);
 
                 BadMagic.log.info("Толкаем предмет вперед.");
 
-            } else if( _gazeDirection.isOpposite(moveDirection) ) {
+            } else if (_gazeDirection.isOpposite(moveDirection)) {
 
                 /* Тянем предмет на себя */
-                this.move(moveDirection,false);
-                ((MovableObject)nextObject).move(moveDirection);
+                this.move(moveDirection, false);
+                ((MovableObject) nextObject).move(moveDirection);
 
                 BadMagic.log.info("Тянем предмет на себя.");
 
@@ -127,7 +128,7 @@ public class Player extends GameObject {
 
                 BadMagic.log.info("Нельзя сдвинуть в этом направлении.");
             }
-        }  else {
+        } else {
 
             _gazeDirection = moveDirection;
 
@@ -142,10 +143,10 @@ public class Player extends GameObject {
      * @param pos позиция отрисоки.
      */
     @Override
-    public void paint(Graphics g,Point pos) {
+    public void paint(Graphics g, Point pos) {
 
-        AffineTransform at = rotate(_gazeDirection,pos);
-        Graphics2D g2d = (Graphics2D)g;
+        AffineTransform at = rotate(_gazeDirection, pos);
+        Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(_image, at, null);
     }
 
@@ -159,7 +160,7 @@ public class Player extends GameObject {
 
             _image = ImageIO.read(getClass().getResource(PIC));
 
-        } catch ( IOException ex ) {
+        } catch (IOException ex) {
 
             ex.printStackTrace();
         }
@@ -172,83 +173,112 @@ public class Player extends GameObject {
      * @param pos позиция объекта.
      * @return AffineTransform - объект трансформации.
      */
-    private AffineTransform rotate(Direction direction,Point pos) {
+    private AffineTransform rotate(Direction direction, Point pos) {
 
         int angle = direction.getAngle();
 
         AffineTransform at = AffineTransform.getTranslateInstance(pos.x, pos.y);
         at.rotate(Math.toRadians(angle),
-                  _image.getWidth() / 2,
-                  _image.getHeight() / 2);
+                _image.getWidth() / 2,
+                _image.getHeight() / 2);
         return at;
     }
 
     /**
      * Метод перехода игрока на соседнюю клетку в направлении.
      *
-     * Перемещает игрока на соседнюю клетку в заданном направлении,
-     * если она свободна, изменяет направление взгляда, уменьшает
-     * количество ходов, испускает сигнал о перемещении.
+     * Перемещает игрока на соседнюю клетку в заданном направлении, если она
+     * свободна, изменяет направление взгляда, уменьшает количество ходов,
+     * испускает сигнал о перемещении.
      *
      * @param moveDirection направление перемещения.
      * @param needToChangeDirection флаг - менять ли направление взгляда.
      */
-    private void move(Direction moveDirection,boolean needToChangeDirection) {
+    private void move(Direction moveDirection, boolean needToChangeDirection) {
 
-        if( needToChangeDirection ) {
+        if (needToChangeDirection) {
 
             _gazeDirection = moveDirection;
 
             BadMagic.log.info("Направление взгляда изменено.");
         }
-        
-        Point newPosition = _field.getNextPos(_position,moveDirection);
-        
-        if( _field.isPosEmpty(newPosition) ) {
-            
-            if( _field.isPosHasCollectable(newPosition)){
-            /*Take item to inventory*/
+
+        Point newPosition = _field.getNextPos(_position, moveDirection);
+
+        if (_field.isPosEmpty(newPosition)) {
+
+            if (_field.isPosHasCollectable(newPosition)) {
+                /*Take item to inventory*/
                 getItemFromField(newPosition);
             }
-                        
+
             _position = newPosition;
             _moves--;
             fireObjectMoved();
 
-            BadMagic.log.info("Переход на клетку (" +
-                              _position.x + ";" + _position.y + ").");
+            BadMagic.log.info("Переход на клетку ("
+                    + _position.x + ";" + _position.y + ").");
         } else {
 
             BadMagic.log.info("Невозможно перейти на клетку.");
         }
     }
-    
-    private void getItemFromField(Point pos){
-        
+
+    private void getItemFromField(Point pos) {
+
         ArrayList<GameObject> itemList = _field.getObjects(pos);
-        
-         for( GameObject obj  : itemList ) {
 
-                if( obj instanceof CollectableObject ) {
+        for (GameObject obj : itemList) {
 
-                    _inventory.add(obj);
-                    _field.removeObject(obj);
+            if (obj instanceof CollectableObject) {
+
+                _inventory.add(obj);
+                _field.removeObject(obj);
+            }
+        }
+
+    }
+
+    public void activateObject() {
+
+        Point objectPosition = _field.getNextPos(_position, _gazeDirection);
+
+        for (GameObject obj : _field.getObjects(objectPosition)) {
+            if (obj instanceof InteractiveObject) {
+                /*Запрос и проверка ключа*/
+                /*Попробовать открыть*/
+                if (!((InteractiveObject) obj).activate()) {
+                    for (GameObject o : _inventory) {
+                        if (((InteractiveObject) obj).unlock((CollectableObject) o)) {
+                            _inventory.remove(o);
+                            ((InteractiveObject) obj).activate();
+                            break;
+                        }
+                    }
+                    break;
                 }
             }
-        
+        }
     }
 
     ///////////////////////////// Данные //////////////////////////////////////
-    
-    /** Количество ходов игрока */
+    /**
+     * Количество ходов игрока
+     */
     private int _moves;
 
-    /** Направление взгляда игрока */
+    /**
+     * Направление взгляда игрока
+     */
     private Direction _gazeDirection = Direction.north();
 
-    /** Путь к файлу с изображением */
+    /**
+     * Путь к файлу с изображением
+     */
     private static final String PIC = "/badmagic/resources/goat.png";
-    
-    /** Инвентарь */
+
+    /**
+     * Инвентарь
+     */
     private ArrayList<GameObject> _inventory;
 }

@@ -488,6 +488,7 @@ public class GamePanel extends JPanel {
                     case (KeyEvent.VK_SPACE): {
 
                         BadMagic.log.info("Активировать объект");
+                        _model.getPlayer().activateObject();
                         break;
                     }
                     default: {

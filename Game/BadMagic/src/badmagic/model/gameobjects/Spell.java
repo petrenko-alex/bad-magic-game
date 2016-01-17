@@ -15,7 +15,7 @@ public class Spell  extends CollectableObject  {
         id = _id;
     }
     
-    public int getId (int _id){
+    public int getId (){
         return id;
     }
     
