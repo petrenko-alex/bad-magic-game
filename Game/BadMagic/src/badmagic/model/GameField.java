@@ -356,7 +356,22 @@ public class GameField {
         }
         return true;
     }
-
+    
+    public boolean isSpellIdUnique(int id){
+        return !(_spellIds.contains(id));        
+    }
+    
+    public void setSpellIdsList(ArrayList<Integer> list){
+        _spellIds = new ArrayList<Integer> (list);
+    }
+    
+    public ArrayList<Integer> spellIdsList(){
+        return _spellIds;
+    }
+    
+    public void clearSpellIdsList(){
+        _spellIds.clear();
+    }
     /**
      * Метод очистки игрового поля.
      *
@@ -374,6 +389,8 @@ public class GameField {
 
     /** Высота поля */
     private int _height;
+    
+    private ArrayList<Integer> _spellIds = new ArrayList<>();
 
     /** Игровые объекты поля */
     private Map<Class, ArrayList<GameObject>> _gameObjects = new LinkedHashMap<>();

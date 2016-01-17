@@ -329,6 +329,7 @@ public class GameModel {
             if(item instanceof Elixir) {
                 
                 fireLevelCompleted();
+                _field.clearSpellIdsList();
                 _levelStatus = LevelStatus.COMPLETED;
                 
             }
