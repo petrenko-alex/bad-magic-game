@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 
 public class Spell  extends CollectableObject  {
     /** Идентификатор открываемого объекта */
-    private int id = 0;
+    private int id = -1;
     
     public void setId (int _id){
         id = _id;
@@ -21,6 +21,7 @@ public class Spell  extends CollectableObject  {
     
     public Spell(GameField field) {
         super(field);
+        loadPic();
     }
 
     @Override

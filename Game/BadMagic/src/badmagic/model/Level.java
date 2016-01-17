@@ -247,17 +247,48 @@ public class Level {
         /*Список позиций объекта типа objClassName*/
         ArrayList<Point>    positions = new ArrayList<>();
         /*Список идентификаторов заклинаний*/
-        ArrayList<String>   spell_ids = new ArrayList<>();
+        ArrayList<Integer>   spell_ids = new ArrayList<>();
         /*Список позиций для телепорта*/
         ArrayList<Point>    teleport_positions = new ArrayList<>();
         
-        /* Парсинг позиций объектов с типом, заданным именем objName */
         if( obj.containsKey("Positions")) {
             positions = parsePointArray((JSONArray)obj.get("Positions"));            
         }
         
-        if (objClassName.contains("spell") && positions.size() != spell_ids.size()){
-            /*Ошибка*/
+        /*Для заклинаний*/
+        /*Парсинг доступных id*/
+        if( obj.containsKey("AvailableIds")) {
+            spell_ids = parseIntegerArray((JSONArray)obj.get("AvailableIds"));
+            getField().setSpellIdsList(spell_ids);
+        }
+        
+        /*Парсинг заклинаний на поле и вне объектов*/
+        if( obj.containsKey("OnField")) {
+            /*несовпадение количества позиций и idшников на поле*/
+            if (((JSONArray)obj.get("OnField")).size() != positions.size()){
+                String error = "Количество заданных позиций для заклинаний не совпадает с перечнем заклинаний на поле";
+                
+                throw new Exception(error);
+            }
+            
+            spell_ids.clear();
+            
+            for(Object j : (JSONArray)obj.get("OnField")) {
+
+                int value = Integer.parseInt(j.toString());
+               
+                /* -1 - зарезервированный id для полок и телепортов без ключа*/
+                if(_field.isSpellIdUnique(value) || value == -1) {
+
+                    String error = "Неизвестный идентификатор заклинания (" + value +
+                                   ") уже занят.";
+
+                    throw new Exception(error);
+                }
+                
+                spell_ids.add(value);
+            }
+                       
         }
         
         if (objClassName.contains("teleport") && positions.size() != teleport_positions.size()){
@@ -268,6 +299,7 @@ public class Level {
             GameObject o = new GameObjectsFactory().createGameObject(objClassName, getField());
             if (o instanceof Spell){
                 /*Присваивание идентификтора*/
+                ((Spell)o).setId(spell_ids.get(i));
             }
             if (o instanceof Bookshelf){
                 /*Присваивание ключа и содержания*/
@@ -320,6 +352,29 @@ public class Level {
                 }
                 
                 resultList.add(position);
+            }
+        return resultList;
+    }
+    
+    private ArrayList<Integer>  parseIntegerArray (JSONArray array) throws Exception {
+        
+        ArrayList<Integer> resultList = new ArrayList<>();
+        
+        for(Object j : array) {
+
+                int value = Integer.parseInt(j.toString());
+               
+                /* -1 - зарезервированный id для полок и телепортов без ключа*/
+                if(!_field.isSpellIdUnique(value) || value == -1) {
+
+                    String error = "Идентификатор " + (resultList.size()+1) 
+                                    + "-го заклинания (" + value +
+                                   ") уже занят.";
+
+                    throw new Exception(error);
+                }
+                
+                resultList.add(value);
             }
         return resultList;
     }
