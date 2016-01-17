@@ -1,6 +1,7 @@
 package badmagic.model;
 
 import badmagic.BadMagic;
+import badmagic.model.gameobjects.Bookshelf;
 import badmagic.model.gameobjects.GameObject;
 import badmagic.model.gameobjects.WoodenTable;
 import java.awt.Point;
@@ -16,6 +17,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import badmagic.model.gameobjects.GameObjectsFactory;
+import badmagic.model.gameobjects.Spell;
+import badmagic.model.gameobjects.Teleport;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -239,49 +243,86 @@ public class Level {
      * @throws Exception при возникновении ошибок разбора.
      */
     private void parseObject(JSONObject obj,String objClassName) throws Exception {
-
-        /* Парсинг объекта obj с типом, заданным именем objName */
+        
+        /*Список позиций объекта типа objClassName*/
+        ArrayList<Point>    positions = new ArrayList<>();
+        /*Список идентификаторов заклинаний*/
+        ArrayList<String>   spell_ids = new ArrayList<>();
+        /*Список позиций для телепорта*/
+        ArrayList<Point>    teleport_positions = new ArrayList<>();
+        
+        /* Парсинг позиций объектов с типом, заданным именем objName */
         if( obj.containsKey("Positions")) {
+            positions = parsePointArray((JSONArray)obj.get("Positions"));            
+        }
+        
+        if (objClassName.contains("spell") && positions.size() != spell_ids.size()){
+            /*Ошибка*/
+        }
+        
+        if (objClassName.contains("teleport") && positions.size() != teleport_positions.size()){
+            /*Ошибка*/
+        }
+        
+        for (int i = 0; i < positions.size(); ++i){
+            GameObject o = new GameObjectsFactory().createGameObject(objClassName, getField());
+            if (o instanceof Spell){
+                /*Присваивание идентификтора*/
+            }
+            if (o instanceof Bookshelf){
+                /*Присваивание ключа и содержания*/
+            }
+            if (o instanceof Teleport){
+                /*Присваивание ключа и позиции телепортирования*/
+            }
+            getField().addObject( positions.get(i), o);
+        }
+    }
+    
+    private ArrayList<Point>  parsePointArray (JSONArray array) throws Exception {
+        
+        ArrayList<Point> resultList = new ArrayList<>();
+        
+        for(Object j : array) {
 
-            JSONArray pos = (JSONArray)obj.get("Positions");
+                JSONArray positionData = (JSONArray) j;
+                
+                if (positionData.size()!=2){
+                     String error = "Позиция " + (resultList.size()+1) + "-го элемента некорректна." 
+                                    + "Ожидаемое количество координат: 2, Полученное количество: " +
+                             positionData.size();
 
-            /* Позиции объектов данного типа */
-            for(Object j : pos) {
+                    throw new Exception(error);
+                }
+                
+                Point position = new Point(Integer.parseInt(positionData.get(0).toString()),
+                                           Integer.parseInt(positionData.get(1).toString()));
 
-                JSONArray onePos = (JSONArray) j;
-                int x = Integer.parseInt(onePos.get(0).toString());
-                int y = Integer.parseInt(onePos.get(1).toString());
+                if(!_field.isPositionUnique(position)) {
 
-                if(!_field.isPositionUnique(new Point(x,y))) {
-
-                    String error = "Объект типа " + objClassName +
-                                   " с позицией (" + onePos.get(0).toString() +
-                                   ";" + onePos.get(1).toString() +
-                                   ") не может быть размещен, "
-                                   + "т.к. его позиция уже занята.";
+                    String error = "Позиция " + (resultList.size()+1) 
+                                    + "-го элемента (" + position.x +
+                                   ";" + position.y +
+                                   ") уже занята.";
 
                     throw new Exception(error);
 
-                } else if((x < 1 || x > _field.getWidth()) ||
-                          (y < 1 || y > _field.getHeight())) {
+                } else if((position.x < 1 || position.x > _field.getWidth()) ||
+                          (position.y < 1 || position.y > _field.getHeight())) {
 
-                    String error = "Объект типа " + objClassName +
-                                   " с позицией (" + onePos.get(0).toString() +
-                                   ";" + onePos.get(1).toString() +
+                    String error = "Позиция " + (resultList.size()+1) 
+                                    + "-го элемента (" + position.x +
+                                   ";" + position.y +
                                    ") не может быть размещен, "
                                    + "т.к. его позиция за пределами поля.";
 
                     throw new Exception(error);
                 }
-
-                /* Создаем объект с помощью фабрики */
-                GameObject object = new GameObjectsFactory().createGameObject(objClassName, getField());
-                getField().addObject( new Point(x,y), object);
-
+                
+                resultList.add(position);
             }
-        }
+        return resultList;
     }
-
     ////////////////////////////// Данные /////////////////////////////////////
 
     /** Максимальная ширина поля - клеток */
