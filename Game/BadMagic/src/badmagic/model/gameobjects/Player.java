@@ -34,10 +34,23 @@ public class Player extends GameObject {
         loadPic();
     }
 
-    public ArrayList<GameObject> inventory() {
-        return _inventory;
+    /**
+     * Метод проверки наличия эликсира в инвентаре
+     * @return Флаг наличия эликсира в инвентаре
+     */
+    public boolean haveElixirInInventory() {
+        for (GameObject item : _inventory) {
+            /*В инвентаре есть эликсир*/
+            if (item instanceof Elixir) {
+                return true;
+            }
+        }
+        return false;
     }
-
+    
+    /**
+     * Метод очистки инвентаря
+     */
     public void clearInventory() {
         _inventory.clear();
     }
@@ -224,6 +237,10 @@ public class Player extends GameObject {
         }
     }
 
+    /**
+     * Метод, убирающий предмет с поля в инвентарь
+     * @param pos - позиция, с которой нужно собрать предметы
+     */
     private void getItemFromField(Point pos) {
 
         ArrayList<GameObject> itemList = _field.getObjects(pos);
@@ -239,6 +256,9 @@ public class Player extends GameObject {
 
     }
 
+    /**
+     * Метод, активирующий объект в клетке по направлению
+     */
     public void activateObject() {
 
         Point objectPosition = _field.getNextPos(_position, _gazeDirection);

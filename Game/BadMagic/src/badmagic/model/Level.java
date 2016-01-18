@@ -366,12 +366,18 @@ public class Level {
             if (o instanceof Teleport) {
                 /*Присваивание ключа и позиции телепортирования*/
                 ((Teleport) o).setTPosition(tp_positions.get(i));
-                ((Teleport) o).setKey(tp_keys_ids.get(i));
+                ((Teleport) o).setLock(tp_keys_ids.get(i));
             }
             getField().addObject(positions.get(i), o);
         }
     }
 
+    /**
+     * Метод парсит JSON массив, содержащий объекты типа Point и проверяет их на ошибки
+     * @param array - массив Point
+     * @return массив объектов Point в виде листа
+     * @throws Exception ошибка, возникающая при некорректных данных
+     */
     private ArrayList<Point> parsePointArray(JSONArray array) throws Exception {
 
         ArrayList<Point> resultList = new ArrayList<>();
@@ -417,6 +423,12 @@ public class Level {
         return resultList;
     }
 
+    /**
+     * Метод парсит JSON массив, содержащий целые числа и возвращает их в виде списка
+     * @param array - JSON-массив чисел
+     * @return массив чисел в виде листа
+     * @throws Exception ошибка, возникающая при некорректных данных
+     */
     private ArrayList<Integer> parseIntegerArray(JSONArray array) throws Exception {
 
         ArrayList<Integer> resultList = new ArrayList<>();
@@ -429,6 +441,11 @@ public class Level {
         return resultList;
     }
     
+    /**
+     * Метод удаляет дубликаты из списка
+     * @param list - список из которого нужно удалить дубликаты
+     * @return очищенный от дубликатов список
+     */
      static ArrayList<Integer> removeIntegerDuplicates(ArrayList<Integer> list) {
 
 	ArrayList<Integer> result = new ArrayList<>();

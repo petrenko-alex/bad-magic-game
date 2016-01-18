@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 /**
  * Класс представляет игровой объект - стену.
  *
- * Наследник класса GameObject. Реализует абстрактные методы.
+ * Наследник класса UnmovableObject. Реализует абстрактные методы.
  * Имеет образ - изображение.
  *
  * @author Alexander Petrenko, Alexander Lyashenko
