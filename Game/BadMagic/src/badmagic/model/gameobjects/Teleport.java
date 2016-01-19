@@ -7,14 +7,12 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * Класс, представляющий собой телепортатор.
- * Является наследником InteractiveObject
- * Имеет собственное графическое представление
- * Хранит позицию для телепортации
- * 
+ * Класс, представляющий собой телепортатор. Является наследником ActionObject
+ * Имеет собственное графическое представление Хранит позицию для телепортации
+ *
  * @author Alexander Lyashenko
  */
-public class Teleport extends InteractiveObject {
+public class Teleport extends ActionObject {
 
     /**
      * Конструктор класса.
@@ -26,28 +24,66 @@ public class Teleport extends InteractiveObject {
     public Teleport(GameField field) {
         super(field);
         loadPic();
-        openId = -1;
     }
 
     /**
-     * Метод, устанавливающий позицию для телепортации. 
-     * Позиция должна быть в пределах игрового поля
+     * Абстрактный метод, закрывающий объект
+     * @param key - ключ
+     * @return Флаг успеха действия
+     */
+    @Override
+    public boolean lock(GameObject key) {
+        if (key instanceof Spell) {
+            _lockId = ((Spell) key).getId();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Метод для открытия объекта (снятия с него замка)
+     * @param key - ключ-заклинанеие
+     * @return Флаг - открылся ли объект
+     */
+    @Override
+    public boolean unlock(GameObject key){
+        /** Проверяем, не пытаемся ли открыть открытое */
+        if (!this.isLocked()){
+            return true;
+        }
+        
+        /** Если переданный ключ является заклинанием и идентификаторы совпали */
+       if (key instanceof Spell && ((Spell)key).getId() == _lockId){
+           _lockId = -1;
+           return true;
+       }
+       else {
+           return false;
+       }
+    }
+
+    /**
+     * Метод проверки закрытости объекта.
      * 
+     * Возвращает флаг состояния замка (открыто\закрыто)
+     * @return идентификатор ключа
+     */
+    @Override
+    public boolean isLocked() {
+        return (_lockId != -1);
+    }
+
+    /**
+     * Метод, устанавливающий позицию для телепортации. Позиция должна быть в
+     * пределах игрового поля
+     *
      * @param tPosition позиция для телепортации
      */
-    public void setTPosition(Point tPosition){
+    public void setTeleportingPosition(Point tPosition) {
         _tPosition = new Point(tPosition);
     }
-    
+
     /**
-     * Метод, устанавливающий ключ для объекта
-     * @param key  идентификатор ключа
-     */
-    public void setLock (int key){
-        openId = key;
-    }
-    
-     /**
      * Метод отрисовки объекта.
      *
      * @param g среда отрисовки.
@@ -58,7 +94,7 @@ public class Teleport extends InteractiveObject {
         g.drawImage(_image, pos.x, pos.y, null);
     }
 
-     /**
+    /**
      * Метод загрузки изображения объекта.
      */
     @Override
@@ -74,50 +110,40 @@ public class Teleport extends InteractiveObject {
     }
 
     /**
-     * Метод для открытия объекта (снятия с него замка)
-     * @param key - ключ
-     * @return Флаг - открылся ли объект
-     */
-     @Override
-    public boolean unlock(CollectableObject key) {
-        if (((Spell) key).getId() == openId) {
-            openId = -1;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Метод активации объекта.
-     * Для конкретного объекта - телепортация игрока.
+     * Метод активации объекта. Для конкретного объекта - телепортация игрока.
+     *
      * @return Флаг, возвращающий успех действия
      */
     @Override
     public boolean activate() {
-        if (openId == -1){
-            
-            for (GameObject o : _field.getObjects()){
-                if (o instanceof Player){
-                    ((Player)o).setPosition(_tPosition);
+        if (!this.isLocked()) {
+
+            for (GameObject o : _field.getObjects()) {
+                if (o instanceof Player) {
+                    ((Player) o).setPosition(_tPosition);
                     break;
                 }
             }
             
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
-     ///////////////////////////// Данные //////////////////////////////////////
+    ///////////////////////////// Данные //////////////////////////////////////
     /**
      * Путь к файлу с изображением
      */
     private static final String PIC = "/badmagic/resources/teleport.png";
-    
+
     /**
      * Позиция телепортации
      */
     private Point _tPosition;
+
+    /**
+     * Идентификатор ключа-заклинания, которое открывает объект
+     */
+    private int _lockId = -1;
+
 }

@@ -109,7 +109,7 @@ public class Player extends GameObject {
 
             for (GameObject object : objects) {
 
-                if (object instanceof MovableObject) {
+                if (object instanceof PushableObject) {
 
                     nextObject = object;
                 }
@@ -122,7 +122,7 @@ public class Player extends GameObject {
             if (_gazeDirection.equals(moveDirection)) {
 
                 /* Толкаем предмет вперед */
-                ((MovableObject) nextObject).move(moveDirection);
+                ((PushableObject) nextObject).move(moveDirection);
                 this.move(moveDirection, false);
 
                 BadMagic.log.info("Толкаем предмет вперед.");
@@ -131,7 +131,7 @@ public class Player extends GameObject {
 
                 /* Тянем предмет на себя */
                 this.move(moveDirection, false);
-                ((MovableObject) nextObject).move(moveDirection);
+                ((PushableObject) nextObject).move(moveDirection);
 
                 BadMagic.log.info("Тянем предмет на себя.");
 
@@ -247,10 +247,8 @@ public class Player extends GameObject {
 
         for (GameObject obj : itemList) {
 
-            if (obj instanceof CollectableObject) {
-
-                _inventory.add(obj);
-                _field.removeObject(obj);
+            if (obj instanceof CollectableItemObject) {
+                _inventory.add(((CollectableItemObject)obj).removeFromField());
             }
         }
 
@@ -264,20 +262,24 @@ public class Player extends GameObject {
         Point objectPosition = _field.getNextPos(_position, _gazeDirection);
 
         for (GameObject obj : _field.getObjects(objectPosition)) {
-            if (obj instanceof InteractiveObject) {
-                /*Запрос и проверка ключа*/
-                /*Попробовать открыть*/
-                if (!((InteractiveObject) obj).activate()) {
-                    for (GameObject o : _inventory) {
-                        if (((InteractiveObject) obj).unlock((CollectableObject) o)) {
+            
+            if (obj instanceof ActionObject) {
+                /*Попытка открыть объект при необходимости*/
+                 if (((ActionObject) obj).isLocked()){
+                      for (GameObject o : _inventory) {
+                        if (((ActionObject) obj).unlock(o)) {
                             _inventory.remove(o);
-                            ((InteractiveObject) obj).activate();
+                            ((ActionObject) obj).activate();
                             break;
                         }
                     }
-                    break;
-                }
+                 }
+                 else{
+                     ((ActionObject) obj).activate();
+                 }
+               
             }
+            
         }
     }
 

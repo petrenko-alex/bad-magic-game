@@ -4,14 +4,17 @@ import badmagic.model.GameField;
 import badmagic.navigation.Direction;
 
 /**
- * Абстрактный класс - передвигаемый игровой объект.
+ * Игровой объект, который игрок может двигать.
  *
+ * Объект нельзя подобрать в инвентарь.
+ * Объект можно двигать по игровому полю.
+ * Объект нельзя активировать.
+ * 
  * Наследник класса GameObject.
- * Содержит метод перемещения объекта.
- *
+ * 
  * @author Alexander Petrenko, Alexander Lyashenko
  */
-public abstract class MovableObject extends GameObject {
+public abstract class PushableObject extends GameObject {
 
     /**
      * Конструктор класса.
@@ -20,7 +23,7 @@ public abstract class MovableObject extends GameObject {
      *
      * @param field ссылка на игровое поле.
      */
-    public MovableObject(GameField field) {
+    public PushableObject(GameField field) {
 
         super(field);
     }

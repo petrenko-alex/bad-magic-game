@@ -4,7 +4,7 @@ import badmagic.BadMagic;
 import badmagic.events.GameObjectListener;
 import badmagic.events.ModelListener;
 import badmagic.model.Level;
-import badmagic.model.gameobjects.CollectableObject;
+import badmagic.model.gameobjects.CollectableItemObject;
 import badmagic.model.gameobjects.Elixir;
 import badmagic.model.gameobjects.GameObject;
 import badmagic.model.gameobjects.Player;

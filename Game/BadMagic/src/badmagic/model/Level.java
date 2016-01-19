@@ -360,13 +360,13 @@ public class Level {
             }
             if (o instanceof Bookshelf) {
                 /*Присваивание ключа и содержания*/
-                ((Bookshelf) o).setLock(bs_keys_ids.get(i));
-                ((Bookshelf) o).setSpell(bs_contains_ids.get(i));
+                ((Bookshelf) o).lock(new Spell(_field).setId(bs_keys_ids.get(i)));
+                ((Bookshelf) o).setContainingItem(bs_contains_ids.get(i));
             }
             if (o instanceof Teleport) {
                 /*Присваивание ключа и позиции телепортирования*/
-                ((Teleport) o).setTPosition(tp_positions.get(i));
-                ((Teleport) o).setLock(tp_keys_ids.get(i));
+                ((Teleport) o).lock(new Spell(_field).setId(tp_keys_ids.get(i)));
+                ((Teleport) o).setTeleportingPosition(tp_positions.get(i));                
             }
             getField().addObject(positions.get(i), o);
         }

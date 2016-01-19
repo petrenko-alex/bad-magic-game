@@ -9,12 +9,12 @@ import javax.imageio.ImageIO;
 /**
  * Класс представляет игровой объект - стену.
  *
- * Наследник класса UnmovableObject. Реализует абстрактные методы.
- * Имеет образ - изображение.
+ * Наследник класса PassiveObject. Реализует абстрактные методы.
+ Имеет образ - изображение.
  *
  * @author Alexander Petrenko, Alexander Lyashenko
  */
-public class Wall extends UnmovableObject {
+public class Wall extends PassiveObject {
 
     /**
      * Конструктор класса.

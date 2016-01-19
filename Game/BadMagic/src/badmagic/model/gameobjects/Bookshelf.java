@@ -8,13 +8,13 @@ import javax.imageio.ImageIO;
 
 /**
  * Класс реализующий книжную полку (сундук-хранилище).
- * Является наследником InteractiveObject.
- * Полка может содержать одно заклинание (в виде численного идентификатора).
- * После активации удаляется с поля, на своем месте оставляя объект-заклинание
- * Имеет собственное графическое представление
+ * Является наследником ActionObject.
+ Полка может содержать одно заклинание (в виде численного идентификатора).
+ После активации удаляется с поля, на своем месте оставляя объект-заклинание
+ Имеет собственное графическое представление
  * @author Alexander Lyashenko
  */
-public class Bookshelf extends InteractiveObject {
+public class Bookshelf extends ActionObject {
 
     /**
      * Конструктор класса.
@@ -25,36 +25,59 @@ public class Bookshelf extends InteractiveObject {
      */
     public Bookshelf(GameField field) {
         super(field);
-        openId = -1;
         loadPic();
     }
 
-    public void setSpell(int spellId){
+    public void setContainingItem(int spellId){
         _spellId = spellId;
     }
     
-    /**
-     * Метод, устанавливающий ключ для объекта
-     * @param key  идентификатор ключа
+   /**
+     * Абстрактный метод, закрывающий объект
+     * @param key - ключ
+     * @return Флаг успеха действия
      */
-    public void setLock (int key){
-        openId = key;
+    @Override
+    public boolean lock (GameObject key){
+         if (key instanceof Spell){
+             _lockId = ((Spell)key).getId();
+             return true;
+         }
+
+         return false;
     }
     
     /**
      * Метод для открытия объекта (снятия с него замка)
-     * @param key - ключ
+     * @param key - ключ-заклинанеие
      * @return Флаг - открылся ли объект
      */
     @Override
-    public boolean unlock(CollectableObject key){
-       if (((Spell)key).getId() == openId){
-           openId = -1;
+    public boolean unlock(GameObject key){
+        /** Проверяем, не пытаемся ли открыть открытое */
+        if (!this.isLocked()){
+            return true;
+        }
+        
+        /** Если переданный ключ является заклинанием и идентификаторы совпали */
+       if (key instanceof Spell && ((Spell)key).getId() == _lockId){
+           _lockId = -1;
            return true;
        }
        else {
            return false;
        }
+    }
+    
+    /**
+     * Метод проверки закрытости объекта.
+     * 
+     * Возвращает флаг состояния замка (открыто\закрыто)
+     * @return идентификатор ключа
+     */
+    @Override
+    public boolean isLocked() {
+        return (_lockId != -1);
     }
     
     /**
@@ -64,7 +87,7 @@ public class Bookshelf extends InteractiveObject {
      */
     @Override
     public boolean activate() {
-         if (openId == -1){
+         if (_lockId == -1){
             /*Удаление полки с поля*/
            Point temp = new Point(_position);
            _field.removeObject(this);
@@ -117,6 +140,8 @@ public class Bookshelf extends InteractiveObject {
     /** Хранимое заклинание (-1 если отсутствует)*/
     private int _spellId = -1;
 
+    /** Идентификатор ключа-заклинания, которое открывает объект */
+    private int _lockId = -1;
     
     
 }

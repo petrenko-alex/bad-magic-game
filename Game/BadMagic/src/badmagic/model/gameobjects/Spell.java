@@ -8,13 +8,13 @@ import javax.imageio.ImageIO;
 
 /**
  * Класс, реализующий заклинание - ключ.
- * Является наследником CollectableObject.
- * Имеет собственный численный идентификатор.
- * Имеет собственное графическое представление.
+ * Является наследником CollectableItemObject.
+ Имеет собственный численный идентификатор.
+ Имеет собственное графическое представление.
  * 
  * @author Alexander Lyashenko
  */
-public class Spell  extends CollectableObject  {
+public class Spell  extends CollectableItemObject  {
     
     /**
      * Конструктор класса.
@@ -31,16 +31,17 @@ public class Spell  extends CollectableObject  {
     /**
      * Метод, устанавливающий идентификатор для заклинания.
      * 
-     * @param _id 
+     * @param _id идентификатор для заклинания
+     * @return ссылка на объект
      */
-    public void setId (int _id){
+    public Spell setId (int _id){
         id = _id;
+        return this;
     }
     
     /**
      * Метод, возвращающий текущий идентификатор заклинания.
-     * 
-     * @param _id 
+     * @return текущий идентификатор заклинания
      */
     public int getId (){
         return id;

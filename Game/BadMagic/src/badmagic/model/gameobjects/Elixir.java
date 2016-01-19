@@ -9,12 +9,12 @@ import javax.imageio.ImageIO;
 /**
  * Класс представляет игровой объект - элексир.
  *
- * Наследник класса CollectableObject. Реализует абстрактные методы.
- * Имеет образ - изображение.
+ * Наследник класса CollectableItemObject. Реализует абстрактные методы.
+ Имеет образ - изображение.
  *
  * @author Alexander Petrenko, Alexander Lyashenko
  */
-public class Elixir extends CollectableObject {
+public class Elixir extends CollectableItemObject {
 
     /**
      * Конструктор класса.

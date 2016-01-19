@@ -1,6 +1,6 @@
 package badmagic.model;
 
-import badmagic.model.gameobjects.CollectableObject;
+import badmagic.model.gameobjects.CollectableItemObject;
 import badmagic.model.gameobjects.GameObject;
 import badmagic.navigation.Direction;
 import java.awt.Point;
@@ -100,7 +100,7 @@ public class GameField {
         for(GameObject object : fieldObjects) {
 
             if(  object.getPosition().equals(pos) &&
-               !(object instanceof CollectableObject)) {
+               !(object instanceof CollectableItemObject)) {
 
                 isEmpty = false;
             }
@@ -124,7 +124,7 @@ public class GameField {
 
         for(GameObject object : fieldObjects) {
 
-            if(object instanceof CollectableObject) {
+            if(object instanceof CollectableItemObject) {
 
                 isEmpty = true;
             }

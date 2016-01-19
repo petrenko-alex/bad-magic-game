@@ -9,12 +9,12 @@ import javax.imageio.ImageIO;
 /**
  * Класс представляет игровой объект - деревянный стол.
  *
- * Наследник класса MovableObject. Реализует абстрактные методы.
- * Имеет образ - изображение.
+ * Наследник класса PushableObject. Реализует абстрактные методы.
+ Имеет образ - изображение.
  *
  * @author Alexander Petrenko, Alexander Lyashenko
  */
-public class WoodenTable extends MovableObject {
+public class WoodenTable extends PushableObject {
 
     /**
      * Конструктор класса.
