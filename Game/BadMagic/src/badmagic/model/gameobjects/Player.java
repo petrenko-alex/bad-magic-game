@@ -31,6 +31,7 @@ public class Player extends GameObject {
     public Player(GameField field) {
         super(field);
         _inventory = new ArrayList<GameObject>();
+        PIC = "/badmagic/resources/goat.png";
         loadPic();
     }
 
@@ -157,26 +158,9 @@ public class Player extends GameObject {
      */
     @Override
     public void paint(Graphics g, Point pos) {
-
         AffineTransform at = rotate(_gazeDirection, pos);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(_image, at, null);
-    }
-
-    /**
-     * Метод загрузки изображения объекта.
-     */
-    @Override
-    protected void loadPic() {
-
-        try {
-
-            _image = ImageIO.read(getClass().getResource(PIC));
-
-        } catch (IOException ex) {
-
-            ex.printStackTrace();
-        }
+        g2d.drawImage(_image, at, null);       
     }
 
     /**
@@ -294,13 +278,11 @@ public class Player extends GameObject {
      */
     private Direction _gazeDirection = Direction.north();
 
-    /**
-     * Путь к файлу с изображением
-     */
-    private static final String PIC = "/badmagic/resources/goat.png";
 
     /**
      * Инвентарь
      */
     private ArrayList<GameObject> _inventory;
+    
+   
 }

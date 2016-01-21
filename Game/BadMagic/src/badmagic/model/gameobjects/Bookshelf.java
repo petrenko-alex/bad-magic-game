@@ -25,6 +25,7 @@ public class Bookshelf extends ActionObject {
      */
     public Bookshelf(GameField field) {
         super(field);
+        PIC = "/badmagic/resources/bookshelf.png";
         loadPic();
     }
 
@@ -105,37 +106,7 @@ public class Bookshelf extends ActionObject {
         }
     }
     
-    /**
-     * Метод отрисовки объекта.
-     *
-     * @param g среда отрисовки.
-     * @param pos позиция отрисоки.
-     */
-    @Override
-    public void paint(Graphics g, Point pos) {
-        g.drawImage(_image, pos.x, pos.y, null);
-    }
-
-    /**
-     * Метод загрузки изображения объекта.
-     */
-    @Override
-    protected void loadPic() {
-        
-         try {
-
-            _image = ImageIO.read(getClass().getResource(PIC));
-
-        } catch ( IOException ex ) {
-
-            ex.printStackTrace();
-        }
-    }
-    
      ///////////////////////////// Данные //////////////////////////////////////
-
-    /** Путь к файлу с изображением */
-    private static final String PIC = "/badmagic/resources/bookshelf.png";
     
     /** Хранимое заклинание (-1 если отсутствует)*/
     private int _spellId = -1;

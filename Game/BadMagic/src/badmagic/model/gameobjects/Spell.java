@@ -25,7 +25,8 @@ public class Spell  extends CollectableItemObject  {
      */
     public Spell(GameField field) {
         super(field);
-        loadPic();
+        PIC = "/badmagic/resources/spell.png";
+        loadPic();        
     }
 
     /**
@@ -46,41 +47,6 @@ public class Spell  extends CollectableItemObject  {
     public int getId (){
         return id;
     }
-    
-    /**
-     * Метод отрисовки объекта.
-     *
-     * @param g среда отрисовки.
-     * @param pos позиция отрисоки.
-     */
-    @Override
-    public void paint(Graphics g, Point pos) {
-        g.drawImage(_image, pos.x, pos.y, null);
-    }
-
-     /**
-     * Метод загрузки изображения объекта.
-     */
-    @Override
-    protected void loadPic() {
-        
-        try {
-
-            _image = ImageIO.read(getClass().getResource(PIC));
-
-        } catch ( IOException ex ) {
-
-            ex.printStackTrace();
-        }
-    }
-    
-     ///////////////////////////// Данные //////////////////////////////////////
-
-    /**
-     * Путь к файлу с изображением 
-     */
-    
-    private static final String PIC = "/badmagic/resources/spell.png";
     
     /** 
      * Идентификатор открываемого объекта 

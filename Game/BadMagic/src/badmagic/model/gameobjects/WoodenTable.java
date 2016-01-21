@@ -25,39 +25,7 @@ public class WoodenTable extends PushableObject {
      */
     public WoodenTable(GameField field) {
         super(field);
+        PIC = "/badmagic/resources/woodentable.png";
         loadPic();
     }
-
-    /**
-     * Метод отрисовки объекта.
-     *
-     * @param g среда отрисовки.
-     * @param pos позиция отрисоки.
-     */
-    @Override
-    public void paint(Graphics g, Point pos) {
-
-        g.drawImage(_image, pos.x, pos.y, null);
-    }
-
-    /**
-     * Метод загрузки изображения объекта.
-     */
-    @Override
-    protected void loadPic() {
-
-        try {
-
-            _image = ImageIO.read(getClass().getResource(PIC));
-
-        } catch ( IOException ex ) {
-
-            ex.printStackTrace();
-        }
-    }
-
-    ///////////////////////////// Данные //////////////////////////////////////
-
-    /** Путь к файлу с изображением */
-    private static final String PIC = "/badmagic/resources/woodentable.png";
 }

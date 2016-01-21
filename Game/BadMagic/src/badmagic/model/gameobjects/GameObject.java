@@ -3,10 +3,14 @@ package badmagic.model.gameobjects;
 import badmagic.events.GameObjectListener;
 import badmagic.model.GameField;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EventObject;
+import javax.imageio.ImageIO;
 
 /**
  * Абстрактный класс - игровой объект.<br>
@@ -17,6 +21,10 @@ import java.util.EventObject;
  * @author Alexander Petrenko, Alexander Lyashenko
  */
 public abstract class GameObject {
+    /**
+     * Путь к файлу с изображением
+     */
+    protected static String PIC;
 
     /**
      * Конструктор класса.<br>
@@ -67,16 +75,27 @@ public abstract class GameObject {
     }
 
     /**
-     * Абстрактный метод отрисовки объекта.
+     * Метод отрисовки объекта.
      * @param g среда отрисовки.
      * @param pos позиция отрисовки
      */
-    public abstract void paint(Graphics g,Point pos);
+    public void paint(Graphics g,Point pos){
+        g.drawImage(_image, pos.x, pos.y, null);
+    }
 
     /**
-     * Абстрактный метод загрузки изображения объекта.
+     * Метод загрузки изображения объекта.
      */
-    protected abstract void loadPic();
+    protected void loadPic(){
+        try {
+
+            _image = ImageIO.read(getClass().getResource(PIC));
+
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
+        }
+    }
 
     ///////////////////// События игрового объекта ////////////////////////////
 
@@ -123,4 +142,6 @@ public abstract class GameObject {
 
     /** Изображение объекта */
     protected BufferedImage _image;
+    
+    /** */
 }

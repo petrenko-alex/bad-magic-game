@@ -23,6 +23,7 @@ public class Teleport extends ActionObject {
      */
     public Teleport(GameField field) {
         super(field);
+        PIC = "/badmagic/resources/teleport.png";
         loadPic();
     }
 
@@ -84,32 +85,6 @@ public class Teleport extends ActionObject {
     }
 
     /**
-     * Метод отрисовки объекта.
-     *
-     * @param g среда отрисовки.
-     * @param pos позиция отрисоки.
-     */
-    @Override
-    public void paint(Graphics g, Point pos) {
-        g.drawImage(_image, pos.x, pos.y, null);
-    }
-
-    /**
-     * Метод загрузки изображения объекта.
-     */
-    @Override
-    protected void loadPic() {
-        try {
-
-            _image = ImageIO.read(getClass().getResource(PIC));
-
-        } catch (IOException ex) {
-
-            ex.printStackTrace();
-        }
-    }
-
-    /**
      * Метод активации объекта. Для конкретного объекта - телепортация игрока.
      *
      * @return Флаг, возвращающий успех действия
@@ -131,10 +106,6 @@ public class Teleport extends ActionObject {
         }
     }
     ///////////////////////////// Данные //////////////////////////////////////
-    /**
-     * Путь к файлу с изображением
-     */
-    private static final String PIC = "/badmagic/resources/teleport.png";
 
     /**
      * Позиция телепортации
