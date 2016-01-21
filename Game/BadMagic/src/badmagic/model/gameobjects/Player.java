@@ -244,7 +244,8 @@ public class Player extends GameObject {
     public void activateObject() {
 
         Point objectPosition = _field.getNextPos(_position, _gazeDirection);
-
+        this.requestAction = true;
+        
         for (GameObject obj : _field.getObjects(objectPosition)) {
             
             if (obj instanceof ActionObject) {
@@ -265,6 +266,12 @@ public class Player extends GameObject {
             }
             
         }
+        
+        this.requestAction = false;
+    }
+    
+    public boolean isRequestedAction(){
+        return requestAction;
     }
 
     ///////////////////////////// Данные //////////////////////////////////////
@@ -278,7 +285,11 @@ public class Player extends GameObject {
      */
     private Direction _gazeDirection = Direction.north();
 
-
+    /**
+     * Флаг запроса действия
+     */
+    private boolean requestAction;
+    
     /**
      * Инвентарь
      */

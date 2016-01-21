@@ -94,7 +94,7 @@ public class Teleport extends ActionObject {
         if (!this.isLocked()) {
 
             for (GameObject o : _field.getObjects()) {
-                if (o instanceof Player) {
+                if (o instanceof Player && ((Player)o).isRequestedAction()) {
                     ((Player) o).setPosition(_tPosition);
                     break;
                 }
