@@ -26,11 +26,4 @@ public abstract class CollectableItemObject extends GameObject {
 
         super(field);
     }
-    
-    public CollectableItemObject removeFromField(){
-        if (_position != null){
-            _field.removeObject(this);
-        }
-        return this;
-    }
 }

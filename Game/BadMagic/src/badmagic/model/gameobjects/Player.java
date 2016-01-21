@@ -232,8 +232,9 @@ public class Player extends GameObject {
         for (GameObject obj : itemList) {
 
             if (obj instanceof CollectableItemObject) {
-                _inventory.add(((CollectableItemObject)obj).removeFromField());
-            }
+                _inventory.add(obj);
+                _field.removeObject(obj);
+                }
         }
 
     }
