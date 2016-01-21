@@ -23,34 +23,19 @@ public class Spell  extends CollectableItemObject  {
      *
      * @param field ссылка на игровое поле.
      */
-    public Spell(GameField field) {
+    public Spell(GameField field, int id) {
         super(field);
+        _id = id;
         PIC = "/badmagic/resources/spell.png";
-        loadPic();        
+        loadPic(); 
     }
 
-    /**
-     * Метод, устанавливающий идентификатор для заклинания.
-     * 
-     * @param _id идентификатор для заклинания
-     * @return ссылка на объект
-     */
-    public Spell setId (int _id){
-        id = _id;
-        return this;
+    public boolean equals(Spell obj){
+       return obj._id == _id; 
     }
-    
-    /**
-     * Метод, возвращающий текущий идентификатор заклинания.
-     * @return текущий идентификатор заклинания
-     */
-    public int getId (){
-        return id;
-    }
-    
     /** 
      * Идентификатор открываемого объекта 
      */
-    private int id = -1;
+    private int _id = -1;
     
 }

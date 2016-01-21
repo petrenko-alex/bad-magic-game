@@ -1,16 +1,9 @@
 package badmagic.model;
 
-import badmagic.BadMagic;
 import badmagic.model.gameobjects.Bookshelf;
 import badmagic.model.gameobjects.GameObject;
-import badmagic.model.gameobjects.WoodenTable;
 import java.awt.Point;
-import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
-import java.io.FileInputStream;
-import java.lang.reflect.Constructor;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import org.json.simple.JSONArray;
@@ -22,7 +15,6 @@ import badmagic.model.gameobjects.Teleport;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Logger;
 
 /**
  * Класс представляет игровой уровень.
@@ -44,6 +36,7 @@ public class Level {
     Level(String levelPath) throws Exception {
 
         loadLevel(levelPath);
+        spells.clear();
     }
 
     /**
@@ -264,25 +257,26 @@ public class Level {
         /*Для заклинаний*/
         /*Парсинг доступных id*/
         if (obj.containsKey("AvailableIds")) {
-            spell_ids = parseIntegerArray((JSONArray) obj.get("AvailableIds"));
-            spell_ids = removeIntegerDuplicates(spell_ids);
-            getField().setSpellIdsList(spell_ids);
+            for (Integer id : parseIntegerArray((JSONArray) obj.get("AvailableIds"))) {
+                if (!spells.containsKey(id)) {
+                    spells.put(id, new Spell(_field, id));
+                }
+            }
+            spells.put(-1, null);
         }
 
         /*Парсинг заклинаний на поле и вне объектов*/
         if (obj.containsKey("OnField")) {
             /*Несовпадение количества позиций и idшников на поле*/
             if (((JSONArray) obj.get("OnField")).size() != positions.size()) {
-                String error = "Число заклинаний вне объектов не совпадает с числом позиций";
+                String error = "Число заклинаний вне объектов не совпадает с числом позиций в секции заклинаний";
                 throw new Exception(error);
             }
 
             spell_ids = parseIntegerArray((JSONArray) obj.get("OnField"));
-
-            /*Проверка на неизвестные идентификаторы*/
-            for (Integer value : spell_ids){
-                 if (_field.isSpellIdUnique(value) || value == -1) {
-                    String error = "Неизвестный идентификатор заклинания вне объекта: " + value;
+            for (Integer id : spell_ids) {
+                if (!spells.containsKey(id)) {
+                    String error = "Неизвестный идентификатор заклинания вне объекта: " + id;
                     throw new Exception(error);
                 }
             }
@@ -292,35 +286,34 @@ public class Level {
         /*Содержимое полок*/
         if (obj.containsKey("Contains")) {
             if (((JSONArray) obj.get("Contains")).size() != positions.size()) {
-                String error = "Число заклинаний-содержимых не совпадает с числом позиций";
+                String error = "Число заклинаний-содержимых не совпадает с числом позиций в секции полок";
 
                 throw new Exception(error);
             }
 
             bs_contains_ids = parseIntegerArray((JSONArray) obj.get("Contains"));
             /*Проверка на неизвестные идентификаторы*/
-            for (Integer value : bs_contains_ids){
-                 if (_field.isSpellIdUnique(value) && value != -1) {
-                    String error = "Неизвестный идентификатор заклинания-содержимого: " + value;
+            for (Integer id : bs_contains_ids) {
+                if (!spells.containsKey(id) && id != -1) {
+                    String error = "Неизвестный идентификатор заклинания-содержимого в секции полок: " + id;
                     throw new Exception(error);
                 }
             }
         }
-        
+
         /*Ключи*/
         if (obj.containsKey("Keys")) {
             if (((JSONArray) obj.get("Keys")).size() != positions.size()) {
-                String error = "Число заклинаний-ключей не совпадает с числом позиций";
+                String error = "Число заклинаний-ключей не совпадает с числом позиций в секции полок";
 
                 throw new Exception(error);
             }
 
             bs_keys_ids = parseIntegerArray((JSONArray) obj.get("Keys"));
-
             /*Проверка на неизвестные идентификаторы*/
-            for (Integer value : bs_keys_ids){
-                 if (_field.isSpellIdUnique(value) && value != -1) {
-                    String error = "Неизвестный идентификатор заклинания-ключа: " + value;
+            for (Integer id : bs_keys_ids) {
+                if (!spells.containsKey(id) && id != -1) {
+                    String error = "Неизвестный идентификатор заклинания-содержимого в секции полок: " + id;
                     throw new Exception(error);
                 }
             }
@@ -331,11 +324,11 @@ public class Level {
         if (obj.containsKey("TeleportPositions")) {
             tp_positions = parsePointArray((JSONArray) obj.get("TeleportPositions"));
         }
-        
+
         /*Ключи*/
         if (obj.containsKey("TeleportKeys")) {
             if (((JSONArray) obj.get("TeleportKeys")).size() != positions.size()) {
-                String error = "Число заклинаний-ключей не совпадает с числом позиций";
+                String error = "Число заклинаний-ключей не совпадает с числом позиций в секции телепорта";
 
                 throw new Exception(error);
             }
@@ -343,37 +336,42 @@ public class Level {
             tp_keys_ids = parseIntegerArray((JSONArray) obj.get("TeleportKeys"));
 
             /*Проверка на неизвестные идентификаторы*/
-            for (Integer value : bs_keys_ids){
-                 if (_field.isSpellIdUnique(value) && value != -1) {
-                    String error = "Неизвестный идентификатор заклинания-ключа: " + value;
+            for (Integer id : tp_keys_ids) {
+                if (!spells.containsKey(id) && id != -1) {
+                    String error = "Неизвестный идентификатор заклинания-ключа в секции телепорта: " + id;
                     throw new Exception(error);
                 }
             }
         }
-        
+
         /*Создание объектов*/
         for (int i = 0; i < positions.size(); ++i) {
-            GameObject o = new GameObjectsFactory().createGameObject(objClassName, getField());
-            if (o instanceof Spell) {
-                /*Присваивание идентификтора*/
-                ((Spell) o).setId(spell_ids.get(i));
+            GameObject o;
+            if (objClassName.equals("Spell")) {
+                o = (GameObject) spells.get(spell_ids.get(i));
+            } else {
+                o = new GameObjectsFactory().createGameObject(objClassName, getField());
+
+                if (o instanceof Bookshelf) {
+                    /*Присваивание ключа и содержания*/
+                    ((Bookshelf) o).lock((GameObject) spells.get(bs_keys_ids.get(i)));
+                    ((Bookshelf) o).setContainingItem((GameObject) spells.get(bs_contains_ids.get(i)));
+                }
+                if (o instanceof Teleport) {
+                    /*Присваивание ключа и позиции телепортирования*/
+                    ((Teleport) o).lock((GameObject) spells.get(tp_keys_ids.get(i)));
+                    ((Teleport) o).setTeleportingPosition(tp_positions.get(i));
+                }
             }
-            if (o instanceof Bookshelf) {
-                /*Присваивание ключа и содержания*/
-                ((Bookshelf) o).lock(new Spell(_field).setId(bs_keys_ids.get(i)));
-                ((Bookshelf) o).setContainingItem(bs_contains_ids.get(i));
-            }
-            if (o instanceof Teleport) {
-                /*Присваивание ключа и позиции телепортирования*/
-                ((Teleport) o).lock(new Spell(_field).setId(tp_keys_ids.get(i)));
-                ((Teleport) o).setTeleportingPosition(tp_positions.get(i));                
-            }
+
             getField().addObject(positions.get(i), o);
         }
     }
 
     /**
-     * Метод парсит JSON массив, содержащий объекты типа Point и проверяет их на ошибки
+     * Метод парсит JSON массив, содержащий объекты типа Point и проверяет их на
+     * ошибки
+     *
      * @param array - массив Point
      * @return массив объектов Point в виде листа
      * @throws Exception ошибка, возникающая при некорректных данных
@@ -424,7 +422,9 @@ public class Level {
     }
 
     /**
-     * Метод парсит JSON массив, содержащий целые числа и возвращает их в виде списка
+     * Метод парсит JSON массив, содержащий целые числа и возвращает их в виде
+     * списка
+     *
      * @param array - JSON-массив чисел
      * @return массив чисел в виде листа
      * @throws Exception ошибка, возникающая при некорректных данных
@@ -440,31 +440,33 @@ public class Level {
         }
         return resultList;
     }
-    
+
     /**
      * Метод удаляет дубликаты из списка
+     *
      * @param list - список из которого нужно удалить дубликаты
      * @return очищенный от дубликатов список
      */
-     static ArrayList<Integer> removeIntegerDuplicates(ArrayList<Integer> list) {
+    static ArrayList<Integer> removeIntegerDuplicates(ArrayList<Integer> list) {
 
-	ArrayList<Integer> result = new ArrayList<>();
+        ArrayList<Integer> result = new ArrayList<>();
 
-	HashSet<Integer> set = new HashSet<>();
+        HashSet<Integer> set = new HashSet<>();
 
-	for (Integer item : list) {
+        for (Integer item : list) {
 
-	    if (!set.contains(item)) {
-		result.add(item);
-		set.add(item);
-	    }
-	}
-	return result;
+            if (!set.contains(item)) {
+                result.add(item);
+                set.add(item);
+            }
+        }
+        return result;
     }
-    
-     ////////////////////////////// Данные /////////////////////////////////////
 
-     /** Максимальная ширина поля - клеток */
+    ////////////////////////////// Данные /////////////////////////////////////
+    /**
+     * Максимальная ширина поля - клеток
+     */
     private static final int MAX_WIDTH = 16;
 
     /**
@@ -501,4 +503,7 @@ public class Level {
      * Флаг - пройден ли уровень
      */
     private boolean _isCompleted = false;
+    
+    /*Справочник доступных заклинаний*/
+    private Map spells = new HashMap<Integer, GameObject>();
 }

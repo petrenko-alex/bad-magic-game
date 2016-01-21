@@ -24,56 +24,10 @@ public class Teleport extends ActionObject {
     public Teleport(GameField field) {
         super(field);
         PIC = "/badmagic/resources/teleport.png";
+        _lock = new MagicLock(_field);
         loadPic();
     }
-
-    /**
-     * Абстрактный метод, закрывающий объект
-     * @param key - ключ
-     * @return Флаг успеха действия
-     */
-    @Override
-    public boolean lock(GameObject key) {
-        if (key instanceof Spell) {
-            _lockId = ((Spell) key).getId();
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Метод для открытия объекта (снятия с него замка)
-     * @param key - ключ-заклинанеие
-     * @return Флаг - открылся ли объект
-     */
-    @Override
-    public boolean unlock(GameObject key){
-        /** Проверяем, не пытаемся ли открыть открытое */
-        if (!this.isLocked()){
-            return true;
-        }
-        
-        /** Если переданный ключ является заклинанием и идентификаторы совпали */
-       if (key instanceof Spell && ((Spell)key).getId() == _lockId){
-           _lockId = -1;
-           return true;
-       }
-       else {
-           return false;
-       }
-    }
-
-    /**
-     * Метод проверки закрытости объекта.
-     * 
-     * Возвращает флаг состояния замка (открыто\закрыто)
-     * @return идентификатор ключа
-     */
-    @Override
-    public boolean isLocked() {
-        return (_lockId != -1);
-    }
-
+    
     /**
      * Метод, устанавливающий позицию для телепортации. Позиция должна быть в
      * пределах игрового поля
@@ -111,10 +65,4 @@ public class Teleport extends ActionObject {
      * Позиция телепортации
      */
     private Point _tPosition;
-
-    /**
-     * Идентификатор ключа-заклинания, которое открывает объект
-     */
-    private int _lockId = -1;
-
 }

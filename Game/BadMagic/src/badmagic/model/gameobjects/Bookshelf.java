@@ -26,59 +26,12 @@ public class Bookshelf extends ActionObject {
     public Bookshelf(GameField field) {
         super(field);
         PIC = "/badmagic/resources/bookshelf.png";
+        _lock = new MagicLock(_field);
         loadPic();
     }
 
-    public void setContainingItem(int spellId){
-        _spellId = spellId;
-    }
-    
-   /**
-     * Абстрактный метод, закрывающий объект
-     * @param key - ключ
-     * @return Флаг успеха действия
-     */
-    @Override
-    public boolean lock (GameObject key){
-         if (key instanceof Spell){
-             _lockId = ((Spell)key).getId();
-             return true;
-         }
-
-         return false;
-    }
-    
-    /**
-     * Метод для открытия объекта (снятия с него замка)
-     * @param key - ключ-заклинанеие
-     * @return Флаг - открылся ли объект
-     */
-    @Override
-    public boolean unlock(GameObject key){
-        /** Проверяем, не пытаемся ли открыть открытое */
-        if (!this.isLocked()){
-            return true;
-        }
-        
-        /** Если переданный ключ является заклинанием и идентификаторы совпали */
-       if (key instanceof Spell && ((Spell)key).getId() == _lockId){
-           _lockId = -1;
-           return true;
-       }
-       else {
-           return false;
-       }
-    }
-    
-    /**
-     * Метод проверки закрытости объекта.
-     * 
-     * Возвращает флаг состояния замка (открыто\закрыто)
-     * @return идентификатор ключа
-     */
-    @Override
-    public boolean isLocked() {
-        return (_lockId != -1);
+    public void setContainingItem(GameObject item){
+        _containingItem = item;
     }
     
     /**
@@ -88,16 +41,14 @@ public class Bookshelf extends ActionObject {
      */
     @Override
     public boolean activate() {
-         if (_lockId == -1){
+         if (!_lock.isLocked()){
             /*Удаление полки с поля*/
            Point temp = new Point(_position);
            _field.removeObject(this);
            
             /*Добавление заклинания на его место*/
-            if (_spellId != -1){
-                 GameObject newSpell = new Spell(_field);
-                ((Spell)newSpell).setId(_spellId);
-                _field.addObject(temp, (Spell)newSpell);
+            if (_containingItem != null){
+                 _field.addObject(temp, _containingItem);
             }
             return true;
         }
@@ -108,11 +59,6 @@ public class Bookshelf extends ActionObject {
     
      ///////////////////////////// Данные //////////////////////////////////////
     
-    /** Хранимое заклинание (-1 если отсутствует)*/
-    private int _spellId = -1;
-
-    /** Идентификатор ключа-заклинания, которое открывает объект */
-    private int _lockId = -1;
-    
-    
+    /** Хранимое заклинание */
+    private GameObject _containingItem;
 }

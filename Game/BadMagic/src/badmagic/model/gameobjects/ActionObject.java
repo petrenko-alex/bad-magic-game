@@ -20,20 +20,6 @@ public abstract class ActionObject extends GameObject {
     }
     
     /**
-     * Абстрактный метод, закрывающий объект
-     * @param key - ключ
-     * @return Флаг успеха действия
-     */
-    public abstract boolean lock(GameObject key);
-    
-    /**
-     * Абстрактный метод, открывающий объект
-     * @param key - ключ
-     * @return Флаг успеха действия
-     */
-    public abstract boolean unlock(GameObject key);
-    
-    /**
      * Абстрактный метод, активирующий объект
      * @return Флаг успеха действия
      */
@@ -45,5 +31,39 @@ public abstract class ActionObject extends GameObject {
      * Возвращает флаг состояния замка (открыто\закрыто)
      * @return идентификатор ключа
      */
-    public abstract boolean isLocked();
+    public boolean isLocked() {
+        return _lock.isLocked();
+    }
+    
+     /**
+     * Метод, закрывающий объект на новый ключ
+     *
+     * @param key - ключ
+     * @return Флаг успеха действия
+     */
+    public boolean lock(GameObject key){
+        return _lock.lock(key);
+    }
+
+    /**
+     * Метод, закрывающий объект на старый ключ. 
+     * При отсутствии старого ключа, дейстивие игнорируется
+     *
+     * @return Флаг успеха действия
+     */
+    public boolean lock() {
+       return _lock.lock();
+    }
+
+    /**
+     * Метод, открывающий объект
+     *
+     * @param key - ключ
+     * @return Флаг успеха действия
+     */
+    public boolean unlock(GameObject key){
+        return _lock.unlock(key);
+    }
+    
+    protected Lock _lock;
 }
