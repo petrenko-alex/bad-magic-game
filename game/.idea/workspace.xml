@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="8c1aac60-2d13-485f-94c1-5d500a202e18" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/json_simple_1_1_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Bad Magic - Wrike.url" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/build.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/manifest.mf" beforeDir="false" afterPath="$PROJECT_DIR$/manifest.mf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/nbproject/build-impl.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/nbproject/genfiles.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/nbproject/private/config.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/nbproject/project.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/nbproject/project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/BadMagic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/BadMagic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/events/GameObjectListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/events/GameObjectListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/events/MenuEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/events/MenuEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/events/MenuListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/events/MenuListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/events/ModelListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/events/ModelListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/events/PanelListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/events/PanelListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/json-simple-1.1.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/model/GameField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/model/GameField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/model/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/model/GameModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/model/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/model/Level.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/model/gameobjects/Chain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/model/gameobjects/Chain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/model/gameobjects/Chest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/model/gameobjects/Chest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/model/gameobjects/CollectableObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/model/gameobjects/CollectableObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/model/gameobjects/Couldron.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/model/gameobjects/Couldron.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/model/gameobjects/Elixir.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/model/gameobjects/Elixir.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/model/gameobjects/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/model/gameobjects/GameObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/model/gameobjects/GameObjectsFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/model/gameobjects/GameObjectsFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/model/gameobjects/MovableObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/model/gameobjects/MovableObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/model/gameobjects/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/model/gameobjects/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/model/gameobjects/UnmovableObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/model/gameobjects/UnmovableObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/model/gameobjects/Wall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/model/gameobjects/Wall.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/model/gameobjects/WoodenTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/model/gameobjects/WoodenTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/navigation/Direction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/navigation/Direction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/Chest.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/Chest.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/Couldron.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/Couldron.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/Elixir.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/Elixir.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/Wall-corner.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/Wall-corner.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/Wall-main.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/Wall-main.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/Wall.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/Wall.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/brick.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/brick.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/gameprogress.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/gameprogress.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/goat.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/goat.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/level.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/level.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/levels/01_ShitHappens.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/levels/01_ShitHappens.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/levels/02_DeathCorridor.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/levels/02_DeathCorridor.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/levels/03_LoveForAll.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/levels/03_LoveForAll.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/levels/04_DoABarrelRoll.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/levels/04_DoABarrelRoll.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/levels/05_MysteryRectangle.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/levels/05_MysteryRectangle.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/levels/06_FindElixir.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/levels/06_FindElixir.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/levels/07_Labyrinth.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/levels/07_Labyrinth.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/levels/chest-test.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/levels/chest-test.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/levels/chest-test2.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/levels/chest-test2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/levels/couldron-test.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/levels/couldron-test.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/levels/levelsinfo.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/levels/levelsinfo.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/menu.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/menu.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/menu.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/menu.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/panel.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/panel.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/resources/woodentable.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/resources/woodentable.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/view/GameMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/view/GameMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BadMagic/src/badmagic/view/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/badmagic/view/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ProjectModel/ProjectClassDiagramm.asta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprites/Chest.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprites/Chest1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprites/couldron1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprites/couldron2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprites/couldron3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprites/couldron4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprites/gamefield.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprites/goat.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprites/woodentable.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Аналитическая модель/Александр Ляшенко/AnalysisClassDiagramm.asta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Аналитическая модель/Александр Ляшенко/AnalysisSequenceDiagramm.asta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Аналитическая модель/Александр Ляшенко/Пояснительная записка.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Аналитическая модель/Александр Ляшенко/Сценарии.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Аналитическая модель/Александр Петренко/Диаграмма классов.asta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Аналитическая модель/Александр Петренко/Диаграммы.asta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Аналитическая модель/Александр Петренко/Пояснительная записка(без титула).doc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Аналитическая модель/Александр Петренко/Пояснительная записка.doc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Аналитическая модель/Александр Петренко/Сценарии.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Аналитическая модель/Александр Петренко/Сцепка.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Аналитическая модель/Александр Петренко/Черновики/Диаграмма вариантов использования.asta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Аналитическая модель/Александр Петренко/Черновики/Диаграммы.asta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Аналитическая модель/Александр Петренко/Черновики/Диаграммы[2].asta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Аналитическая модель/Александр Петренко/Черновики/Диаграммы[3].asta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Аналитическая модель/Александр Петренко/Черновики/Сценарии.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Аналитическая модель/Александр Петренко/Черновики/Сценарии[3].docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Вопросы по реализации.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Логирование в Java - quick start - Хабрахабр.url" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1erfOW1NuouO6lmPFLTrbmd3WOV" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="badmagic.BadMagic" />
+      <module name="game" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8c1aac60-2d13-485f-94c1-5d500a202e18" name="Default Changelist" comment="" />
+      <created>1595084600951</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1595084600951</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1595084682341">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595084682341" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1595084740960">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595084740960" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1595084740960">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595084740960" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1595084740960">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595084740960" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1595084740960">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595084740960" />
+    <state x="440" y="94" key="SettingsEditor" timestamp="1595084669423">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="440" y="94" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595084669423" />
+  </component>
+</project>
