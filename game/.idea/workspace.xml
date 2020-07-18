@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cdc91169-aeac-4329-a9da-5e12fde35409" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../Bad Magic - Wrike.url" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Диаграммы.asta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Сценарии.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Сцепка.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Черновики/Диаграмма вариантов использования.asta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Черновики/Диаграммы.asta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Черновики/Диаграммы[2].asta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Черновики/Диаграммы[3].asta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Черновики/Сценарии.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Черновики/Сценарии[3].docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Вопросы по реализации.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Логирование в Java - quick start - Хабрахабр.url" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/../.." value="without-mod" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="1eqyfLlEQ4NlCSkD6DggY8BYl0k" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RunManager">
+    <configuration name="BadMagic" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="badmagic.BadMagic" />
+      <module name="BadMagic" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="badmagic.BadMagic" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cdc91169-aeac-4329-a9da-5e12fde35409" name="Default Changelist" comment="" />
+      <created>1595063519878</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1595063519878</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1595063625336">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595063625336" />
+    <state width="1877" height="348" key="GridCell.Tab.0.bottom" timestamp="1595082789704">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595082789704" />
+    <state width="1877" height="348" key="GridCell.Tab.0.center" timestamp="1595082789704">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595082789704" />
+    <state width="1877" height="348" key="GridCell.Tab.0.left" timestamp="1595082789704">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595082789704" />
+    <state width="1877" height="348" key="GridCell.Tab.0.right" timestamp="1595082789704">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595082789704" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1595082789705">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595082789705" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1595082789705">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595082789705" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1595082789705">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595082789705" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1595082789705">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595082789705" />
+    <state x="440" y="94" key="SettingsEditor" timestamp="1595063697681">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="440" y="94" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1595063697681" />
+  </component>
+</project>
