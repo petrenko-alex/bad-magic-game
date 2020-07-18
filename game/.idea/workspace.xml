@@ -19,20 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdc91169-aeac-4329-a9da-5e12fde35409" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../Bad Magic - Wrike.url" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Диаграммы.asta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Сценарии.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Сцепка.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Черновики/Диаграмма вариантов использования.asta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Черновики/Диаграммы.asta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Черновики/Диаграммы[2].asta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Черновики/Диаграммы[3].asta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Черновики/Сценарии.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Аналитическая модель/Александр Петренко/Черновики/Сценарии[3].docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Вопросы по реализации.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Логирование в Java - quick start - Хабрахабр.url" beforeDir="false" />
-    </list>
+    <list default="true" id="cdc91169-aeac-4329-a9da-5e12fde35409" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,7 +31,7 @@
         <entry key="$PROJECT_DIR$/../.." value="without-mod" />
       </map>
     </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="1eqyfLlEQ4NlCSkD6DggY8BYl0k" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -98,6 +85,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1595063625336">
