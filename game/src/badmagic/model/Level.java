@@ -4,12 +4,10 @@ import badmagic.BadMagic;
 import badmagic.model.gameobjects.GameObject;
 import badmagic.model.gameobjects.WoodenTable;
 import java.awt.Point;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.FileInputStream;
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import org.json.simple.JSONArray;
@@ -57,7 +55,8 @@ public class Level {
         Point size;
         JSONParser parser = new JSONParser();
 
-        Object object = parser.parse(new FileReader(levelPath));
+        InputStream inputStream = getClass().getResourceAsStream(levelPath);
+        Object object = parser.parse(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         JSONObject json = (JSONObject) object;
 
         /* Название уровня */

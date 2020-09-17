@@ -7,11 +7,9 @@ import badmagic.model.Level;
 import badmagic.model.gameobjects.GameObject;
 import badmagic.model.gameobjects.Player;
 import java.awt.Point;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.logging.Logger;
@@ -428,7 +426,8 @@ public class GameModel {
         ArrayList<String> levels = new ArrayList();
         JSONParser parser = new JSONParser();
 
-        Object object = parser.parse(new FileReader(PATH_TO_LEVELS_INFO_FILE));
+        InputStream inputStream = getClass().getResourceAsStream(PATH_TO_LEVELS_INFO_FILE);
+        Object object = parser.parse(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         JSONArray array = (JSONArray) object;
 
         if( array.isEmpty() ) {
@@ -544,11 +543,11 @@ public class GameModel {
 
     /** Путь к файлу с информацией об уровнях */
     private static final String PATH_TO_LEVELS_INFO_FILE =
-                          "src/badmagic/resources/levels/levelsinfo.json";
+                          "/badmagic/resources/levels/levelsinfo.json";
 
     /** Путь к файлу с информацией о прогрессе игры */
     private static final String PATH_TO_GAME_PROGRESS_FILE =
-                          "src/badmagic/resources/gameprogress.json";
+                          "data/gameprogress.json";
 
     /** Статус уровня */
     public enum LevelStatus {

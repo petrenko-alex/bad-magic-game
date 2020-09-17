@@ -1,7 +1,7 @@
 [
-	"src/badmagic/resources/levels/01_ShitHappens.json",
-	"src/badmagic/resources/levels/02_DeathCorridor.json",
-	"src/badmagic/resources/levels/03_LoveForAll.json",
-	"src/badmagic/resources/levels/04_DoABarrelRoll.json",
-	"src/badmagic/resources/levels/05_MysteryRectangle.json"
+	"/badmagic/resources/levels/01_ShitHappens.json",
+	"/badmagic/resources/levels/02_DeathCorridor.json",
+	"/badmagic/resources/levels/03_LoveForAll.json",
+	"/badmagic/resources/levels/04_DoABarrelRoll.json",
+	"/badmagic/resources/levels/05_MysteryRectangle.json"
 ]
