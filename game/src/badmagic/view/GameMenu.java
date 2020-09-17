@@ -355,7 +355,7 @@ public class GameMenu extends JPanel {
                 if ( y >= _newGameBtn.y
                      && y <= (_newGameBtn.y + _newGameBtn.height) ) {
 
-                    BadMagic.log.info("Нажата кнопка \"Новая игра\"");
+                    BadMagic.log.info("Clicked button \"New game\"");
                     fireStartCareerClicked();
                 }
             }
@@ -367,7 +367,7 @@ public class GameMenu extends JPanel {
                 if ( y >= _continueGameBtn.y
                      && y <= (_continueGameBtn.y + _continueGameBtn.height) ) {
 
-                    BadMagic.log.info("Нажата кнопка \"Продолжить игру\"");
+                    BadMagic.log.info("Clicked button \"Continue game\"");
                     fireContinueCareerClicked();
                 }
             }
@@ -379,7 +379,7 @@ public class GameMenu extends JPanel {
                 if ( y >= _chooseLevelBtn.y
                      && y <= (_chooseLevelBtn.y + _chooseLevelBtn.height) ) {
 
-                    BadMagic.log.info("Нажата кнопка \"Выбрать уровень\"");
+                    BadMagic.log.info("Clicked button \"Choose Level\"");
                     stopListenToPeriphery();
                     _menuMode = MenuMode.LEVEL_MENU;
                     startListenToPeriphery();
@@ -393,7 +393,7 @@ public class GameMenu extends JPanel {
                 if ( y >= _quitGameBtn.y
                      && y <= (_quitGameBtn.y + _quitGameBtn.height) ) {
 
-                    BadMagic.log.info("Нажата кнопка \"Выход\"");
+                    BadMagic.log.info("Clicked button \"Exit\"");
                     GameModel.saveGameProgress();
                     System.exit(0);
                 }

@@ -399,7 +399,7 @@ public class GamePanel extends JPanel {
         @Override
         public void levelCompleted(EventObject e) {
 
-            BadMagic.log.info("Элексир достигнут. Уровень пройден.");
+            BadMagic.log.info("Found elixir. Level finished.");
             removeKeyListener(_keyHandler);
         }
 
@@ -411,7 +411,7 @@ public class GamePanel extends JPanel {
         @Override
         public void levelFailed(EventObject e) {
 
-            BadMagic.log.info("Закончились ходы. Уровень провален.");
+            BadMagic.log.info("Moves left. Level failed.");
             removeKeyListener(_keyHandler);
         }
 
@@ -487,7 +487,7 @@ public class GamePanel extends JPanel {
                     }
                     case (KeyEvent.VK_SPACE): {
 
-                        BadMagic.log.info("Активировать объект");
+                        BadMagic.log.info("Use object");
                         break;
                     }
                     default: {

@@ -143,7 +143,7 @@ public class BadMagic  {
         @Override
         public void startCareerClicked(MenuEvent e) {
 
-            log.info("Пойман сигнал из класса GameMenu о начале Новой игры");
+            log.info("Got signal to start new game from GameMenu");
             _gameMenu.stopListenToPeriphery();
             changePanelTo(_gamePanel);
             _gamePanel.startListenToPeriphery();
@@ -165,7 +165,7 @@ public class BadMagic  {
         @Override
         public void continueCareerClicked(MenuEvent e) {
 
-            log.info("Пойман сигнал из класса GameMenu о Продолжении игры");
+            log.info("Got signal to continue game from GameMenu");
             _gameMenu.stopListenToPeriphery();
             changePanelTo(_gamePanel);
             _gamePanel.startListenToPeriphery();
@@ -187,7 +187,7 @@ public class BadMagic  {
         @Override
         public void levelChoosen(MenuEvent e) {
 
-            log.info("Пойман сигнал из класса GameMenu об Игре конкретного уровня");
+            log.info("Got signal from GameMenu to choose level");
             _gameMenu.stopListenToPeriphery();
             changePanelTo(_gamePanel);
             _gamePanel.stopListenToPeriphery();
